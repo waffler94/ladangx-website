@@ -1,0 +1,10 @@
+GET https://homeland.upplex.com.my/api/v1/projects
+
+###
+GET https://homeland.upplex.com.my/api/v1/cms-articles/details
+content-type: application/json
+
+{
+    "id":1
+}
+
