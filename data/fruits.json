@@ -1,0 +1,144 @@
+[
+  {
+    "slug": "ciku",
+    "name": "Ciku",
+    "scientific": "Manilkara zapota",
+    "image": "https://api.iconify.design/twemoji:potato.svg",
+    "origin": "Mexico, Malaysia & Thailand",
+    "theme": "amber",
+    "helps": [
+      {
+        "text": "Gives energy",
+        "icon": "https://api.iconify.design/twemoji:high-voltage.svg"
+      },
+      {
+        "text": "Helps digestion",
+        "icon": "https://api.iconify.design/twemoji:pot-of-food.svg"
+      },
+      {
+        "text": "Strong bones",
+        "icon": "https://api.iconify.design/twemoji:bone.svg"
+      },
+      {
+        "text": "Good for eyes",
+        "icon": "https://api.iconify.design/twemoji:eye.svg"
+      },
+      {
+        "text": "Helps wounds heal",
+        "icon": "https://api.iconify.design/twemoji:adhesive-bandage.svg"
+      }
+    ],
+    "nutrients": [
+      "Vitamin A",
+      "Vitamin C",
+      "Potassium",
+      "Fiber",
+      "Natural Sugars"
+    ],
+    "makes": [
+      {
+        "text": "Ice cream",
+        "image": "https://api.iconify.design/twemoji:ice-cream.svg"
+      },
+      {
+        "text": "Milkshake",
+        "image": "https://api.iconify.design/twemoji:glass-of-milk.svg"
+      },
+      {
+        "text": "Jam",
+        "image": "https://api.iconify.design/twemoji:jar.svg"
+      },
+      {
+        "text": "Smoothie",
+        "image": "https://api.iconify.design/twemoji:tropical-drink.svg"
+      }
+    ],
+    "facts": [
+      {
+        "text": "Tastes like caramel 🍬",
+        "image": "https://api.iconify.design/twemoji:candy.svg"
+      },
+      {
+        "text": "Soft + sweet 😋",
+        "image": "https://api.iconify.design/twemoji:deciduous-tree.svg"
+      },
+      {
+        "text": "Tree can live 100+ years 🌳",
+        "image": "https://api.iconify.design/twemoji:deciduous-tree.svg"
+      },
+      {
+        "text": "Sticky milk inside fruit 🥛",
+        "image": "https://api.iconify.design/twemoji:glass-of-milk.svg"
+      }
+    ]
+  },
+  {
+    "slug": "durian",
+    "name": "Durian",
+    "scientific": "Durio zibethinus",
+    "image": "https://api.iconify.design/twemoji:hedgehog.svg",
+    "origin": "Malaysia, Indonesia, Thailand",
+    "theme": "yellow",
+    "helps": [
+      {
+        "text": "Big energy",
+        "icon": "https://api.iconify.design/twemoji:high-voltage.svg"
+      },
+      {
+        "text": "Strong muscles",
+        "icon": "https://api.iconify.design/twemoji:flexed-biceps.svg"
+      },
+      {
+        "text": "Healthy tummy",
+        "icon": "https://api.iconify.design/twemoji:pot-of-food.svg"
+      },
+      {
+        "text": "Good for brain",
+        "icon": "https://api.iconify.design/twemoji:brain.svg"
+      }
+    ],
+    "nutrients": [
+      "Vitamin C",
+      "Healthy fats",
+      "Potassium",
+      "Fiber",
+      "Iron"
+    ],
+    "makes": [
+      {
+        "text": "Durian Cake",
+        "image": "https://api.iconify.design/twemoji:shortcake.svg"
+      },
+      {
+        "text": "Ice Cream",
+        "image": "https://api.iconify.design/twemoji:soft-ice-cream.svg"
+      },
+      {
+        "text": "Dodol",
+        "image": "https://api.iconify.design/twemoji:candy.svg"
+      },
+      {
+        "text": "Crepe",
+        "image": "https://api.iconify.design/twemoji:pancakes.svg"
+      }
+    ],
+    "facts": [
+      {
+        "text": "King of fruits 👑",
+        "image": "https://api.iconify.design/twemoji:crown.svg"
+      },
+      {
+        "text": "Strong smell 😆",
+        "image": "https://api.iconify.design/twemoji:airplane.svg"
+      },
+      {
+        "text": "Banned on planes ✈️",
+        "image": "https://api.iconify.design/twemoji:airplane.svg"
+      },
+      {
+        "text": "Spiky outside, soft inside",
+        "image": "https://api.iconify.design/twemoji:cactus.svg"
+      }
+    ]
+  }
+]
