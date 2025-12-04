@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { fruits, themeColors } from '@/data/fruits';
+import { getFruits, themeColors } from '@/utils/api';
 import LanguageToggle from '@/components/LanguageToggle';
 
-export default async function QuizHome() {
+export default async function QuizHome({ params }) {
   const { locale } = await params;
-  const fruits = await getFruits();
+  const fruits = await getFruits(locale);
 
   return (
     <div className="min-h-screen bg-fuchsia-50 bg-[radial-gradient(#e879f9_2px,transparent_2px)] [background-size:24px_24px] pb-12">

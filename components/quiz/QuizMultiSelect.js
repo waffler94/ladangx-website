@@ -6,37 +6,58 @@ import { useState, useMemo } from 'react';
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
+const getText = (item) => {
+  if (!item) return "";
+  return typeof item === 'object' ? item.text : item;
+};
+
 export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
   
   // 1. Setup Data (Run once using useMemo so it doesn't reshuffle on re-renders)
-  const gameData = useMemo(() => {
-    // A. Get Correct Answers (limit to 3 max to fit grid)
-    const correctOptions = shuffle(fruit.nutrients).slice(0, 3);
+   const gameData = useMemo(() => {
+    // A. Get Correct Answers (limit to 3)
+    // We map to text immediately to make comparison easier
+    const correctRaw = fruit.nutrients || [];
+    const correctTexts = correctRaw.map(getText);
+    const correctSet = new Set(correctTexts);
     
     // B. Get Wrong Answers from other fruits
-    const otherFruits = allFruits.filter(f => f.slug !== fruit.slug);
-    const allOtherNutrients = [...new Set(otherFruits.flatMap(f => f.nutrients))]; // Flatten and unique
-    // Filter out any that might actually be in the current fruit (e.g. Vitamin C is in almost everything)
-    const trulyWrong = allOtherNutrients.filter(n => !fruit.nutrients.includes(n));
+    // Check if allFruits is passed, otherwise fallback to empty to prevent crash
+    const safeAllFruits = allFruits || [];
+    const otherFruits = safeAllFruits.filter(f => f.slug !== fruit.slug);
+    
+    const allOtherNutrients = [
+      ...new Set(
+        otherFruits.flatMap(f => (f.nutrients || []).map(getText))
+      )
+    ];
+
+    // Filter out any that might actually be in the current fruit
+    const trulyWrong = allOtherNutrients.filter(n => !correctSet.has(n));
+    
+    // Pick 3 wrong options
     const wrongOptions = shuffle(trulyWrong).slice(0, 3);
+    
+    // Pick 3 correct options (shuffle first so it's not always the first 3)
+    const correctOptions = shuffle(correctTexts).slice(0, 3);
 
     // C. Combine and Shuffle
     const options = shuffle([...correctOptions, ...wrongOptions]);
 
-    return { options, correctSet: new Set(fruit.nutrients) };
-  }, [fruit]);
+    return { options, correctSet: new Set(correctOptions) };
+  }, [fruit, allFruits]);
 
   const [selected, setSelected] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Toggle Selection
-  const handleToggle = (option) => {
+  const handleToggle = (optionText) => {
     if (isSubmitted) return;
     
-    if (selected.includes(option)) {
-      setSelected(selected.filter(item => item !== option));
+    if (selected.includes(optionText)) {
+      setSelected(selected.filter(item => item !== optionText));
     } else {
-      setSelected([...selected, option]);
+      setSelected([...selected, optionText]);
     }
   };
 
@@ -47,15 +68,14 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
 
   // Determine Score Message
   const getResult = () => {
-    // Calculate how many selected were actually correct
+    // Logic: User must find ALL correct options displayed in the grid
+    // (gameData.correctSet only contains the 3 correct ones we selected for this round)
     const correctPicks = selected.filter(s => gameData.correctSet.has(s)).length;
     const wrongPicks = selected.filter(s => !gameData.correctSet.has(s)).length;
-    
-    // Logic: They need to find ALL correct ones shown in the grid, without picking wrong ones
-    const totalCorrectInGrid = gameData.options.filter(o => gameData.correctSet.has(o)).length;
+    const totalCorrectInGrid = gameData.correctSet.size;
 
     if (correctPicks === totalCorrectInGrid && wrongPicks === 0) return "perfect";
-    if (correctPicks > 0 && wrongPicks === 0) return "good"; // Missed some but didn't pick wrong
+    if (correctPicks > 0 && wrongPicks === 0) return "good"; 
     return "try_again";
   };
 
@@ -85,9 +105,9 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
 
         {/* 🔘 OPTIONS GRID */}
         <div className="grid grid-cols-2 gap-4 mb-8">
-          {gameData.options.map((option, index) => {
-            const isSelected = selected.includes(option);
-            const isCorrect = gameData.correctSet.has(option);
+          {gameData.options.map((optionText, index) => {
+            const isSelected = selected.includes(optionText);
+            const isCorrect = gameData.correctSet.has(optionText);
             
             // --- STYLING LOGIC ---
             let bgClass = "bg-white border-slate-200 hover:border-purple-300";
@@ -120,7 +140,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
             return (
               <button
                 key={index}
-                onClick={() => handleToggle(option)}
+                onClick={() => handleToggle(optionText)}
                 disabled={isSubmitted}
                 className={`
                   relative h-20 rounded-2xl border-b-8 border-4 transition-all active:translate-y-1 active:border-b-4
@@ -128,7 +148,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
                   ${bgClass}
                 `}
               >
-                <span className="font-bold text-slate-700">{option}</span>
+                <span className="font-bold text-slate-700">{optionText}</span>
                 {icon && <div className="absolute top-1 right-2 text-xs font-black">{icon}</div>}
               </button>
             );

@@ -1,7 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { getDynamicIcon } from '@/utils/iconHelper';
 
 // Helper to shuffle an array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -14,7 +13,6 @@ export default function QuizMatching({ fruit, allFruits, onBack }) {
       id: i, // The 'correct' connection ID
       text: item.text,
       icon: item.icon,
-      icon: getDynamicIcon(text) 
     }));
 
     // B. Pick random 3 items from the list

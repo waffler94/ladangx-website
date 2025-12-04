@@ -1,6 +1,5 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { getDynamicIcon } from '@/utils/iconHelper';
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
@@ -8,12 +7,16 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
   
   // 1. Setup Data
   const gameData = useMemo(() => {
-    const items = fruit.makes.map((m, i) => ({
-      id: i,
-      text: m.text,
-      image: m.image,
-      icon: getDynamicIcon(text) 
-    }));
+    const items = fruit.makes.map((m, i) => {
+      const text = typeof m === 'object' ? m.text : m;
+      const image = typeof m === 'object' ? m.image : null;
+
+      return {
+        id: i,
+        text: text,
+        image: image
+      };
+    });
 
     // Shuffle the text labels for the pool
     const shuffledLabels = shuffle([...items]);

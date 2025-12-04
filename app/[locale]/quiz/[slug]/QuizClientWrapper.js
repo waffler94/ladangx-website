@@ -9,6 +9,7 @@ import QuizMatching from '@/components/quiz/QuizMatching';
 import QuizMultiSelect from '@/components/quiz/QuizMultiSelect';
 import QuizImageLabel from '@/components/quiz/QuizImageLabel';
 import QuizDragDrop from '@/components/quiz/QuizDragDrop';
+import QuizParts from '@/components/quiz/QuizParts';
 
 const GAME_COMPONENTS = {
   mcq: QuizMultipleChoice,
@@ -16,6 +17,7 @@ const GAME_COMPONENTS = {
   multiselect: QuizMultiSelect,
   imagelabel: QuizImageLabel,
   dragdrop: QuizDragDrop,
+  labeling: QuizParts,
 };
 
 export default function QuizClientWrapper({ fruit, allFruits }) {

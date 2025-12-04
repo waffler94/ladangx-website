@@ -4,5 +4,14 @@
     "nutrients": "Nutrisi",
     "makes": "Produk",
     "facts": "Fakta Menarik",
-    "play": "Main Game!"
+    "play": "Main Game!",
+    "awesome": "Awesome!",
+    "oops": "Oops!",
+    "correct": "Betul",
+    "origin": "Dari manakah asal {name}?",
+    "quiz_nutrients": "Apakah nutrisi yang terdapat dalam {name}?",
+    "quiz_parts": "Apakah nama-nama bahagian bagi {name}?",
+    "quiz_makes": "Apakah yang boleh dibuat menggunakan {name}?",
+    "funfact": "Adakah anda tahu fakta ini tentang {name}?",
+    "special": "Apa yang istimewa tentang {name}?"
 }

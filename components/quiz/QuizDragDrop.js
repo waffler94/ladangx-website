@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import { useState, useMemo } from 'react';
-import { getDynamicIcon } from '@/utils/iconHelper'; 
 
 // Helper to shuffle
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -11,12 +10,15 @@ export default function QuizDragDrop({ fruit, allFruits, onBack }) {
   // 1. Prepare Game Data
   const gameData = useMemo(() => {
     // Convert facts into items with unique IDs
-    const items = fruit.facts.map((f, i) => ({
-      id: i,
-      text: f.text,
-      image: f.image,
-      icon: getDynamicIcon(text) 
-    }));
+    const items = fruit.facts.map((f, i) => {
+      const text = typeof f === 'object' ? f.text : f;
+      const image = typeof f === 'object' ? f.image : null; 
+       return {
+        id: i,
+        text: text,
+        image: image 
+      };
+    });
 
     // Shuffle the images for the top pool so they aren't in order
     const shuffledPool = shuffle([...items]);

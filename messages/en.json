@@ -4,5 +4,16 @@
     "nutrients": "Nutrients",
     "makes": "We Make",
     "facts": "Fun Facts",
-    "play": "Play Games!"
+    "play": "Play Games!",
+    "awesome": "Awesome!",
+    "oops": "Oops!",
+    "correct": "Correct",
+    "next": "Next",
+    "try_again": "Try Again",
+    "origin": "Where does the {name} come from?",
+    "quiz_nutrients": "Which nutrient is found in {name}?",
+    "quiz_parts": "What are the parts name for {name}?",
+    "quiz_makes": "What can you make using {name}?",
+    "funfact": "Did you know this about {name}?",
+    "special": "What is special about the {name}?"
 }
