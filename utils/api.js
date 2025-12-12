@@ -1,9 +1,13 @@
 // src/utils/api.js
 
 // 🔴 UPDATE THESE WITH YOUR REAL URLs
+// const DATA_URLS = {
+//   en: 'https://gist.githubusercontent.com/waffler94/971dbbeb694d2dccebf322dfa8ed8f31/raw/964ada185cb9ba741a5513a028b50b1b84eb0637/fruits_en.json',
+//   bm: 'https://gist.githubusercontent.com/waffler94/43bd855cce387978331794a0d05058c2/raw/bea45237e3b4d55c8b6cf5e8f460097ed27d7941/fruits_bm.json'
+// };
 const DATA_URLS = {
-  en: 'https://gist.githubusercontent.com/waffler94/971dbbeb694d2dccebf322dfa8ed8f31/raw/964ada185cb9ba741a5513a028b50b1b84eb0637/fruits_en.json',
-  bm: 'https://gist.githubusercontent.com/waffler94/43bd855cce387978331794a0d05058c2/raw/bea45237e3b4d55c8b6cf5e8f460097ed27d7941/fruits_bm.json'
+  en: 'https://ladangxadmin.upplex.com.my/api/v1/field-items?locale=en',
+  bm: 'https://ladangxadmin.upplex.com.my/api/v1/field-items?locale=my'
 };
 
 export const themeColors = {

@@ -61,7 +61,7 @@ console.log(data);
   const textColor = colors.split(' ').find(c => c.startsWith('text-'));
 
   return (
-    <div className="max-w-xl mx-auto space-y-6 pb-12">
+    <div className="max-w-xl mx-auto space-y-6 pb-12 px-4">
       <Link 
         href={`/${locale}`}
         className="inline-flex items-center font-bold text-sky-500 hover:bg-sky-100 px-4 py-2 rounded-xl transition-colors"
@@ -71,7 +71,7 @@ console.log(data);
 
       {/* Hero Card */}
       <div className={`
-        rounded-[2.5rem] p-8 border-4 border-b-8 text-center relative overflow-hidden
+        rounded-[2.5rem] py-8 px-5 border-4 border-b-8 text-center relative overflow-hidden
         ${colors}
       `}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/30 rounded-full blur-2xl pointer-events-none"></div>
@@ -87,7 +87,7 @@ console.log(data);
           />
         </div>
         
-        <h1 className="relative z-10 text-5xl font-black mb-2 text-slate-800">{data.name}</h1>
+        <h1 className="relative z-10 text-4xl font-black mb-2 text-slate-800">{data.name}</h1>
         <p className="relative z-10 text-lg opacity-80 italic font-bold">{data.scientific}</p>
 
         <div className="mt-6 relative z-10">
@@ -105,10 +105,10 @@ console.log(data);
         {/* Helps Section */}
         <Section title={t('helps')} emoji="💪" border={borderColor} textColor={textColor}>
           <div className="flex flex-wrap gap-2">
-            {data.helps.map((item, i) => (
+            {data.health_benefits.map((item, i) => (
               <span key={i} className="bg-slate-50 border-2 border-slate-100 px-3 py-2 rounded-xl text-sm font-bold text-slate-600 flex items-center gap-2">
                 <Image 
-                  src={item.icon} 
+                  src={item.image || '/next.svg'} 
                   alt="" 
                   width={20} 
                   height={20} 
@@ -121,7 +121,7 @@ console.log(data);
         </Section>
 
         {/* Nutrients & Makes */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
           <Section title={t('nutrients')} emoji="⚡" border={borderColor} textColor={textColor}>
             <ul className="text-sm space-y-1 font-semibold text-slate-600">
                {data.nutrients.map((n, i) => <li key={i}>• {n}</li>)}
@@ -130,16 +130,16 @@ console.log(data);
           
           <Section title={t('makes')} emoji="🍰" border={borderColor} textColor={textColor}>
              <ul className="text-sm space-y-1 font-semibold text-slate-600">
-               {data.makes.map((item, i) => <li key={i}>• {item.text}</li>)}
+               {data.product_uses.map((item, i) => <li key={i}>• {item.text}</li>)}
             </ul>
           </Section>
         </div>
 
         {/* Fun Facts */}
-        <div className={`bg-white rounded-3xl p-6 border-4 ${borderColor} relative overflow-hidden`}>
+        <div className={`bg-white rounded-3xl p-5 border-4 ${borderColor} relative overflow-hidden`}>
           <div className="absolute -right-4 -top-4 opacity-10 rotate-12">
             <Image 
-               src={fruit.image || data.image} 
+               src={fruit.image || 'next.svg'} 
                className="w-32 h-32" 
                alt={data.name} 
                width={128} 
@@ -150,10 +150,10 @@ console.log(data);
             <span>🤩</span> {t('facts')}
           </h2>
           <ul className="space-y-3 relative z-10">
-            {data.facts.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-yellow-400 text-xl mt-0.5">★</span>
-                <span className="font-bold text-slate-700 leading-snug">{item.text}</span>
+            {data.interesting_facts.map((item, i) => (
+              <li key={i} className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-yellow-400 text-xl">★</span>
+                <p className="font-bold text-slate-700 leading-[1.2] text-sm">{item.text}</p>
               </li>
             ))}
           </ul>

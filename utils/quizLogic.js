@@ -1,4 +1,4 @@
-// import { fruits } from '@/data/fruits';
+import { useTranslations } from 'next-intl';
 
 const getRandom = (arr, n) => {
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
@@ -26,7 +26,7 @@ export const generateQuestion = (fruit, category, allFruits, t) => {
 
     case 'nutrients': 
       question = t('quiz_nutrients', { name: fruit.name });
-      correctAnswer = fruit.nutrients[0]; // Nutrients are strings, safe.
+      correctAnswer = fruit.health_benefits[0]; // Nutrients are strings, safe.
       wrongAnswers = getRandom(otherFruits.map(f => f.nutrients[0]), 3);
       break;
     
@@ -44,14 +44,14 @@ export const generateQuestion = (fruit, category, allFruits, t) => {
     
     case 'funfact':
       question = t('funfact', { name: fruit.name });
-      correctAnswer = fruit.facts[0];
-      wrongAnswers = getRandom(otherFruits.map(f => f.facts[0]), 3);
+      correctAnswer = fruit.interesting_facts[0];
+      wrongAnswers = getRandom(otherFruits.map(f => f.interesting_facts[0]), 3);
       break;
 
     default: 
       question = t('special', { name: fruit.name });
-      correctAnswer = fruit.facts[1] || fruit.facts[0];
-      wrongAnswers = getRandom(otherFruits.map(f => f.facts[1] || f.facts[0]), 3);
+      correctAnswer = fruit.interesting_facts[1] || fruit.interesting_facts[0];
+      wrongAnswers = getRandom(otherFruits.map(f => f.interesting_facts[1] || f.interesting_facts[0]), 3);
       break;
   }
 
@@ -62,10 +62,17 @@ export const generateQuestion = (fruit, category, allFruits, t) => {
 
 // UPDATE: Added 'type' property to map to components
 export const categories = [
-  { id: 'origin', type: 'mcq', label: 'Origin', icon: '🌍', color: 'bg-orange-100 border-orange-400 text-orange-800' },
-  { id: 'benefits', type: 'matching', label: 'Benefits', icon: '💪', color: 'bg-rose-100 border-rose-400 text-rose-800' },
-  { id: 'parts', type: 'labeling', label: 'Fruit Parts', icon: '🌱', color: 'bg-green-100 border-green-400 text-green-800' }, 
-  { id: 'nutrients', type: 'multiselect', label: 'Vitamins', icon: '💊', color: 'bg-purple-100 border-purple-400 text-purple-800'},
-  { id: 'makes', type: 'imagelabel', label: 'End Product', icon: '🍰', color: 'bg-yellow-100 border-yellow-400 text-yellow-800' },
-  { id: 'funfact', type: 'dragdrop', label: 'Fun Fact!', icon: '🤩', color: 'bg-sky-100 border-sky-400 text-sky-800' },
+  { id: 'origin', type: 'mcq', label: 'origi', icon: '🌍', color: 'bg-orange-100 border-orange-400 text-orange-800' },
+  { id: 'benefits', type: 'matching', label: 'benefits', icon: '💪', color: 'bg-rose-100 border-rose-400 text-rose-800' },
+  { id: 'parts', type: 'labeling', label: 'fruit_parts', icon: '🌱', color: 'bg-green-100 border-green-400 text-green-800' }, 
+  { id: 'nutrients', type: 'multiselect', label: 'vitamin', icon: '💊', color: 'bg-purple-100 border-purple-400 text-purple-800'},
+  { id: 'makes', type: 'imagelabel', label: 'end_product', icon: '🍰', color: 'bg-yellow-100 border-yellow-400 text-yellow-800' },
+  { id: 'funfact', type: 'dragdrop', label: 'fun_fact', icon: '🤩', color: 'bg-sky-100 border-sky-400 text-sky-800' },
 ];
+
+
+export const getNextCategory = (currentId) => {
+  const index = categories.findIndex(c => c.id === currentId);
+  if (index === -1 || index === categories.length - 1) return null;
+  return categories[index + 1].id;
+};

@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { useState, useMemo } from 'react';
-// import { fruits } from '@/data/fruits';
+import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -11,10 +11,10 @@ const getText = (item) => {
   return typeof item === 'object' ? item.text : item;
 };
 
-export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
-  
+export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLastLevel }) {
+  const t = useTranslations(); 
   // 1. Setup Data (Run once using useMemo so it doesn't reshuffle on re-renders)
-   const gameData = useMemo(() => {
+   const generateData = useCallback(() => {
     // A. Get Correct Answers (limit to 3)
     // We map to text immediately to make comparison easier
     const correctRaw = fruit.nutrients || [];
@@ -47,6 +47,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
     return { options, correctSet: new Set(correctOptions) };
   }, [fruit, allFruits]);
 
+  const [gameData, setGameData] = useState(generateData());
   const [selected, setSelected] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -59,6 +60,12 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
     } else {
       setSelected([...selected, optionText]);
     }
+  };
+
+  const handleRetry = () => {
+    setSelected([]);
+    setIsSubmitted(false);
+    setGameData(generateData()); // Re-shuffle
   };
 
   // Check Results
@@ -76,8 +83,10 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
 
     if (correctPicks === totalCorrectInGrid && wrongPicks === 0) return "perfect";
     if (correctPicks > 0 && wrongPicks === 0) return "good"; 
-    return "try_again";
+    return (correctPicks === totalCorrectInGrid && wrongPicks === 0) ? "perfect" : "try_again";
   };
+
+  
 
   return (
     <div className="min-h-screen bg-purple-50 p-6 flex flex-col items-center justify-center relative overflow-hidden">
@@ -86,7 +95,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
       {/* Header */}
       <div className="w-full max-w-md flex justify-between items-center mb-6 relative z-10">
         <button onClick={onBack} className="font-bold text-purple-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-purple-200">
-           Exit
+           {t('back')}
         </button>
         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-purple-200 shadow-sm">
            <Image src={fruit.image} className="w-8 h-8" alt={fruit.name} width={40} height={40} /> 
@@ -98,9 +107,9 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
       <div className="w-full max-w-md relative z-10">
         <div className="bg-white rounded-3xl p-6 text-center border-4 border-purple-300 shadow-xl mb-6">
            <h2 className="text-xl font-black text-slate-700 leading-snug">
-             Tap <span className="text-purple-500 underline decoration-wavy">ALL</span> the vitamins inside me!
+             {t('tap')} <span className="text-purple-500 underline decoration-wavy">{t('all')}</span> {t('the_vitamins_inside_me')}
            </h2>
-           <p className="text-slate-400 text-sm font-bold mt-2">(You can pick more than one)</p>
+           <p className="text-slate-400 text-sm font-bold mt-2">({t('you_can_pick')})</p>
         </div>
 
         {/* 🔘 OPTIONS GRID */}
@@ -124,7 +133,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
               if (isCorrect) {
                 // It was a correct answer
                 bgClass = "bg-green-100 border-green-500";
-                icon = <span className="text-green-600 text-xl">Correct!</span>;
+                icon = <span className="text-green-600 text-xl">{t('correct')}!</span>;
                 // If user MISSED it, maybe make it lighter green?
                 if (!isSelected) bgClass = "bg-green-50 border-green-300 opacity-70";
               } else if (isSelected && !isCorrect) {
@@ -162,36 +171,35 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack }) {
             disabled={selected.length === 0}
             className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black text-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#4c1d95] active:shadow-none active:translate-y-1 transition-all"
           >
-            Check Answers!
+            {t('submit_answer')}
           </button>
         ) : (
-          <div className="animate-float text-center">
-            {getResult() === "perfect" && (
-              <div className="bg-green-500 text-white p-6 rounded-3xl border-b-8 border-green-700">
-                <h3 className="text-3xl font-black mb-2">🎉 Wow!</h3>
-                <p className="font-bold mb-4">You found all the nutrients!</p>
-                <button onClick={onBack} className="bg-white text-green-600 px-8 py-3 rounded-xl font-black hover:scale-105 transition-transform">
-                  Done ➡
+           <div className="animate-float text-center">
+            {getResult() === "perfect" ? (
+              <>
+                <div className="bg-green-100 text-green-700 p-6 rounded-3xl border-b-8 border-green-700 mb-4">
+                  <h3 className="text-3xl font-black">🎉 {t('perfect_score')}</h3>
+                </div>
+                <button 
+                  onClick={onNext} 
+                  className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md active:translate-y-1 transition-all"
+                >
+                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
                 </button>
-              </div>
-            )}
-            {getResult() === "good" && (
-              <div className="bg-orange-400 text-white p-6 rounded-3xl border-b-8 border-orange-600">
-                <h3 className="text-3xl font-black mb-2">👍 Good Job!</h3>
-                <p className="font-bold mb-4">You found some, but missed a few!</p>
-                <button onClick={onBack} className="bg-white text-orange-500 px-8 py-3 rounded-xl font-black hover:scale-105 transition-transform">
-                  Done ➡
+              </>
+            ) : (
+              <>
+                <div className="bg-rose-500 text-white p-6 rounded-3xl border-b-8 border-rose-700 mb-4">
+                  <h3 className="text-3xl font-black">🙈 {t('oops')}</h3>
+                  <p>{t('missed_some_try_again')}</p>
+                </div>
+                <button 
+                  onClick={handleRetry} 
+                  className="w-full bg-rose-600 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-700 shadow-md active:translate-y-1 transition-all"
+                >
+                  {t('try_again')} ↺
                 </button>
-              </div>
-            )}
-            {getResult() === "try_again" && (
-              <div className="bg-rose-500 text-white p-6 rounded-3xl border-b-8 border-rose-700">
-                <h3 className="text-3xl font-black mb-2">🙈 Oops!</h3>
-                <p className="font-bold mb-4">Looks like you ate the wrong vitamins!</p>
-                <button onClick={onBack} className="bg-white text-rose-600 px-8 py-3 rounded-xl font-black hover:scale-105 transition-transform">
-                  Try Again ↺
-                </button>
-              </div>
+              </>
             )}
           </div>
         )}

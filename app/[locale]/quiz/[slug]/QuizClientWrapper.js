@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { categories } from '@/utils/quizLogic';
+import { categories, getNextCategory } from '@/utils/quizLogic';
 
 // Import components
 import QuizMenu from '@/components/quiz/QuizMenu';
@@ -20,15 +20,25 @@ const GAME_COMPONENTS = {
   labeling: QuizParts,
 };
 
-export default function QuizClientWrapper({ fruit, allFruits }) {
+export default function QuizClientWrapper({ fruit, allFruits, locale }) {
   const [activeCategoryId, setActiveCategoryId] = useState(null);
 
   if (!activeCategoryId) {
-    return <QuizMenu fruit={fruit} onSelectCategory={setActiveCategoryId} />;
+    return <QuizMenu fruit={fruit} onSelectCategory={setActiveCategoryId} locale={locale} />;
   }
 
   const selectedCategory = categories.find(c => c.id === activeCategoryId);
   const GameComponent = GAME_COMPONENTS[selectedCategory.type];
+
+  const nextCategoryId = getNextCategory(activeCategoryId);
+  
+  const handleNextLevel = () => {
+    if (nextCategoryId) {
+      setActiveCategoryId(nextCategoryId); // Go to next
+    } else {
+      setActiveCategoryId(null); // Finish (Go back to menu)
+    }
+  };
 
   return (
     <GameComponent 
@@ -36,6 +46,8 @@ export default function QuizClientWrapper({ fruit, allFruits }) {
       allFruits={allFruits} 
       categoryId={activeCategoryId} 
       onBack={() => setActiveCategoryId(null)} 
+      onNext={handleNextLevel}
+      isLastLevel={!nextCategoryId}
     />
   );
 }

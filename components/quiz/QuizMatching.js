@@ -1,32 +1,34 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback  } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 // Helper to shuffle an array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizMatching({ fruit, allFruits, onBack }) {
+export default function QuizMatching({ fruit, onBack, onNext, isLastLevel }) {
+  const t = useTranslations();
   // 1. Initialize Game Data
-  const [data] = useState(() => {
-    // A. Map the fruit helps data to ID pairs
-    const allPairs = fruit.helps.map((item, i) => ({
-      id: i, // The 'correct' connection ID
-      text: item.text,
-      icon: item.icon,
+  const generateData = useCallback(() => {
+    // Note: Ensure fruit.health_benefits exists in your JSON
+    const benefits = fruit.health_benefits || []; 
+    
+    const allPairs = benefits.map((item, i) => ({
+      id: i, 
+      text: item.text, 
+      image: item.image
     }));
 
-    // B. Pick random 3 items from the list
-    const selectedPairs = shuffle(allPairs).slice(0, 5);
+    const selectedPairs = shuffle(allPairs).slice(0, 12);
 
-    // C. Shuffle Left (Icons) and Right (Text) independently
-    // We keep the 'id' attached so we know what matches what
     return { 
       left: shuffle(selectedPairs), 
       right: shuffle(selectedPairs),
       originalLength: selectedPairs.length
     };
-  });
+  }, [fruit]);
 
+  const [data, setData] = useState(generateData());
   const [connections, setConnections] = useState({}); 
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -39,6 +41,16 @@ export default function QuizMatching({ fruit, allFruits, onBack }) {
   const rightDotRefs = useRef([]);
 
   // --- Line Drawing Logic ---
+   const handleRetry = () => {
+    setConnections({});
+    setSelectedLeft(null);
+    setIsSubmitted(false);
+    setScore(0);
+    setLines([]);
+    setData(generateData()); // Re-shuffle new cards
+  };
+
+
   const updateLines = () => {
     if (!containerRef.current) return;
     const containerRect = containerRef.current.getBoundingClientRect();
@@ -98,17 +110,19 @@ export default function QuizMatching({ fruit, allFruits, onBack }) {
     setIsSubmitted(true);
   };
 
+  const isPerfect = score === data.originalLength;
+
   return (
     <div className="min-h-screen bg-rose-50 p-4 flex flex-col items-center">
       <div className="w-full max-w-md flex justify-between items-center mb-6">
         <button onClick={onBack} className="font-bold text-rose-500 bg-white px-4 py-2 rounded-xl shadow-sm">
-           Exit
+           {t('back')}
         </button>
-        <h2 className="font-black text-2xl text-rose-400 uppercase tracking-widest">Match It!</h2>
+        <h2 className="font-black text-2xl text-rose-400 uppercase tracking-widest">{t('match_it')}</h2>
       </div>
 
       <div className="w-full max-w-md text-center mb-4">
-        <p className="text-slate-500 font-bold">Tap left icon, then tap matching text.</p>
+        <p className="text-slate-500 font-bold">{t('tap_icon')}</p>
       </div>
 
       {/* GAME BOARD */}
@@ -145,7 +159,7 @@ export default function QuizMatching({ fruit, allFruits, onBack }) {
                 ${isSubmitted && connections[item.id] === item.id ? 'border-green-400 bg-green-50' : ''}
               `}
             >
-              <Image src={item.icon} className="w-12 h-12" alt="icon" width={50} height={50} />
+              <Image src={item.image || "/next.svg"} className="w-12 h-12" alt="icon" width={50} height={50} />
               {/* IMPORTANT: Use item.id for the Ref Key so lines track correctly regardless of shuffle */}
               <div ref={el => leftDotRefs.current[item.id] = el} className={`absolute -right-3 w-5 h-5 rounded-full border-2 border-white ${selectedLeft === item.id || connections[item.id] !== undefined ? 'bg-rose-500' : 'bg-slate-300'}`}></div>
             </button>
@@ -178,20 +192,38 @@ export default function QuizMatching({ fruit, allFruits, onBack }) {
             disabled={Object.keys(connections).length < data.originalLength}
             className="w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-xl hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#0f172a] active:shadow-none active:translate-y-1 transition-all"
           >
-            Submit Answer
+            {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {score === data.originalLength ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400">
-                  🎉 Perfect Score!
+             {isPerfect ? (
+               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
+                  🎉 {t('perfect_score')}
                </div>
              ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400">
-                  You got {score} out of {data.originalLength}.
+               <div className="bg-rose-100 text-rose-700 p-4 rounded-2xl font-bold border-2 border-rose-400 mb-4">
+                  {t('you_got', {
+                    score: score,
+                    length: data.originalLength
+                  })}
                </div>
              )}
-             <button onClick={onBack} className="mt-4 text-slate-400 font-bold underline">Try another challenge</button>
+
+             {isPerfect ? (
+               <button 
+                 onClick={onNext} // Proceed to Next Level (or Finish if last)
+                 className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md active:translate-y-1 transition-all"
+               >
+                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+               </button>
+             ) : (
+               <button 
+                 onClick={handleRetry} // Reset Game
+                 className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md active:translate-y-1 transition-all"
+               >
+                 {t('try_again')} ↺
+               </button>
+             )}
           </div>
         )}
       </div>

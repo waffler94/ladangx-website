@@ -1,14 +1,15 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizParts({ fruit, allFruits, onBack }) {
-  
+export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLevel }) {
+  const t = useTranslations();
   // 1. Setup Data
-  const gameData = useMemo(() => {
+  const generateData = useCallback(() => {
     // A. Get Correct Answers
     const rawParts = fruit.parts || ["Part 1", "Part 2", "Part 3"];
     const diagramImage = fruit.parts_image || fruit.image;
@@ -59,6 +60,7 @@ export default function QuizParts({ fruit, allFruits, onBack }) {
   }, [fruit, allFruits]);
 
   // State
+  const [gameData, setGameData] = useState(generateData());
   const [matches, setMatches] = useState({});
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -96,6 +98,13 @@ export default function QuizParts({ fruit, allFruits, onBack }) {
     }
   };
 
+  const handleRetry = () => {
+    setMatches({});
+    setSelectedOptionId(null);
+    setIsSubmitted(false);
+    setGameData(generateData()); // Re-shuffle & pick new distractors
+  };
+
   const getScore = () => {
     let correct = 0;
     gameData.targets.forEach(t => {
@@ -106,19 +115,21 @@ export default function QuizParts({ fruit, allFruits, onBack }) {
     return correct;
   };
 
+  const isPerfect = getScore() === gameData.targets.length;
+
   return (
     <div className="min-h-screen bg-emerald-50 p-4 flex flex-col items-center">
       
       {/* Header */}
       <div className="w-full max-w-md flex justify-between items-center mb-4">
         <button onClick={onBack} className="font-bold text-emerald-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-emerald-200">
-           Exit
+           {t('back')}
         </button>
-        <h2 className="font-black text-2xl text-emerald-500 uppercase tracking-widest">Label It!</h2>
+        <h2 className="font-black text-2xl text-emerald-500 uppercase tracking-widest">{t('label_it')}</h2>
       </div>
 
       <p className="text-slate-500 font-bold mb-4 text-center text-sm">
-        Match the names to the numbers on the picture.
+        {t('match_the_names')}
       </p>
 
       {/* 🖼️ DIAGRAM IMAGE */}
@@ -169,7 +180,7 @@ export default function QuizParts({ fruit, allFruits, onBack }) {
                   ${slotStyle}
                 `}
               >
-                {placedText || <span className="opacity-30 text-sm italic">Tap to place answer</span>}
+                {placedText || <span className="opacity-30 text-sm italic">{t('tap_to_place')}</span>}
               </button>
 
               {/* Result Icon */}
@@ -220,20 +231,32 @@ export default function QuizParts({ fruit, allFruits, onBack }) {
             disabled={Object.keys(matches).length < gameData.targets.length}
             className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-xl hover:bg-emerald-700 disabled:opacity-50 shadow-[0_4px_0_#047857] active:translate-y-1 active:shadow-none transition-all"
           >
-            Check Answers
+            {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {getScore() === gameData.targets.length ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400">
-                  🎉 Perfect Score!
+             {isPerfect ? (
+               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
+                  🎉 {t('perfect_score')}
                </div>
              ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400">
-                  You matched {getScore()} out of {gameData.targets.length}.
+               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
+                  {t('you_got', {
+                    score: getScore(),
+                    length: gameData.items.length
+                  })}
                </div>
              )}
-             <button onClick={onBack} className="mt-4 text-slate-400 font-bold underline">Try another challenge</button>
+
+             {isPerfect ? (
+               <button onClick={onNext} className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md">
+                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+               </button>
+             ) : (
+               <button onClick={handleRetry} className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md">
+                 {t('try_again')} ↺
+               </button>
+             )}
           </div>
         )}
       </div>

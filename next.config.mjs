@@ -5,7 +5,7 @@ const nextConfig = {
     images: {
         remotePatterns: [{
             protocol: 'https',
-            hostname: 'picsum.photos',
+            hostname: 'ladangxadmin.upplex.com.my',
             port: '',
             pathname: '/**',
         },

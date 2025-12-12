@@ -1,16 +1,17 @@
 'use client';
 import Image from 'next/image';
-import { useState, useMemo } from 'react';
+import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 // Helper to shuffle
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizDragDrop({ fruit, allFruits, onBack }) {
-  
+export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
+  const t = useTranslations(); 
   // 1. Prepare Game Data
-  const gameData = useMemo(() => {
+  const generateData = useCallback(() => {
     // Convert facts into items with unique IDs
-    const items = fruit.facts.map((f, i) => {
+    const items = fruit.interesting_facts.map((f, i) => {
       const text = typeof f === 'object' ? f.text : f;
       const image = typeof f === 'object' ? f.image : null; 
        return {
@@ -27,13 +28,9 @@ export default function QuizDragDrop({ fruit, allFruits, onBack }) {
   }, [fruit]);
 
   // 2. State
-  // slots: Array matching 'items'. Stores the ID of the image placed there. 
-  // e.g. [2, null, 0] means Slot 0 has Image 2, Slot 1 is empty, Slot 2 has Image 0.
+  const [gameData, setGameData] = useState(generateData());
   const [slots, setSlots] = useState(new Array(gameData.items.length).fill(null));
-  
-  // selection: The ID of the image currently "picked up" from the top pool
   const [selectedImageId, setSelectedImageId] = useState(null);
-  
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // --- ACTIONS ---
@@ -89,19 +86,28 @@ export default function QuizDragDrop({ fruit, allFruits, onBack }) {
     return correct;
   };
 
+  const handleRetry = () => {
+    setSlots(new Array(gameData.items.length).fill(null));
+    setSelectedImageId(null);
+    setIsSubmitted(false);
+    setGameData(generateData()); // Re-shuffle pool
+  };
+
+  const isPerfect = getScore() === gameData.items.length;
+
   return (
     <div className="min-h-screen bg-sky-50 p-4 flex flex-col items-center">
       
       {/* HEADER */}
       <div className="w-full max-w-md flex justify-between items-center mb-6">
         <button onClick={onBack} className="font-bold text-sky-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-sky-200">
-           Exit
+            {t('back')}
         </button>
-        <h2 className="font-black text-2xl text-sky-400 uppercase tracking-widest">Fun Facts!</h2>
+        <h2 className="font-black text-2xl text-sky-400 uppercase tracking-widest">{t('facts')}!</h2>
       </div>
 
       <p className="text-slate-500 font-bold mb-4 text-center">
-        Tap a picture, then tap the box that matches!
+        {t('tap_picture')}
       </p>
 
       {/* 🖼️ IMAGE POOL (Top Box) */}
@@ -193,20 +199,32 @@ export default function QuizDragDrop({ fruit, allFruits, onBack }) {
             disabled={slots.includes(null)} // Disable until all filled
             className="w-full bg-sky-500 text-white py-4 rounded-2xl font-black text-xl hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#0284c7] active:shadow-none active:translate-y-1 transition-all"
           >
-            Check Matches
+            {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {getScore() === gameData.items.length ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400">
-                  🎉 All Correct! Smarty pants!
+             {isPerfect ? (
+               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
+                  🎉 {t('perfect_score')}
                </div>
              ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400">
-                  You got {getScore()} out of {gameData.items.length}.
+               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
+                  {t('you_got', {
+                    score: getScore(),
+                    length: gameData.items.length
+                  })}
                </div>
              )}
-             <button onClick={onBack} className="mt-4 text-slate-400 font-bold underline">Try another challenge</button>
+
+             {isPerfect ? (
+               <button onClick={onNext} className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md">
+                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+               </button>
+             ) : (
+               <button onClick={handleRetry} className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md">
+                {t('try_again')} ↺
+               </button>
+             )}
           </div>
         )}
       </div>

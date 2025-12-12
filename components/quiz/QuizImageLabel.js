@@ -1,13 +1,14 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizImageLabel({ fruit, allFruits, onBack }) {
-  
+export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel }) {
+  const t = useTranslations(); 
   // 1. Setup Data
-  const gameData = useMemo(() => {
-    const items = fruit.makes.map((m, i) => {
+  const generateData = useCallback(() => {
+    const items = fruit.product_uses.map((m, i) => {
       const text = typeof m === 'object' ? m.text : m;
       const image = typeof m === 'object' ? m.image : null;
 
@@ -21,15 +22,12 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
     // Shuffle the text labels for the pool
     const shuffledLabels = shuffle([...items]);
 
-    return { items, shuffledLabels };
+     return { items, shuffledLabels };
   }, [fruit]);
 
-  // slots: Array storing the ID of the Label placed in that slot
+  const [gameData, setGameData] = useState(generateData());
   const [slots, setSlots] = useState(new Array(gameData.items.length).fill(null));
-  
-  // selectedLabelId: The ID of the text label currently picked up
   const [selectedLabelId, setSelectedLabelId] = useState(null);
-  
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // --- ACTIONS ---
@@ -48,6 +46,16 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
     
     // Toggle selection
     setSelectedLabelId(id === selectedLabelId ? null : id);
+  };
+
+
+  const getScore = () => {
+    let correct = 0;
+    slots.forEach((labelId, index) => {
+      // Correct if the label ID matches the Image ID (index)
+      if (labelId === gameData.items[index].id) correct++;
+    });
+    return correct;
   };
 
   // Click a Slot (Below Image)
@@ -70,14 +78,14 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
     }
   };
 
-  const getScore = () => {
-    let correct = 0;
-    slots.forEach((labelId, index) => {
-      // Correct if the label ID matches the Image ID (index)
-      if (labelId === gameData.items[index].id) correct++;
-    });
-    return correct;
+  const handleRetry = () => {
+    setSlots(new Array(gameData.items.length).fill(null));
+    setSelectedLabelId(null);
+    setIsSubmitted(false);
+    setGameData(generateData()); // Re-shuffle labels
   };
+
+  const isPerfect = getScore() === gameData.items.length;
 
   return (
     <div className="min-h-screen bg-yellow-50 p-4 flex flex-col items-center">
@@ -85,13 +93,13 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
       {/* HEADER */}
       <div className="w-full max-w-md flex justify-between items-center mb-6">
         <button onClick={onBack} className="font-bold text-yellow-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-yellow-200">
-           Exit
+           {t('back')}
         </button>
-        <h2 className="font-black text-2xl text-yellow-500 uppercase tracking-widest">Name It!</h2>
+        <h2 className="font-black text-2xl text-yellow-500 uppercase tracking-widest">{t('name_it')}</h2>
       </div>
 
       <p className="text-slate-500 font-bold mb-6 text-center text-sm">
-        Tap a name below, then tap the box under the picture.
+        {t('tap_name')}
       </p>
 
       {/* 🖼️ IMAGE GRID (Questions) */}
@@ -169,20 +177,32 @@ export default function QuizImageLabel({ fruit, allFruits, onBack }) {
             disabled={slots.includes(null)}
             className="w-full bg-yellow-500 text-white py-4 rounded-2xl font-black text-xl hover:bg-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#ca8a04] active:shadow-none active:translate-y-1 transition-all"
           >
-            Check Names
+            {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {getScore() === gameData.items.length ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400">
-                  🎉 Yummy! You got them all!
+             {isPerfect ? (
+               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
+                  🎉 {t('perfect_score')}
                </div>
              ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400">
-                  You got {getScore()} out of {gameData.items.length}.
+               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
+                  {t('you_got', {
+                    score: getScore(),
+                    length: gameData.items.length
+                  })}
                </div>
              )}
-             <button onClick={onBack} className="mt-4 text-slate-400 font-bold underline">Try another challenge</button>
+
+             {isPerfect ? (
+               <button onClick={onNext} className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md">
+                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+               </button>
+             ) : (
+               <button onClick={handleRetry} className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md">
+                 {t('try_again')} ↺
+               </button>
+             )}
           </div>
         )}
       </div>
