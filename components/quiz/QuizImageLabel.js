@@ -12,7 +12,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
       const text = typeof m === 'object' ? m.text : m;
       const image = typeof m === 'object' ? m.image : null;
       const apiId = typeof m === 'object' ? m.id : null;
-      const apiLabelId = apiId;
+      const apiLabelId = typeof m === 'object' ? m.image_id : null;
 
       return {
         id: i,

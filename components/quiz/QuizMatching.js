@@ -6,18 +6,33 @@ import { useTranslations } from 'next-intl';
 // Helper to shuffle an array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizMatching({ fruit, onBack, onNext, isLastLevel }) {
+export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations();
   // 1. Initialize Game Data
   const generateData = useCallback(() => {
     // Note: Ensure fruit.health_benefits exists in your JSON
-    const benefits = fruit.health_benefits || []; 
+    const rawData = fruit.health_benefits || []; 
     
-    const allPairs = benefits.map((item, i) => ({
-      id: i, 
-      text: item.text, 
-      image: item.image
-    }));
+    // const allPairs = benefits.map((item, i) => ({
+    //   id: i, 
+    //   text: item.text, 
+    //   image: item.image
+    // }));
+    const allPairs = rawData.map((item, i) => {
+      // Handle Object vs String safely
+      const text = typeof item === 'object' ? item.text : item;
+      const image = typeof item === 'object' ? item.image : null;
+      const apiId = typeof item === 'object' ? item.id : null;
+      const apiImageId = typeof item === 'object' ? item.image_id : null;
+
+      return {
+        id: i, // Local ID used for React keys and matching logic
+        apiId, // DB ID for API submission
+        apiImageId, 
+        text, 
+        image 
+      };
+    });
 
     const selectedPairs = shuffle(allPairs).slice(0, 12);
 
@@ -48,6 +63,49 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel }) {
     setScore(0);
     setLines([]);
     setData(generateData()); // Re-shuffle new cards
+  };
+
+  const submitAnswerToApi = async () => {
+    if (!userQuizId || !token) return;
+
+    // Construct Payload: Map the user's connections to DB IDs
+    // We map over the LEFT items because that's usually the starting point
+    const userSelection = Object.entries(connections).map(([leftLocalId, rightLocalId]) => {
+      const leftItem = data.left.find(i => i.id === parseInt(leftLocalId));
+      const rightItem = data.right.find(i => i.id === parseInt(rightLocalId));
+
+      return {
+        id: leftItem?.apiId,       // The ID of the item on the left (Icon)
+        image_id: rightItem?.apiImageId // The ID of the item on the right (Text)
+      };
+    });
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: "health_benefits", // Matches API Key
+            user_selection: userSelection
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ Matching Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit matching answer:", error);
+    }
   };
 
 
@@ -108,6 +166,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel }) {
     });
     setScore(correct);
     setIsSubmitted(true);
+    submitAnswerToApi();
   };
 
   const isPerfect = score === data.originalLength;
