@@ -22,7 +22,6 @@
     "quiz_makes": "What can you make using {name}?",
     "funfact": "Did you know this about {name}?",
     "special": "What is special about the {name}?",
-
     "tap_picture": "Tap a picture, then tap the box that matches!",
     "match_it": "Match It!",
     "tap_to_place": "Tap to place answer",
@@ -42,5 +41,11 @@
     "tap_name": "Tap a name below, then tap the box under the picture.",
     "tap_icon": "Tap left icon, then tap matching text.",
     "you_can_pick": "You can pick more than one",
-    "pick_challenge": "Pick a Challenge!"
+    "pick_challenge": "Pick a Challenge!",
+    "login": "Login",
+    "register": "Register",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "enter_phone": "Enter phone number",
+    "enter_password": "Enter password"
 }

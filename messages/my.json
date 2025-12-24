@@ -22,7 +22,6 @@
     "quiz_makes": "Apakah yang boleh dibuat menggunakan {name}?",
     "funfact": "Adakah anda tahu fakta ini tentang {name}?",
     "special": "Apa yang istimewa tentang {name}?",
-
     "tap_picture": "Tekan pada gambar, kemudian tekan kotak yang sepadan!",
     "match_it": "Padankan!",
     "tap_to_place": "Tekan untuk letakkan jawapan",
@@ -42,5 +41,7 @@
     "tap_name": "Tekan nama di bawah, kemudian tekan kotak di bawah gambar.",
     "tap_icon": "Tekan ikon di sebelah kiri, kemudian tekan teks yang sepadan.",
     "you_can_pick": "Anda boleh pilih lebih daripada satu",
-    "pick_challenge": "Pilih Cabaran!"
+    "pick_challenge": "Pilih Cabaran!",
+    "login": "Log Masuk",
+    "register": "Daftar"
 }
