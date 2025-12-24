@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 
 export async function generateStaticParams() {
   const fruits = await getFruits('en');
-  const locales = ['en', 'bm'];
+  const locales = ['en', 'my'];
   
   const params = [];
   fruits.forEach((fruit) => {
@@ -34,10 +34,10 @@ export default async function FruitPage({ params }) {
   let data;
   
   if (fruit[locale]) {
-    // Scenario A: JSON has 'en' and 'bm' keys (The Multi-lang structure)
+    // Scenario A: JSON has 'en' and 'my' keys (The Multi-lang structure)
     data = fruit[locale];
   } else if (fruit['en']) {
-    // Scenario B: Missing BM, fallback to EN
+    // Scenario B: Missing MY, fallback to EN
     data = fruit['en'];
   } else {
     // Scenario C: JSON is Flat (The structure you just pasted)

@@ -4,16 +4,48 @@ import { generateQuestion } from '@/utils/quizLogic';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBack, locale, onNext, isLastLevel }) {
+export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBack, locale, onNext, isLastLevel, userQuizId, token, apiUrl }) {
   const t = useTranslations(); 
-  const [currentQuestion, setCurrentQuestion] = useState(() => generateQuestion(fruit, categoryId, allFruits, t));
+  const [currentQuestion, setCurrentQuestion] = useState(() => generateQuestion(fruit, categoryId, allFruits, locale, t));
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [view, setView] = useState('playing'); // 'playing', 'result'
   const [isCorrect, setIsCorrect] = useState(false);
 
+  const submitAnswerToApi = async (answer) => {
+    if (!userQuizId || !token) return;
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: categoryId, // e.g. "origin"
+            user_selection: answer     // e.g. "Central America"
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit answer:", error);
+    }
+  };
+
   const handleAnswer = (answer) => {
     setSelectedAnswer(answer);
     setIsCorrect(answer === currentQuestion.correctAnswer);
+    submitAnswerToApi(answer);
     setView('result');
   };
 

@@ -11,7 +11,7 @@ const getText = (item) => {
   return typeof item === 'object' ? item.text : item;
 };
 
-export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLastLevel }) {
+export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations(); 
   // 1. Setup Data (Run once using useMemo so it doesn't reshuffle on re-renders)
    const generateData = useCallback(() => {
@@ -36,10 +36,10 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
     const trulyWrong = allOtherNutrients.filter(n => !correctSet.has(n));
     
     // Pick 3 wrong options
-    const wrongOptions = shuffle(trulyWrong).slice(0, 3);
+    const wrongOptions = shuffle(trulyWrong).slice(0, 12);
     
     // Pick 3 correct options (shuffle first so it's not always the first 3)
-    const correctOptions = shuffle(correctTexts).slice(0, 3);
+    const correctOptions = shuffle(correctTexts).slice(0, 12);
 
     // C. Combine and Shuffle
     const options = shuffle([...correctOptions, ...wrongOptions]);
@@ -50,6 +50,37 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
   const [gameData, setGameData] = useState(generateData());
   const [selected, setSelected] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const submitAnswerToApi = async () => {
+    if (!userQuizId || !token) return;
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: "nutrients", // Matches the category ID
+            user_selection: selected // Sends Array: ["Vitamin A", "Fiber", ...]
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ Nutrients Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit nutrients answer:", error);
+    }
+  };
 
   // Toggle Selection
   const handleToggle = (optionText) => {
@@ -71,6 +102,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
   // Check Results
   const handleSubmit = () => {
     setIsSubmitted(true);
+    submitAnswerToApi();
   };
 
   // Determine Score Message

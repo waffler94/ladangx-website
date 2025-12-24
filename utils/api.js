@@ -6,8 +6,8 @@
 //   bm: 'https://gist.githubusercontent.com/waffler94/43bd855cce387978331794a0d05058c2/raw/bea45237e3b4d55c8b6cf5e8f460097ed27d7941/fruits_bm.json'
 // };
 const DATA_URLS = {
-  en: 'https://ladangxadmin.upplex.com.my/api/v1/field-items?locale=en',
-  bm: 'https://ladangxadmin.upplex.com.my/api/v1/field-items?locale=my'
+  en: process.env.API_URL + '/field-items?locale=en',
+  my: process.env.API_URL + '/field-items?locale=my'
 };
 
 export const themeColors = {
@@ -32,7 +32,7 @@ export const themeColors = {
 
 /**
  * Fetches fruits based on the provided locale.
- * @param {string} locale - 'en' or 'bm' (default 'en')
+ * @param {string} locale - 'en' or 'my' (default 'en')
  */
 export async function getFruits(locale = 'en') {
   // Select URL, fallback to 'en' if the locale is unknown

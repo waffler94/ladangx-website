@@ -4,18 +4,22 @@ import { useTranslations } from 'next-intl';
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel }) {
+export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations(); 
   // 1. Setup Data
   const generateData = useCallback(() => {
     const items = fruit.product_uses.map((m, i) => {
       const text = typeof m === 'object' ? m.text : m;
       const image = typeof m === 'object' ? m.image : null;
+      const apiId = typeof m === 'object' ? m.id : null;
+      const apiLabelId = apiId;
 
       return {
         id: i,
-        text: text,
-        image: image
+        apiId, 
+        apiLabelId, 
+        text,
+        image: (typeof image === 'object' && image.url) ? image.url : image
       };
     });
 
@@ -29,6 +33,48 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel }) {
   const [slots, setSlots] = useState(new Array(gameData.items.length).fill(null));
   const [selectedLabelId, setSelectedLabelId] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const submitAnswerToApi = async () => {
+    if (!userQuizId || !token) return;
+
+    const userSelection = gameData.items.map((targetItem, index) => {
+      const placedLabelLocalId = slots[index];
+      const placedLabel = gameData.shuffledLabels.find(l => l.id === placedLabelLocalId);
+
+      return {
+        id: targetItem.apiId, // The ID of the Image (Target)
+        image_id: placedLabel?.apiLabelId // The ID of the Text Label (Selection)
+      };
+    });
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: "product_uses", // Matches API Key
+            user_selection: userSelection
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ ImageLabel Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit ImageLabel answer:", error);
+    }
+  };
+
 
   // --- ACTIONS ---
 
@@ -83,6 +129,11 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel }) {
     setSelectedLabelId(null);
     setIsSubmitted(false);
     setGameData(generateData()); // Re-shuffle labels
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    submitAnswerToApi(); // ⬅️ Call API
   };
 
   const isPerfect = getScore() === gameData.items.length;
@@ -173,7 +224,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel }) {
       <div className="w-full max-w-md mt-6">
         {!isSubmitted ? (
           <button 
-            onClick={() => setIsSubmitted(true)}
+            onClick={handleSubmit}
             disabled={slots.includes(null)}
             className="w-full bg-yellow-500 text-white py-4 rounded-2xl font-black text-xl hover:bg-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#ca8a04] active:shadow-none active:translate-y-1 transition-all"
           >

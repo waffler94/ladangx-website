@@ -20,7 +20,7 @@ const GAME_COMPONENTS = {
   labeling: QuizParts,
 };
 
-export default function QuizClientWrapper({ fruit, allFruits, locale }) {
+export default function QuizClientWrapper({ fruit, allFruits, locale, userQuizId, token, apiUrl }) {
   const [activeCategoryId, setActiveCategoryId] = useState(null);
 
   if (!activeCategoryId) {
@@ -47,7 +47,11 @@ export default function QuizClientWrapper({ fruit, allFruits, locale }) {
       categoryId={activeCategoryId} 
       onBack={() => setActiveCategoryId(null)} 
       onNext={handleNextLevel}
+      locale={locale} 
       isLastLevel={!nextCategoryId}
+      userQuizId={userQuizId}
+      token={token}
+      apiUrl={apiUrl}
     />
   );
 }

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 // Helper to shuffle
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
+export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations(); 
   // 1. Prepare Game Data
   const generateData = useCallback(() => {
@@ -14,10 +14,14 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
     const items = fruit.interesting_facts.map((f, i) => {
       const text = typeof f === 'object' ? f.text : f;
       const image = typeof f === 'object' ? f.image : null; 
+      const apiId = typeof f === 'object' ? f.id : null;
+      const apiImageId = (typeof f === 'object' && typeof f.image === 'object') ? f.image.id : null;
        return {
         id: i,
+        apiId,
+        apiImageId,
         text: text,
-        image: image 
+        image: (typeof image === 'object' && image.url) ? image.url : image
       };
     });
 
@@ -32,6 +36,49 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
   const [slots, setSlots] = useState(new Array(gameData.items.length).fill(null));
   const [selectedImageId, setSelectedImageId] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const submitAnswerToApi = async () => {
+    if (!userQuizId || !token) return;
+
+    // Map the slots to the API format
+    const userSelection = gameData.items.map((targetItem, index) => {
+      const placedLocalId = slots[index];
+      // Find the item object that was placed here (it came from the pool)
+      const placedItem = gameData.shuffledPool.find(p => p.id === placedLocalId);
+
+      return {
+        id: targetItem.apiId, // The ID of the Fact (Target)
+        image_id: placedItem?.apiImageId || placedItem?.apiId // The ID of the Image (Selection)
+      };
+    });
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: "interesting_facts", // Matches API Key
+            user_selection: userSelection
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ DragDrop Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit DragDrop answer:", error);
+    }
+  };
 
   // --- ACTIONS ---
 
@@ -91,6 +138,11 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
     setSelectedImageId(null);
     setIsSubmitted(false);
     setGameData(generateData()); // Re-shuffle pool
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    submitAnswerToApi();
   };
 
   const isPerfect = getScore() === gameData.items.length;
@@ -195,7 +247,7 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel }) {
       <div className="w-full max-w-md">
         {!isSubmitted ? (
           <button 
-            onClick={() => setIsSubmitted(true)}
+            onClick={handleSubmit}
             disabled={slots.includes(null)} // Disable until all filled
             className="w-full bg-sky-500 text-white py-4 rounded-2xl font-black text-xl hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#0284c7] active:shadow-none active:translate-y-1 transition-all"
           >

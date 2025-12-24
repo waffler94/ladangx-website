@@ -10,7 +10,7 @@ const getText = (item) => {
   return typeof item === 'object' ? item.text : item;
 };
 
-export const generateQuestion = (fruit, category, allFruits, t) => {
+export const generateQuestion = (fruit, category, allFruits, locale, t) => {
   let question = "";
   let correctAnswer = "";
   let wrongAnswers = [];

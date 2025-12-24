@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
-export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLevel }) {
+export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations();
   // 1. Setup Data
   const generateData = useCallback(() => {
@@ -65,6 +65,45 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const submitAnswerToApi = async () => {
+    if (!userQuizId || !token) return;
+
+    // Construct the array: [Answer for Slot 1, Answer for Slot 2, ...]
+    // We iterate through targets because they are ordered (ID 0, 1, 2...)
+    const userSelectionArray = gameData.targets.map(target => {
+      const placedOptionId = matches[target.id];
+      const placedOption = gameData.options.find(o => o.id === placedOptionId);
+      return placedOption ? placedOption.name : null;
+    });
+
+    try {
+      const payload = {
+        user_quiz_id: userQuizId,
+        quiz_locale: locale,
+        answers: [
+          {
+            question_type: "parts", // Matches category ID
+            user_selection: userSelectionArray // Array of strings
+          }
+        ]
+      };
+
+      await fetch(`${apiUrl}/user-quizzes/answers`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log("✅ Parts Answer submitted:", payload);
+    } catch (error) {
+      console.error("❌ Failed to submit parts answer:", error);
+    }
+  };
+
   // --- ACTIONS ---
 
   const handleOptionClick = (optId) => {
@@ -113,6 +152,11 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
       if (matches[t.id] === t.id) correct++;
     });
     return correct;
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    submitAnswerToApi(); // ⬅️ Call API
   };
 
   const isPerfect = getScore() === gameData.targets.length;
@@ -227,7 +271,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
       <div className="w-full max-w-md mt-8 pb-12">
         {!isSubmitted ? (
           <button 
-            onClick={() => setIsSubmitted(true)}
+            onClick={handleSubmit}
             disabled={Object.keys(matches).length < gameData.targets.length}
             className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-xl hover:bg-emerald-700 disabled:opacity-50 shadow-[0_4px_0_#047857] active:translate-y-1 active:shadow-none transition-all"
           >
@@ -243,7 +287,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
                <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
                   {t('you_got', {
                     score: getScore(),
-                    length: gameData.items.length
+                    length: gameData.targets.length
                   })}
                </div>
              )}

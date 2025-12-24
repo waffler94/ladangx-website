@@ -6,14 +6,14 @@ import { redirect } from "./i18n/navigation";
 export function middleware(request) {
     // This middleware is used to handle internationalization routing
     const intlMiddleware = createMiddleware({
-        locales: ["en", "bm", "zh"],
+        locales: ["en", "my", "zh"],
         defaultLocale: "en",
     });
 
     const response = intlMiddleware(request);
     response.headers.set("x-pathname", request.nextUrl.pathname);
     const localeFromPath = request.nextUrl.pathname.split("/")[1];
-    const supportedLocales = ["en", "bm", "zh"]; // Add your supported locales
+    const supportedLocales = ["en", "my", "zh"]; // Add your supported locales
     let locale = "en"; // default
 
     if (supportedLocales.includes(localeFromPath)) {

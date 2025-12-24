@@ -8,7 +8,7 @@ export default function LanguageToggle() {
   const pathname = usePathname(); // This returns the path WITHOUT the locale (e.g. "/quiz")
 
   const isEnglish = locale === 'en';
-  const targetLocale = isEnglish ? 'bm' : 'en';
+  const targetLocale = isEnglish ? 'my' : 'en';
 
   return (
     <Link
