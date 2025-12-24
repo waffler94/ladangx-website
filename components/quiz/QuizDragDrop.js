@@ -15,7 +15,7 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel, userQ
       const text = typeof f === 'object' ? f.text : f;
       const image = typeof f === 'object' ? f.image : null; 
       const apiId = typeof f === 'object' ? f.id : null;
-      const apiImageId = (typeof f === 'object' && typeof f.image === 'object') ? f.image.id : null;
+      const apiImageId = typeof f === 'object' ? f.image_id : null;
        return {
         id: i,
         apiId,
@@ -48,7 +48,7 @@ export default function QuizDragDrop({ fruit, onBack, onNext, isLastLevel, userQ
 
       return {
         id: targetItem.apiId, // The ID of the Fact (Target)
-        image_id: placedItem?.apiImageId || placedItem?.apiId // The ID of the Image (Selection)
+        image_id: placedItem?.apiImageId // The ID of the Image (Selection)
       };
     });
 
