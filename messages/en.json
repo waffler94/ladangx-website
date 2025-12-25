@@ -46,6 +46,15 @@
     "register": "Register",
     "phone_number": "Phone Number",
     "password": "Password",
+    "email": "Email",
     "enter_phone": "Enter phone number",
-    "enter_password": "Enter password"
+    "enter_password": "Enter password",
+    "enter_email": " Enter Email",
+    "first_name": "First Name",
+    "full_name": "Full Name",
+    "enter_first_name": "Enter Full Name",
+    "confirm_password": "Confirm Password",
+    "forgot_password": "Forgot Password?",
+    "continue_guest": "Continue as Guest",
+    "date_of_birth": "Date of Birth"
 }

@@ -1,28 +1,22 @@
+import AuthInput from '@/components/auth/auth-input'
+import PasswordInput from '@/components/auth/password-input'
+import PhoneInput from '@/components/auth/phone-input'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
 export default function page() {
     const t = useTranslations()
     return (
-        <div className="px-4 pt-6 pb-10">
-            <form>
-                <div>
-                    <label className="block  font-bold text-gray-700 mb-[8px] ">{t("phone_number")}</label>
-                    <input
-                        type="text"
-                        className="block w-full px-[16px] py-[14.5px] border border-[#CFDDCF] rounded-[10px]  placeholder-[#CFDDCF] "
-                        placeholder={t("enter_phone")}
-                    />
-                </div>
-                <div className="mt-4">
-                    <label className="block  font-bold text-gray-700 mb-[8px]">{t("password")}</label>
-                    <input
-                        type="password"
-                        className="block w-full px-[16px] py-[14.5px] border border-[#CFDDCF] rounded-[10px]  placeholder-[#CFDDCF] "
-                        placeholder={t("enter_password")}
-                    />
-                </div>
-                <div className="mt-6">
+        <div className="px-4 pt-6 pb-10 flex flex-col">
+            <form className=" gap-y-[12px] flex flex-col">
+                <PhoneInput />
+                <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} />
+                <Link href="/forgot-password" className="text-[#245B00] ml-auto font-semibold hover:underline">
+                    {t("forgot_password")}
+                </Link>
+                <div className="mt-[20px]">
                     <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 
 
@@ -36,9 +30,13 @@ export default function page() {
 
                 </div>
             </form>
+            <div className='text-center mt-[16px] font-medium hover:underline'>
+                <Link href="/">
+                    {t("continue_guest")}
 
-
-        </div>/* Rectangle 10 */
+                </Link>
+            </div>
+        </div>
 
 
     )
