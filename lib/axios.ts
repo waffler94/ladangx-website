@@ -20,15 +20,15 @@ const getLocale = async (): Promise<string> => {
 
 const links: Record<string, string> = {
 
-    baseUrl: process.env.API_URL + "/api/v1",
+    baseUrl: process.env.API_URL,
 };
 
 export const Instance = axios.create({
     baseURL: links.baseUrl,
-    // headers: {
-    //     "Content-Type": "application/json",
-    //     accept: "application/json",
-    // },
+    headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+    },
     timeout: 120000, // 120 seconds timeout for large file uploads
 });
 

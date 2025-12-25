@@ -1,18 +1,50 @@
+'use client'
 import AuthInput from '@/components/auth/auth-input'
 import PasswordInput from '@/components/auth/password-input'
 import PhoneInput from '@/components/auth/phone-input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
+import { login } from '@/lib/actions'
+import Cookies from 'js-cookie'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
 export default function page() {
     const t = useTranslations()
+    const [errors, setErrors] = React.useState([])
+    const router = useRouter();
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        setErrors({})
+        // get all input values
+        const formData = new FormData(e.target);
+        const phoneNumber = formData.get('phone_number');
+        const password = formData.get('password');
+        const calling_code = formData.get('calling_code');
+
+        const res = await login({
+            phone_number: phoneNumber,
+            password: password,
+            calling_code: calling_code
+        })
+        console.log(res)
+        if (res.status === 422) {
+            setErrors(res.errors);
+        }
+
+
+        if (res.status === 200) {
+            Cookies.set('access_token', res.data.token);
+            router.push('/')
+        }
+
+
+    }
     return (
         <div className="px-4 pt-6 pb-10 flex flex-col">
-            <form className=" gap-y-[12px] flex flex-col">
-                <PhoneInput />
-                <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} />
+            <form onSubmit={submitHandler} className=" gap-y-[12px] flex flex-col">
+                <PhoneInput error={errors?.account} />
+                <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} error={errors?.account} />
                 <Link href="/forgot-password" className="text-[#245B00] ml-auto font-semibold hover:underline">
                     {t("forgot_password")}
                 </Link>

@@ -6,3 +6,12 @@ export interface Pagination {
     from?: number | null;
     to?: number | null;
 }
+
+export interface loginResponse {
+    message: string;
+    message_key: string;
+    data: {
+        token: string;
+    }
+    token: string;
+}
