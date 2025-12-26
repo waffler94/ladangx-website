@@ -18,7 +18,15 @@ export default function PasswordInput({ label, placeholder, inputName, error }) 
                     isShowPassword ? <EyeClosed /> : <Eye />
                 }
             </button>
-            {error && <p className="text-red-500 mt-1 text-sm">{error}</p>}
+            {error && (
+                <div className="text-red-500 mt-1 text-sm">
+                    {Array.isArray(error) ? (
+                        error.map((err, index) => <p key={index}>{err}</p>)
+                    ) : (
+                        <p>{error}</p>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

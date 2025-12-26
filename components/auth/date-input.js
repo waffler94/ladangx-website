@@ -9,9 +9,9 @@ export default function DateInput({ label, placeholder, inputName }) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState()
     return (
-        <div>
+        <div className="relative">
             <label className="block  font-bold text-[#313F3A] mb-[8px]">{label}</label>
-
+            <input type="text" className="size-[1px] absolute bottom-0 left-1/2" required onChange={() => { }} name={inputName} value={date ? date.toLocaleDateString('en-GB') : ''} />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
@@ -19,15 +19,17 @@ export default function DateInput({ label, placeholder, inputName }) {
                         id="date"
                         className="w-full text-base !h-[48px] !px-[16px] justify-between font-normal"
                     >
-                        {date ? date.toLocaleDateString() : "Select date"}
+                        {date ? date.toLocaleDateString('en-GB') : "Select date"}
                         <CalendarSearch />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                     <Calendar
+
                         mode="single"
                         selected={date}
                         captionLayout="dropdown"
+                        disabled={(date) => date > new Date()}
                         onSelect={(date) => {
                             setDate(date)
                             setOpen(false)

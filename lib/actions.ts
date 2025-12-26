@@ -34,13 +34,19 @@ export const checkPhoneNumber = async ({ phone_number, calling_code }: {
     return { status: res.status, ...res.data };
 }
 
-export const requestRegisterOtp = async ({ phone_number, calling_code }: {
+export const requestRegisterOtp = async ({ phone_number, calling_code, fullname, password, password_confirmation }: {
     phone_number: string,
-    calling_code: string
+    calling_code: string,
+    fullname: string,
+    password: string,
+    password_confirmation: string
 }) => {
     const res = await axios.post('/otp', {
         phone_number,
         calling_code,
+        fullname,
+        password,
+        password_confirmation,
         request_type: 1
     });
 

@@ -61,5 +61,9 @@
     "agree_to": "Agree to",
     "terms": "Terms and Conditions",
     "verification_code": "Verification Code",
-    "enter_verification_code_sent": "Enter the verification code sent to"
+    "enter_verification_code_sent": "Enter the verification code sent to",
+    "enter_fullname": "Enter Full Name",
+    "code": "Code",
+    "submit": "Submit",
+    "resend_code": "Resend Code"
 }

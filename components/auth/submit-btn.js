@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslations } from 'next-intl'
 
-export default function SubmitButton({ isDisabled }) {
+export default function SubmitButton({ isDisabled, children }) {
     const t = useTranslations()
 
     return (
@@ -10,7 +10,7 @@ export default function SubmitButton({ isDisabled }) {
             className="w-full group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-4 rounded-full shadow-[4px_4px_0px_0px_rgba(57,83,39,1)]  text-white bg-[#446A2A] "
             disabled={isDisabled}
         >
-            {t("register")}
+            {children}
             {isDisabled && (
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

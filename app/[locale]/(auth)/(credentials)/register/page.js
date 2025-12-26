@@ -22,7 +22,10 @@ export default function page() {
         console.log(data)
         const res = await requestRegisterOtp({
             calling_code: data.calling_code,
-            phone_number: data.phone_number
+            phone_number: data.phone_number,
+            fullname: data.fullname,
+            password: data.password,
+            password_confirmation: data.confirm_password
         })
         console.log(res)
         if (res.status === 422) {
@@ -33,19 +36,21 @@ export default function page() {
     return (
         <div className="px-4 pt-6 pb-10">
             <form onSubmit={submitHandler} className="gap-y-[12px] flex flex-col">
-                <AuthInput label={t("full_name")} type="text" placeholder={t("enter_first_name")} inputName="first_name" />
-                <AuthInput label={t("email")} type="email" placeholder={t("enter_email")} inputName="email" />
-                <PhoneInput label={t("phone_number")} type="text" placeholder={t("enter_phone")} inputName="phone_number" />
+                <AuthInput label={t("full_name")} type="text" placeholder={t("enter_fullname")} inputName="fullname" error={errors.fullname} />
+                <AuthInput label={t("email")} type="email" placeholder={t("enter_email")} inputName="email" error={errors.email} required={true} />
+                <PhoneInput label={t("phone_number")} type="text" placeholder={t("enter_phone")} inputName="phone_number" error={errors.phone_number} />
                 <DateInput label={t("date_of_birth")} placeholder={t("select_date")} inputName="date_of_birth" />
-                <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} />
-                <PasswordInput inputName={"confirm_password"} label={t("confirm_password")} placeholder={t("enter_password")} />
+                <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} error={errors.password} />
+                <PasswordInput inputName={"confirm_password"} label={t("confirm_password")} placeholder={t("enter_password")} error={errors.password} />
                 <div className="flex items-center gap-x-2">
                     <Checkbox id="agree_terms" className="data-[state=checked]:bg-[#446A2A]" required />
                     <label htmlFor="agree_terms">{t("agree_to")} <Link href="#" className="text-[#446A2A] underline">{t("terms")}</Link></label>
 
                 </div>
                 <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
-                    <SubmitButton isDisabled={disableSubmit} />
+                    <SubmitButton isDisabled={disableSubmit} >
+                        {t("register")}
+                    </SubmitButton>
                 </div>
 
             </form>
