@@ -9,7 +9,7 @@ export default function PhoneInput({ error }) {
     return (
         <div>
             <label className="block  font-bold text-[#313F3A] mb-[8px] ">{t("phone_number")}</label>
-            <div className={`flex flex-row ${error ? 'border-red-500' : 'border-[#CFDDCF]'} border rounded-[10px]`}>
+            <div className={`bg-white flex flex-row ${error ? 'border-red-500' : 'border-[#CFDDCF]'} border rounded-[10px]`}>
                 <Select className="!py-[14.5px] " defaultValue="+60" name="calling_code">
                     <SelectTrigger className="!h-[54px] !rounded-r-none !border-none  ">
                         <SelectValue className="!py-[14.5px]" />

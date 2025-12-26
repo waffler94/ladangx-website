@@ -53,6 +53,76 @@ export const requestRegisterOtp = async ({ phone_number, calling_code, fullname,
     return { status: res.status, ...res.data };
 }
 
+export const register = async ({
+    identifier, calling_code, phone_number, email, otp_code, password, password_confirmation, fullname, date_of_birth
+}: {
+    identifier: string,
+    calling_code: string,
+    phone_number: string,
+    email?: string,
+    otp_code: string,
+    password: string,
+    password_confirmation: string,
+    fullname: string,
+    date_of_birth?: string
+}) => {
+    console.log({
+        identifier,
+        calling_code,
+        phone_number,
+        email,
+        otp_code,
+        password,
+        password_confirmation,
+        fullname,
+        date_of_birth
+    });
+    const response = await axios.post('/users/register',
+        {
+            identifier,
+            calling_code,
+            phone_number,
+            email,
+            otp_code,
+            password,
+            password_confirmation,
+            fullname,
+            date_of_birth
+        });
+
+    return { status: response.status, ...response.data };
+
+};
+
+export const requestForgotPasswordOtp = async ({ phone_number, calling_code }: {
+    phone_number: string,
+    calling_code: string
+}) => {
+    const res = await axios.post('/otp', {
+        phone_number,
+        calling_code,
+        request_type: 2
+    });
+
+    return { status: res.status, ...res.data };
+}
+
+export const verifyForgotPasswordOtp = async ({
+    identifier, otp_code
+}: {
+    identifier: string,
+
+    otp_code: string
+}) => {
+
+    const res = await axios.post('/users/verify-otp', {
+        identifier,
+        otp_code,
+
+    });
+
+    return { status: res.status, ...res.data };
+}
 // export const getProjectDetails = async ({
 //     id
 // }: {

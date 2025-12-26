@@ -65,5 +65,14 @@
     "enter_fullname": "Enter Full Name",
     "code": "Code",
     "submit": "Submit",
-    "resend_code": "Resend Code"
+    "resend_code": "Resend Code",
+    "register_success": "Register Success",
+    "you_have_successfully_registered": "You have successfully registered.",
+    "proceed_to_login": "Proceed to Login",
+    "register_failed": "Register Failed",
+    "please_check_the_errors_and_try_again": "Please check the errors and try again.",
+    "ok": "OK",
+    "please_enter_phone": "Please enter your phone number.",
+    "send_code": "Send Code",
+    "error": "Error"
 }

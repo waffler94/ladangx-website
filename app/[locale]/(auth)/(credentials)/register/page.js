@@ -5,7 +5,7 @@ import PasswordInput from '@/components/auth/password-input'
 import PhoneInput from '@/components/auth/phone-input'
 import SubmitButton from '@/components/auth/submit-btn'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import { requestRegisterOtp } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
 import React from 'react'
@@ -13,9 +13,11 @@ import React from 'react'
 export default function page() {
     const [disableSubmit, setDisableSubmit] = React.useState(false)
     const [errors, setErrors] = React.useState({})
+    const router = useRouter()
     const t = useTranslations()
     const submitHandler = async (e) => {
         e.preventDefault()
+        setErrors({})
         setDisableSubmit(true)
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData.entries())
@@ -30,6 +32,18 @@ export default function page() {
         console.log(res)
         if (res.status === 422) {
             setErrors(res.errors)
+        } else if (res.status === 200) {
+            //redirect to otp page
+            localStorage.setItem("register_phone_number", data.phone_number)
+            localStorage.setItem("register_calling_code", data.calling_code)
+            localStorage.setItem("register_email", data.email)
+            localStorage.setItem("register_fullname", data.fullname)
+            localStorage.setItem("register_password", data.password)
+            localStorage.setItem("register_password_confirmation", data.confirm_password)
+            localStorage.setItem("register_dob", data.date_of_birth)
+            localStorage.setItem("register_identifier", res.data.identifier)
+
+            router.push("/otp/register")
         }
         setDisableSubmit(false)
     }

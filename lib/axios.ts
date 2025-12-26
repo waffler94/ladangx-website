@@ -2,6 +2,7 @@
 import axios from "axios";
 
 import Cookies from "js-cookie";
+import { getServerSideToken } from "./getServerSideToken";
 
 
 const getLocale = async (): Promise<string> => {
@@ -16,7 +17,21 @@ const getLocale = async (): Promise<string> => {
     }
 };
 
+export const getAccessToken = async (): Promise<string | undefined> => {
+    if (typeof window !== "undefined") {
 
+        if (Cookies.get('access_token')) {
+            return Cookies.get('access_token');
+        }
+    } else {
+        // Server-side code
+        const token = await getServerSideToken();
+        if (token) {
+            return token;
+        }
+        return undefined;
+    }
+};
 
 const links: Record<string, string> = {
 
@@ -35,7 +50,8 @@ export const Instance = axios.create({
 
 
 Instance.interceptors.request.use(async (config) => {
-
+    const accessToken = await getAccessToken();
+    if (accessToken) config.headers["Authorization"] = `Bearer ${accessToken}`;
 
     // if (!config.headers["X-localization"]) {
     //     const locale = await getLocale();

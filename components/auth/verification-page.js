@@ -7,7 +7,7 @@ import { ChevronLeft } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
-export default function VerificationPage({ onSubmit, init_phone_number }) {
+export default function VerificationPage({ onSubmit, init_phone_number, errors }) {
     const t = useTranslations()
     const [disableSubmit, setDisableSubmit] = React.useState(false)
     const submitHandler = async (e) => {
@@ -30,19 +30,20 @@ export default function VerificationPage({ onSubmit, init_phone_number }) {
             <form onSubmit={submitHandler}>
                 <div className="mt-[27px] flex flex-col">
                     <label className="font-bold mb-[8px] block">{t("code")}</label>
-                    <div className="flex w-full ">
+                    <div className="flex flex-col w-full ">
 
 
-                        <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} className="">
+                        <InputOTP name="otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS} className="">
                             <InputOTPGroup className="w-[95vw] flex flex-row justify-between">
                                 {
                                     Array.from({ length: 6 }).map((_, index) =>
-                                        <InputOTPSlot className="size-[13vw] bg-white rounded-[6px] border border-[#CFDDCF]" key={index} index={index} />
+                                        <InputOTPSlot className={`size-[13vw] bg-white rounded-[6px] border  ${(errors?.identifier || errors?.otp_code) ? "border-red-500" : "border-[#CFDDCF]"}`} key={index} index={index} />
                                     )
                                 }
                             </InputOTPGroup>
 
                         </InputOTP>
+                        {(errors?.identifier || errors?.otp_code) ? <p className="text-red-500 text-sm mt-1">{(errors?.identifier?.[0] || errors?.otp_code?.[0])}</p> : null}
                     </div>
                     <div className="py-2 pl-1 pr-3 w-full group bg-white mt-[24px]  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 
