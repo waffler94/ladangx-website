@@ -1,1 +1,17 @@
-@baseUrl=
+@baseUrl=https://ladangxadmin.upplex.com.my
+
+
+###
+POST https://ladangxadmin.upplex.com.my/api/v1/otp/resend
+Content-Type: application/json
+Accept: application/json
+
+{
+  "identifier": "eyJpdiI6IkZrS0lKWmoxZ1lDa0JJbmQwckRDbWc9PSIsInZhbHVlIjoiZG9BWE50R1JmWkFWSmZlZi9WZ050QT09IiwibWFjIjoiZDQ5YzZhNTdjNDhhOGYxMDhiN2QwM2ViZGNkNWFlNjM5YTk2YjBmYWU5M2FhZTFiNzg0ZDk2M2IxNTAyNGE1ZiIsInRhZyI6IiJ9",
+  "phone_number":"123123122",
+  "email":"ab@aac.com",
+  "fullname":"123",
+  "password":"123123123",
+  "password_confirmation":"123123123",
+  "request_type": 1
+}

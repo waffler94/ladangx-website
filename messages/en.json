@@ -74,5 +74,15 @@
     "ok": "OK",
     "please_enter_phone": "Please enter your phone number.",
     "send_code": "Send Code",
-    "error": "Error"
+    "error": "Error",
+    "please_enter_new_password": "Please enter your new password.",
+    "reset_password": "Reset Password",
+    "new_password": "New Password",
+    "enter_new_password": "Enter New Password",
+    "confirm_new_password": "Confirm New Password",
+    "your_password_has_been_reset": "Your password has been reset.",
+    "get_started": "Get Started",
+    "continue_as_guest": "Continue as Guest",
+    "hello": "Hello",
+    "play_btn": "Play"
 }

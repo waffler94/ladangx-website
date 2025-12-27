@@ -10,7 +10,7 @@ export default function PasswordInput({ label, placeholder, inputName, error }) 
             <input
                 type={isShowPassword ? "text" : "password"}
                 name={inputName}
-                className={`block w-full px-[16px] py-[14.5px] border ${error ? 'border-red-500' : 'border-[#CFDDCF]'} rounded-[10px]  placeholder-[#CFDDCF] `}
+                className={`block w-full px-[16px] bg-white py-[14.5px] border ${error ? 'border-red-500' : 'border-[#CFDDCF]'} rounded-[10px]  placeholder-[#CFDDCF] `}
                 placeholder={placeholder}
             />
             <button type="button" className="text-[24px] hover:scale-105 transition-all absolute top-[48px] right-4" onClick={() => setIsShowPassword(!isShowPassword)}>

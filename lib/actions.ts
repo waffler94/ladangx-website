@@ -34,8 +34,9 @@ export const checkPhoneNumber = async ({ phone_number, calling_code }: {
     return { status: res.status, ...res.data };
 }
 
-export const requestRegisterOtp = async ({ phone_number, calling_code, fullname, password, password_confirmation }: {
+export const requestRegisterOtp = async ({ phone_number, email, calling_code, fullname, password, password_confirmation }: {
     phone_number: string,
+    email: string,
     calling_code: string,
     fullname: string,
     password: string,
@@ -44,9 +45,19 @@ export const requestRegisterOtp = async ({ phone_number, calling_code, fullname,
     const res = await axios.post('/otp', {
         phone_number,
         calling_code,
+        email,
         fullname,
         password,
         password_confirmation,
+        request_type: 1
+    });
+
+    return { status: res.status, ...res.data };
+}
+
+export const resendRegisterOtp = async ({ identifier }: { identifier: string }) => {
+    const res = await axios.post('/otp/resend', {
+        identifier,
         request_type: 1
     });
 
@@ -107,6 +118,15 @@ export const requestForgotPasswordOtp = async ({ phone_number, calling_code }: {
     return { status: res.status, ...res.data };
 }
 
+export const resendForgotPasswordOtp = async ({ identifier }: { identifier: string }) => {
+    const res = await axios.post('/otp/resend', {
+        identifier,
+        request_type: 2
+    });
+
+    return { status: res.status, ...res.data };
+}
+
 export const verifyForgotPasswordOtp = async ({
     identifier, otp_code
 }: {
@@ -122,6 +142,29 @@ export const verifyForgotPasswordOtp = async ({
     });
 
     return { status: res.status, ...res.data };
+}
+
+export const resetPassword = async ({
+    identifier, phone_number, otp_code, password, password_confirmation
+}: {
+    identifier: string,
+    phone_number: string,
+    otp_code: string,
+    password: string,
+    password_confirmation: string
+}) => {
+
+    const response = await axios.post('/users/reset-password',
+        {
+            phone_number,
+            identifier,
+            otp_code,
+            password,
+            password_confirmation
+        });
+
+    return { status: response.status, ...response.data };
+
 }
 // export const getProjectDetails = async ({
 //     id

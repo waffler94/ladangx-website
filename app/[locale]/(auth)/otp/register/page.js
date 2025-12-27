@@ -2,7 +2,7 @@
 import VerificationPage from '@/components/auth/verification-page'
 import { PopupContext } from '@/components/context/PopupProvider'
 import { useRouter } from '@/i18n/navigation'
-import { register } from '@/lib/actions'
+import { register, resendRegisterOtp } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
 import React, { useContext, useEffect } from 'react'
 
@@ -60,7 +60,17 @@ export default function page() {
 
 
     }
+    const onResend = async () => {
+        const res = await resendRegisterOtp({
+            identifier: localStorage.getItem("register_identifier")
+        })
+        console.log(res)
+        if (res.status != 200) {
+            console.log(res)
+        }
+
+    }
     return (
-        <VerificationPage init_phone_number={phoneNumber} onSubmit={onSubmit} errors={errors} />
+        <VerificationPage init_phone_number={phoneNumber} onSubmit={onSubmit} errors={errors} onResend={onResend} />
     )
 }

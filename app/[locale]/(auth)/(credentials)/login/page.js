@@ -49,7 +49,7 @@ export default function page() {
                     {t("forgot_password")}
                 </Link>
                 <div className="mt-[20px]">
-                    <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                    <div className="py-2 pl-1 pr-2 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 
 
                         <button

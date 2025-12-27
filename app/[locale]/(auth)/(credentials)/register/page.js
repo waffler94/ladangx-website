@@ -25,6 +25,7 @@ export default function page() {
         const res = await requestRegisterOtp({
             calling_code: data.calling_code,
             phone_number: data.phone_number,
+            email: data.email,
             fullname: data.fullname,
             password: data.password,
             password_confirmation: data.confirm_password
@@ -51,7 +52,7 @@ export default function page() {
         <div className="px-4 pt-6 pb-10">
             <form onSubmit={submitHandler} className="gap-y-[12px] flex flex-col">
                 <AuthInput label={t("full_name")} type="text" placeholder={t("enter_fullname")} inputName="fullname" error={errors.fullname} />
-                <AuthInput label={t("email")} type="email" placeholder={t("enter_email")} inputName="email" error={errors.email} required={true} />
+                <AuthInput label={t("email")} type="email" placeholder={t("enter_email")} inputName="email" error={errors.email} />
                 <PhoneInput label={t("phone_number")} type="text" placeholder={t("enter_phone")} inputName="phone_number" error={errors.phone_number} />
                 <DateInput label={t("date_of_birth")} placeholder={t("select_date")} inputName="date_of_birth" />
                 <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} error={errors.password} />
@@ -61,7 +62,7 @@ export default function page() {
                     <label htmlFor="agree_terms">{t("agree_to")} <Link href="#" className="text-[#446A2A] underline">{t("terms")}</Link></label>
 
                 </div>
-                <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                <div className="pb-2 py-1 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                     <SubmitButton isDisabled={disableSubmit} >
                         {t("register")}
                     </SubmitButton>

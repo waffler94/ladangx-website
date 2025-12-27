@@ -62,7 +62,7 @@ export default function page() {
 
                         <PhoneInput label={t("phone_number")} type="text" placeholder={t("enter_phone")} inputName="phone_number" error={errors.phone_number} />
                     </div>
-                    <div className="py-2 pl-1 pr-3 w-full group bg-white mt-[24px]  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                    <div className="pb-2 py-1 pl-1 pr-3 w-full group bg-white mt-[24px]  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 
                         <SubmitButton isDisabled={disableSubmit}  >
                             {t("send_code")}
