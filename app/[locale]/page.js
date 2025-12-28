@@ -18,7 +18,7 @@ export default function page() {
                 </div>
             </Link>
             <Link href="/home">
-                <p className="text-white">
+                <p className="text-white hover:underline font-semibold">
                     {t("continue_as_guest")}
 
                 </p>

@@ -1,6 +1,8 @@
 'use client'
 import ExampleModal from '@/app/modal/example';
 import Fail from '@/app/modal/fail';
+import LanguageModal from '@/app/modal/language-modal';
+import LoginWarnModal from '@/app/modal/login-warn';
 
 import Success from '@/app/modal/success';
 import React, { createContext, useState } from 'react';
@@ -38,6 +40,14 @@ export const modalList = {
     example: {
         key: 'exampleModal',
         modal: ExampleModal,
+    },
+    language: {
+        key: 'languageModal',
+        modal: LanguageModal,
+    },
+    loginWarn: {
+        key: 'loginWarn',
+        modal: LoginWarnModal,
     }
 };
 

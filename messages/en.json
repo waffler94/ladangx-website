@@ -84,5 +84,10 @@
     "get_started": "Get Started",
     "continue_as_guest": "Continue as Guest",
     "hello": "Hello",
-    "play_btn": "Play"
+    "play_btn": "Play",
+    "languages": "Languages",
+    "save_changes": "Save Changes",
+    "login_modal_title": "Hello! Please log in first",
+    "login_modal_desc": "Log in to continue your adventure!",
+    "login_now": "Login Now"
 }
