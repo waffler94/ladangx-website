@@ -1,16 +1,13 @@
 import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
 import { NextResponse } from "next/server";
 import { redirect } from "./i18n/navigation";
+import { routing } from "./i18n/routing";
+const handleI18nRouting = createMiddleware(routing);
 
 export function middleware(request) {
-    // This middleware is used to handle internationalization routing
-    const intlMiddleware = createMiddleware({
-        locales: ["en", "my", "zh"],
-        defaultLocale: "en",
-    });
 
-    const response = intlMiddleware(request);
+
+    const response = handleI18nRouting(request);
     response.headers.set("x-pathname", request.nextUrl.pathname);
     const localeFromPath = request.nextUrl.pathname.split("/")[1];
     const supportedLocales = ["en", "my", "zh"]; // Add your supported locales

@@ -18,7 +18,6 @@ export default function LanguageModal({ open }) {
     const languages = [
         { code: 'en', name: 'EN' },
         { code: 'my', name: "BM" },
-        { code: 'zh', name: "中文" },
 
     ]
     return (

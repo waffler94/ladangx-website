@@ -35,7 +35,7 @@ export default function page() {
 
         if (res.status === 200) {
             Cookies.set('access_token', res.data.token);
-            router.push('/')
+            router.push('/home')
         }
 
 
