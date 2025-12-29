@@ -38,7 +38,8 @@ export default function page() {
                 buttonText: t("try_again"),
                 buttonOnClick: () => {
                     closeAllModal()
-                }
+                },
+
             })
         }
         else if (res.status == 200) {

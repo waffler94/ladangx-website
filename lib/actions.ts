@@ -77,17 +77,7 @@ export const register = async ({
     fullname: string,
     date_of_birth?: string
 }) => {
-    console.log({
-        identifier,
-        calling_code,
-        phone_number,
-        email,
-        otp_code,
-        password,
-        password_confirmation,
-        fullname,
-        date_of_birth
-    });
+
     const response = await axios.post('/users/register',
         {
             identifier,

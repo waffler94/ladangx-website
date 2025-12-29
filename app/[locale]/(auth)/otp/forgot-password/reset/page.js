@@ -45,7 +45,7 @@ export default function page() {
                 buttonText: t("proceed_to_login"),
                 buttonOnClick: () => {
                     closeAllModal()
-                }
+                },
             })
             router.push("/login")
 

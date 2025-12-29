@@ -15,13 +15,13 @@ export default function page() {
     const [errors, setErrors] = React.useState({})
     const router = useRouter()
     const t = useTranslations()
+
     const submitHandler = async (e) => {
         e.preventDefault()
         setErrors({})
         setDisableSubmit(true)
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData.entries())
-        console.log(data)
         const res = await requestRegisterOtp({
             calling_code: data.calling_code,
             phone_number: data.phone_number,
@@ -30,11 +30,11 @@ export default function page() {
             password: data.password,
             password_confirmation: data.confirm_password
         })
-        console.log(res)
         if (res.status === 422) {
             setErrors(res.errors)
         } else if (res.status === 200) {
             //redirect to otp page
+            console.log(res)
             localStorage.setItem("register_phone_number", data.phone_number)
             localStorage.setItem("register_calling_code", data.calling_code)
             localStorage.setItem("register_email", data.email)
@@ -43,13 +43,13 @@ export default function page() {
             localStorage.setItem("register_password_confirmation", data.confirm_password)
             localStorage.setItem("register_dob", data.date_of_birth)
             localStorage.setItem("register_identifier", res.data.identifier)
-
             router.push("/otp/register")
         }
         setDisableSubmit(false)
     }
     return (
         <div className="px-4 pt-6 pb-10">
+
             <form onSubmit={submitHandler} className="gap-y-[12px] flex flex-col">
                 <AuthInput label={t("full_name")} type="text" placeholder={t("enter_fullname")} inputName="fullname" error={errors.fullname} />
                 <AuthInput label={t("email")} type="email" placeholder={t("enter_email")} inputName="email" error={errors.email} />
@@ -72,7 +72,6 @@ export default function page() {
             <div className='text-center mt-[16px] font-medium hover:underline'>
                 <Link href="/home">
                     {t("continue_guest")}
-
                 </Link>
             </div>
 

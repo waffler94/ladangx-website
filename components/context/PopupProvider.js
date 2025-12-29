@@ -19,7 +19,7 @@ import React, { createContext, useState } from 'react';
  * @property {PopupState} popup
  * @property {React.Dispatch<React.SetStateAction<PopupState>>} setPopup
  * @property {(modalName: keyof PopupState) => void} openModal
- * @property {(title: string, description: string, buttonText: string, buttonOnClick: () => void) => void} openSuccessModal
+ * @property {(title: string, description: string, buttonText: string, buttonOnClick: () => void, outsideOnClick: () => void) => void} openSuccessModal
  * @property {(title: string, description: string, buttonText: string, buttonOnClick: () => void) => void} openFailModal
  * @property {() => void} closeAllModal
  */
@@ -66,7 +66,7 @@ export const PopUpProvider = ({ children }) => {
         failModal: false,
     }
     const [popup, setPopup] = useState(initState);
-    const [successModalData, setSuccessModalData] = useState({ title: '', description: '', buttonText: '', buttonOnClick: () => { } });
+    const [successModalData, setSuccessModalData] = useState({ title: '', description: '', buttonText: '', buttonOnClick: () => { }, outsideOnClick: () => { } });
     const [failModalData, setFailModalData] = useState({ title: '', description: '', buttonText: '', buttonOnClick: () => { } });
 
     const openModal = (modalName) => {
@@ -78,16 +78,16 @@ export const PopUpProvider = ({ children }) => {
         }));
     }
 
-    const openSuccessModal = ({ title, description, buttonText, buttonOnClick }) => {
-        setSuccessModalData({ title, description, buttonText, buttonOnClick });
+    const openSuccessModal = ({ title, description, buttonText, buttonOnClick, outsideOnClick }) => {
+        setSuccessModalData({ title, description, buttonText, buttonOnClick, outsideOnClick });
         setPopup((prev) => ({
             ...initState,
             successModal: true,
         }));
     };
 
-    const openFailModal = ({ title, description, buttonText, buttonOnClick }) => {
-        setFailModalData({ title, description, buttonText, buttonOnClick });
+    const openFailModal = ({ title, description, buttonText, buttonOnClick, disableOutsideClick }) => {
+        setFailModalData({ title, description, buttonText, buttonOnClick, disableOutsideClick });
         setPopup((prev) => ({
             ...initState,
             failModal: true,
@@ -114,7 +114,7 @@ export const PopUpProvider = ({ children }) => {
 
     return (
         <PopupContext.Provider value={contextValue}>
-            <Success open={popup.successModal} title={successModalData.title} description={successModalData.description} buttonText={successModalData.buttonText} buttonOnClick={successModalData.buttonOnClick} />
+            <Success open={popup.successModal} title={successModalData.title} description={successModalData.description} buttonText={successModalData.buttonText} buttonOnClick={successModalData.buttonOnClick} outsideOnClick={successModalData.outsideOnClick} />
             <Fail open={popup.failModal} title={failModalData.title} description={failModalData.description} buttonText={failModalData.buttonText} buttonOnClick={failModalData.buttonOnClick} />
             {
                 Object.values(modalList).map(({ key, modal: Component }) => (

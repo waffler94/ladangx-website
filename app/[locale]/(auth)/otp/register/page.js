@@ -3,6 +3,7 @@ import VerificationPage from '@/components/auth/verification-page'
 import { PopupContext } from '@/components/context/PopupProvider'
 import { useRouter } from '@/i18n/navigation'
 import { register, resendRegisterOtp } from '@/lib/actions'
+import Cookies from 'js-cookie'
 import { useTranslations } from 'next-intl'
 import React, { useContext, useEffect } from 'react'
 
@@ -39,13 +40,18 @@ export default function page() {
         if (res.status == 422) {
             setErrors(res.errors)
         } else if (res.status == 200) {
+            Cookies.set('access_token', res.data.token);
             openSuccessModal({
                 title: t("register_success"),
                 description: t("you_have_successfully_registered"),
-                buttonText: t("proceed_to_login"),
+                buttonText: t("go_to_home"),
                 buttonOnClick: () => {
                     closeAllModal()
-                    router.push("/login")
+                    router.push("/home")
+                },
+                outsideOnClick: () => {
+                    closeAllModal()
+                    router.push("/home")
                 }
             })
             localStorage.removeItem("register_phone_number")
