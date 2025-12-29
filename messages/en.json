@@ -90,5 +90,8 @@
     "login_modal_title": "Hello! Please log in first",
     "login_modal_desc": "Log in to continue your adventure!",
     "login_now": "Login Now",
-    "go_to_home": "Go to Home"
+    "go_to_home": "Go to Home",
+    "price": "Price",
+    "ticket": "Ticket",
+    "purchase_ticket": "Purchase Ticket"
 }

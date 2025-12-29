@@ -5,6 +5,7 @@ import LanguageModal from '@/app/modal/language-modal';
 import LoginWarnModal from '@/app/modal/login-warn';
 
 import Success from '@/app/modal/success';
+import TicketInfo from '@/app/modal/ticket-info';
 import React, { createContext, useState } from 'react';
 
 /**
@@ -48,6 +49,10 @@ export const modalList = {
     loginWarn: {
         key: 'loginWarn',
         modal: LoginWarnModal,
+    },
+    ticketInfo: {
+        key: 'ticketInfo',
+        modal: TicketInfo,
     }
 };
 

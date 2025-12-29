@@ -2,6 +2,7 @@
 import PhoneInput from '@/components/auth/phone-input'
 import SubmitButton from '@/components/auth/submit-btn'
 import VerificationPage from '@/components/auth/verification-page'
+import BackButton from '@/components/back-button'
 import { PopupContext } from '@/components/context/PopupProvider'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { Link, useRouter } from '@/i18n/navigation'
@@ -47,8 +48,8 @@ export default function page() {
     }
     return (
         <div className="bg-[#F5FEBB] min-h-screen pt-[17px] px-4 ">
-            <Link href="/login" className="rounded-full size-[40px] bg-[#245B00] hover:scale-110 transition-all  items-center justify-center flex border-white border-[3px] shadow-[0px_4px_0px_0px_rgba(57,83,39,1)] ">
-                <ChevronLeft className="text-[24px] text-white bg-[#245B00] " />
+            <Link href="/login" >
+                <BackButton />
             </Link>
             <div className="mt-[32px]">
                 <h1 className="text-[19px] font-bold mb-[4px]">{t("forgot_password")}</h1>

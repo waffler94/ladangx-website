@@ -15,3 +15,20 @@ export interface loginResponse {
     }
     token: string;
 }
+
+export interface getTicketResponse {
+    status: string;
+    data: {
+        malaysia: TicketItem[]
+        international: TicketItem[]
+    }
+
+}
+
+export interface TicketItem {
+    id: string,
+    name: string,
+    nationality: "malaysia" | "international",
+    price: number
+    active: boolean
+}
