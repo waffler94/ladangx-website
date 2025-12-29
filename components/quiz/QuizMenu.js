@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { categories } from '@/utils/quizLogic';
 import { useTranslations } from 'next-intl';
 
@@ -11,8 +11,8 @@ export default function QuizMenu({ fruit, onSelectCategory }) {
           ⬅ {t('back')}
         </Link>
         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-slate-200 shadow-sm">
-           <img src={fruit.image} className="w-8 h-8" alt={fruit.name} /> 
-           <span className="font-black text-slate-700">{fruit.name}</span>
+          <img src={fruit.image} className="w-8 h-8" alt={fruit.name} />
+          <span className="font-black text-slate-700">{fruit.name}</span>
         </div>
       </div>
 

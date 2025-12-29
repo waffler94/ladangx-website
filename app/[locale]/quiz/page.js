@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { getFruits, themeColors } from '@/utils/api';
 import LanguageToggle from '@/components/LanguageToggle';
+import { Link } from '@/i18n/navigation';
 
 export default async function QuizHome({ params }) {
   const { locale } = await params;
@@ -13,7 +13,7 @@ export default async function QuizHome({ params }) {
       <div className="pt-8 pb-8 px-4 text-center">
         <div className="inline-block bg-white border-4 border-fuchsia-400 p-6 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(232,121,249,0.4)] transform rotate-1">
           <h1 className="text-4xl font-black text-fuchsia-500 tracking-tight">
-             Rapid Fire Quiz! ⚡
+            Rapid Fire Quiz! ⚡
           </h1>
           <p className="text-slate-400 font-bold mt-2">
             Pick a fruit to start!
@@ -26,10 +26,10 @@ export default async function QuizHome({ params }) {
           const data = fruit[locale] || fruit['en'];
           const rawTheme = themeColors[fruit.theme] || themeColors.yellow;
           const bgClass = rawTheme.split(' ').find(c => c.startsWith('bg-'));
-          
+
           return (
-            <Link 
-              href={`/quiz/${fruit.slug}`} 
+            <Link
+              href={`/quiz/${fruit.slug}`}
               key={fruit.slug}
               className={`
                 group block bg-white border-4 border-slate-800 rounded-3xl 

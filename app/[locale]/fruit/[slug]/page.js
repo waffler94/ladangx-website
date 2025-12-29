@@ -1,26 +1,26 @@
 import { getFruits, themeColors } from '@/utils/api';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 
 export async function generateStaticParams() {
   const fruits = await getFruits('en');
   const locales = ['en', 'my'];
-  
+
   const params = [];
   fruits.forEach((fruit) => {
     locales.forEach((locale) => {
       params.push({ slug: fruit.slug, locale });
     });
   });
-  
+
   return params;
 }
 
 export default async function FruitPage({ params }) {
   const { slug, locale } = await params;
-  
+
   const t = await getTranslations();
   const fruits = await getFruits(locale);
   const fruit = fruits.find((f) => f.slug === slug);
@@ -32,7 +32,7 @@ export default async function FruitPage({ params }) {
   // ⬇️ ⬇️ ⬇️ THE FIX IS HERE ⬇️ ⬇️ ⬇️
   // Logic: Check if the JSON is "Nested" (has .en) or "Flat" (has .name at root)
   let data;
-  
+
   if (fruit[locale]) {
     // Scenario A: JSON has 'en' and 'my' keys (The Multi-lang structure)
     data = fruit[locale];
@@ -45,7 +45,7 @@ export default async function FruitPage({ params }) {
     data = fruit;
   }
   // ⬆️ ⬆️ ⬆️ END FIX ⬆️ ⬆️ ⬆️
-console.log(data);
+  console.log(data);
   if (!data || !data.name) {
     // Debugging: Print to your VS Code terminal to see what is wrong
     console.log("❌ DATA MISSING DEBUG:", JSON.stringify(fruit, null, 2));
@@ -62,7 +62,7 @@ console.log(data);
 
   return (
     <div className="max-w-xl mx-auto space-y-6 pb-12 px-4">
-      <Link 
+      <Link
         href={`/${locale}`}
         className="inline-flex items-center font-bold text-sky-500 hover:bg-sky-100 px-4 py-2 rounded-xl transition-colors"
       >
@@ -77,21 +77,21 @@ console.log(data);
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/30 rounded-full blur-2xl pointer-events-none"></div>
 
         <div className="relative z-10 mb-6 inline-block animate-float">
-          <Image 
+          <Image
             // Handle image being at root (flat) or inside data (nested)
-            src={fruit.image || data.image} 
+            src={fruit.image || data.image}
             alt={data.name}
             className="w-40 h-40 object-contain drop-shadow-xl"
             width={160}
             height={160}
           />
         </div>
-        
+
         <h1 className="relative z-10 text-4xl font-black mb-2 text-slate-800">{data.name}</h1>
         <p className="relative z-10 text-lg opacity-80 italic font-bold">{data.scientific}</p>
 
         <div className="mt-6 relative z-10">
-          <Link 
+          <Link
             href={`/${locale}/quiz/${fruit.slug}`}
             className="inline-block bg-white text-slate-800 font-black text-xl px-8 py-3 rounded-2xl shadow-lg border-b-4 border-slate-200 active:border-b-0 active:translate-y-1 transition-all"
           >
@@ -101,20 +101,20 @@ console.log(data);
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        
+
         {/* Helps Section */}
         <Section title={t('helps')} emoji="💪" border={borderColor} textColor={textColor}>
           <div className="flex flex-wrap gap-2">
             {data.health_benefits.map((item, i) => (
               <span key={i} className="bg-slate-50 border-2 border-slate-100 px-3 py-2 rounded-xl text-sm font-bold text-slate-600 flex items-center gap-2">
-                <Image 
-                  src={item.image || '/next.svg'} 
-                  alt="" 
-                  width={20} 
-                  height={20} 
-                  className="w-5 h-5" 
+                <Image
+                  src={item.image || '/next.svg'}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="w-5 h-5"
                 />
-                {item.text} 
+                {item.text}
               </span>
             ))}
           </div>
@@ -124,13 +124,13 @@ console.log(data);
         <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
           <Section title={t('nutrients')} emoji="⚡" border={borderColor} textColor={textColor}>
             <ul className="text-sm space-y-1 font-semibold text-slate-600">
-               {data.nutrients.map((n, i) => <li key={i}>• {n}</li>)}
+              {data.nutrients.map((n, i) => <li key={i}>• {n}</li>)}
             </ul>
           </Section>
-          
+
           <Section title={t('makes')} emoji="🍰" border={borderColor} textColor={textColor}>
-             <ul className="text-sm space-y-1 font-semibold text-slate-600">
-               {data.product_uses.map((item, i) => <li key={i}>• {item.text}</li>)}
+            <ul className="text-sm space-y-1 font-semibold text-slate-600">
+              {data.product_uses.map((item, i) => <li key={i}>• {item.text}</li>)}
             </ul>
           </Section>
         </div>
@@ -138,12 +138,12 @@ console.log(data);
         {/* Fun Facts */}
         <div className={`bg-white rounded-3xl p-5 border-4 ${borderColor} relative overflow-hidden`}>
           <div className="absolute -right-4 -top-4 opacity-10 rotate-12">
-            <Image 
-               src={fruit.image || 'next.svg'} 
-               className="w-32 h-32" 
-               alt={data.name} 
-               width={128} 
-               height={128} 
+            <Image
+              src={fruit.image || 'next.svg'}
+              className="w-32 h-32"
+              alt={data.name}
+              width={128}
+              height={128}
             />
           </div>
           <h2 className={`text-xl font-black mb-4 flex items-center gap-2 ${textColor}`}>

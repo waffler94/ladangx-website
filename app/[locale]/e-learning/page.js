@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import { getFruits, themeColors } from '@/utils/api';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import LanguageToggle from '@/components/LanguageToggle';
+import { Link } from '@/i18n/navigation';
 
 export default async function Home({ params }) {
-  const { locale } = await params; 
+  const { locale } = await params;
   const t = await getTranslations();
-  const fruits = await getFruits(locale); 
+  const fruits = await getFruits(locale);
 
   return (
     <div className="min-h-screen bg-sky-50 bg-[radial-gradient(#bae6fd_2px,transparent_2px)] [background-size:24px_24px] pb-12">
@@ -27,16 +27,16 @@ export default async function Home({ params }) {
       {/* 📱 Mobile Grid: 2 Columns */}
       <div className="px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
         {fruits.map((fruit, index) => {
-          const data = fruit[locale] || fruit['en']; 
+          const data = fruit[locale] || fruit['en'];
           const rawTheme = themeColors[fruit.theme] || themeColors.yellow;
           const bgClass = rawTheme.split(' ').find(c => c.startsWith('bg-'));
-          
+
           // Random-ish rotation for sticker effect
           const rotateClass = index % 2 === 0 ? '-rotate-1 hover:rotate-1' : 'rotate-1 hover:-rotate-1';
 
           return (
-            <Link 
-              href={`/fruit/${fruit.slug}`} 
+            <Link
+              href={`/fruit/${fruit.slug}`}
               key={fruit.slug}
               className={`
                 group relative block bg-white 
@@ -51,15 +51,15 @@ export default async function Home({ params }) {
               `}
             >
               <div className="p-3   flex flex-col items-center">
-                
+
                 {/* 🎨 Image Bubble */}
                 <div className={`
                   w-20 h-20 rounded-full flex items-center justify-center mb-3
                   ${bgClass} border-2 border-slate-100 group-hover:scale-110 transition-transform duration-300
                 `}>
                   {/* Replaced Text Emoji with Image Tag */}
-                  <Image 
-                    src={fruit.image} 
+                  <Image
+                    src={fruit.image}
                     alt={fruit.name}
                     className="w-12 h-12 object-contain drop-shadow-md group-hover:animate-bounce"
                     width={50}
