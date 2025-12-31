@@ -1,7 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { Montserrat } from "next/font/google";
+import { Fredoka, Montserrat } from "next/font/google";
 import "./globals.css";
 import "@/lib/icon.css";
 import "./custom-class.css";
@@ -14,8 +14,8 @@ import IntlProvider from "./intl-provider";
 import { PopUpProvider } from "@/components/context/PopupProvider";
 
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -95,7 +95,7 @@ export default async function RootLayout({ children, params }) {
         )} */}
       </head>
       <body
-        className={`${montserrat.className} antialiased `}
+        className={`${fredoka.className} antialiased `}
       >
         <IntlProvider messages={messages} locale={locale}>
           <PopUpProvider>

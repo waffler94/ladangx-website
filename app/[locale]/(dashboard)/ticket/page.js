@@ -16,7 +16,7 @@ export default async function page() {
         <div className="bg-[#F5FEBB] min-h-screen relative">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
 
-                <h1 className="font-bold text-[22px]">{t("ticket")}</h1>
+                <h1 className="font-semibold text-[22px]">{t("ticket")}</h1>
 
                 <Link href="/home" className="absolute left-[12px] top-[17px]">
                     <BackButton />
@@ -53,10 +53,12 @@ export default async function page() {
 
             </div>
             <div className="mt-[32px] px-[20px] flex flex-row gap-x-[13px] items-center">
-                <div className="pb-2 py-1 pl-1 pr-3 w-full group bg-white  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
-                    <SubmitButton>
-                        {t("purchase_ticket")}
-                    </SubmitButton>
+                <div className="pb-2 py-1 pl-1 pr-3 w-full group bg-white rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                    <Link href="/ticket/date">
+                        <SubmitButton>
+                            {t("purchase_ticket")}
+                        </SubmitButton>
+                    </Link>
                 </div>
                 <div>
                     <InfoButton />

@@ -91,8 +91,8 @@ export const PopUpProvider = ({ children }) => {
         }));
     };
 
-    const openFailModal = ({ title, description, buttonText, buttonOnClick, disableOutsideClick }) => {
-        setFailModalData({ title, description, buttonText, buttonOnClick, disableOutsideClick });
+    const openFailModal = ({ title, description, buttonText, buttonOnClick }) => {
+        setFailModalData({ title, description, buttonText, buttonOnClick });
         setPopup((prev) => ({
             ...initState,
             failModal: true,

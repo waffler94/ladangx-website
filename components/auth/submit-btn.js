@@ -7,7 +7,7 @@ export default function SubmitButton({ isDisabled, children }) {
     return (
         <button
             type="submit"
-            className="w-full group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-4 rounded-full shadow-[4px_4px_0px_0px_rgba(57,83,39,1)]  text-white bg-[#446A2A] "
+            className="w-full group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-semibold py-3 px-4 rounded-full shadow-[4px_4px_0px_0px_rgba(57,83,39,1)]  text-white bg-[#446A2A] "
             disabled={isDisabled}
         >
             {children}

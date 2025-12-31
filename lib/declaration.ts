@@ -32,3 +32,25 @@ export interface TicketItem {
     price: number
     active: boolean
 }
+
+export interface ticketDateAvailabilityResponse {
+    data: {
+        closure_reason: string,
+        date: string,
+        is_available: boolean
+        is_closed: boolean
+        ticket_types: {
+            malaysia: ticketInfoItem[]
+            international: ticketInfoItem[]
+        }
+    }
+}
+
+export interface ticketInfoItem {
+    ticket_type_id: string,
+    ticket_type_name: string,
+    price: number,
+    available: number,
+    booked: number,
+    capacity: number,
+}

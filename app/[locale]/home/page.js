@@ -20,7 +20,7 @@ export default function page() {
                             </div>
                             <div>
                                 <p>{t("hello")}!</p>
-                                <p className="font-bold">Nicole Wong</p>
+                                <p className="font-semibold">Nicole Wong</p>
                             </div>
 
                         </div>
@@ -55,7 +55,7 @@ export default function page() {
                                 (item, index) => {
                                     return (<div key={index} className="rounded-[32px] w-full h-[180px] bg-gray-200 relative mb-[30px]">
                                         <div className="rounded-t-[32px] w-full flex items-center justify-center h-[50px] bg-white">
-                                            <p className="text-center  font-bold">{item.label}</p>
+                                            <p className="text-center  font-semibold">{item.label}</p>
                                         </div>
                                         <div className="pb-2 py-1 pl-1 pr-2 w-[65px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                                             <PlayButton href={item.href} label={t("play_btn")} />

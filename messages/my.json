@@ -43,5 +43,28 @@
     "you_can_pick": "Anda boleh pilih lebih daripada satu",
     "pick_challenge": "Pilih Cabaran!",
     "login": "Log Masuk",
-    "register": "Daftar"
+    "register": "Daftar",
+    "phone_number": "Nombor Telefon",
+    "password": "Kata Laluan",
+    "email": "E-mel",
+    "enter_phone": "Masukkan nombor telefon",
+    "login_modal_title": "Hello! Sila log masuk dahulu",
+    "login_modal_desc": "Log masuk untuk meneruskan pengembaraan anda!",
+    "login_now": "Log Masuk Sekarang",
+    "go_to_home": "Pergi ke Laman Utama",
+    "price": "Harga",
+    "ticket": "Tiket",
+    "purchase_ticket": "Beli Tiket",
+    "terms_condition": "Terma & Syarat",
+    "terms_condition_list": [
+        "Setiap tiket dalam talian hanya sah untuk kemasukan satu kali sahaja.",
+        "Kanak-kanak bawah 90cm tinggi menikmati kemasukan percuma.",
+        "Makanan dan minuman dari luar tidak dibenarkan.",
+        "Kemasukan tertakluk kepada semua peraturan dan regulasi yang dipamerkan di Ladang X.",
+        "Ladang X tidak akan bertanggungjawab atas sebarang kecederaan, kehilangan, kerosakan, atau kematian yang mungkin berlaku.",
+        "Tiada bayaran balik akan dikeluarkan disebabkan cuaca buruk, bencana alam, atau tiket yang tidak digunakan.",
+        "Tiket tidak sah dengan promosi lain, pakej kumpulan, fungsi, atau lawatan.",
+        "Kanak-kanak mesti sentiasa ditemani oleh orang dewasa.",
+        "Pengesahan MyKad / Pasport diperlukan di kaunter pengambilan tiket. Kegagalan menunjukkan pengenalan yang sah akan mengakibatkan caj tambahan RM20 (dewasa) / RM15 (kanak-kanak) semasa penebusan tiket."
+    ]
 }
