@@ -5,6 +5,7 @@ import TicketItem from '@/components/ticket/ticket-item'
 import { Link, useRouter } from '@/i18n/navigation'
 import { useGetTicketAvailability } from '@/lib/hooks/useGetTicketAvailability'
 import { formatToLocalDate } from '@/lib/helper'
+import { createUserVisit } from '@/lib/actions'
 import { Calendar, ChevronRight, Clock, Ticket, UsersRound } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import React, { useContext } from 'react'
@@ -110,21 +111,109 @@ export default function page() {
         return subtotal + tax
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
-        openSuccessModal({
-            title: t("payment_successful"),
-            description: t("payment_successful_desc"),
-            buttonText: t("ok"),
-            buttonOnClick: () => {
-                closeAllModal()
-                // Clear local storage
-                localStorage.removeItem('ticket_date')
-                localStorage.removeItem('malaysian_tickets')
-                localStorage.removeItem('international_tickets')
-                router.push("/ticket")
-            },
-        })
+        setIsSubmitDisable(true)
+
+        try {
+            // Build details array
+            const details = []
+
+            // Malaysian tickets
+            if (malaysianTickets.adult > 0) {
+                const adultTicket = data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Adult'))
+                if (adultTicket) {
+                    details.push({
+                        ticket_type_id: adultTicket.ticket_type_id,
+                        quantity: malaysianTickets.adult
+                    })
+                }
+            }
+            if (malaysianTickets.child > 0) {
+                const childTicket = data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Child'))
+                if (childTicket) {
+                    details.push({
+                        ticket_type_id: childTicket.ticket_type_id,
+                        quantity: malaysianTickets.child
+                    })
+                }
+            }
+            if (malaysianTickets.senior > 0) {
+                const seniorTicket = data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Senior'))
+                if (seniorTicket) {
+                    details.push({
+                        ticket_type_id: seniorTicket.ticket_type_id,
+                        quantity: malaysianTickets.senior
+                    })
+                }
+            }
+
+            // International tickets
+            if (internationalTickets.adult > 0) {
+                const adultTicket = data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Adult'))
+                if (adultTicket) {
+                    details.push({
+                        ticket_type_id: adultTicket.ticket_type_id,
+                        quantity: internationalTickets.adult
+                    })
+                }
+            }
+            if (internationalTickets.child > 0) {
+                const childTicket = data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Child'))
+                if (childTicket) {
+                    details.push({
+                        ticket_type_id: childTicket.ticket_type_id,
+                        quantity: internationalTickets.child
+                    })
+                }
+            }
+            if (internationalTickets.senior > 0) {
+                const seniorTicket = data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Senior'))
+                if (seniorTicket) {
+                    details.push({
+                        ticket_type_id: seniorTicket.ticket_type_id,
+                        quantity: internationalTickets.senior
+                    })
+                }
+            }
+
+            // Create visit
+            const result = await createUserVisit({
+                visit_date: formatToLocalDate(date),
+                details
+            })
+            console.log(result)
+            if (result.res_status === 200 || result.res_status === 201) {
+                openSuccessModal({
+                    title: t("payment_successful"),
+                    description: t("payment_successful_desc"),
+                    buttonText: t("ok"),
+                    buttonOnClick: () => {
+                        closeAllModal()
+                        // Clear local storage
+                        localStorage.removeItem('ticket_date')
+                        localStorage.removeItem('malaysian_tickets')
+                        localStorage.removeItem('international_tickets')
+                        router.push("/ticket")
+                    },
+                    outsideOnClick: () => {
+                        closeAllModal()
+                        // Clear local storage
+                        localStorage.removeItem('ticket_date')
+                        localStorage.removeItem('malaysian_tickets')
+                        localStorage.removeItem('international_tickets')
+                        router.push("/ticket")
+                    },
+
+                })
+            } else {
+                throw new Error('Failed to create visit')
+            }
+        } catch (error) {
+            console.error('Error creating visit:', error)
+            // You might want to show an error modal here
+            setIsSubmitDisable(false)
+        }
     }
 
 

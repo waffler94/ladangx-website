@@ -177,6 +177,26 @@ export const getTicketDateAvailability = async ({ target_date }: { target_date: 
     return { status: res.status, ...res.data };
 }
 
+export const createUserVisit = async ({
+    visit_date, details
+}: {
+    visit_date: string,
+    details: {
+        ticket_type_id: string,
+        quantity: number
+    }[]
+}) => {
+
+    const response = await axios.post('/visits',
+        {
+            visit_date,
+            details
+        });
+
+    return { res_status: response.status, ...response.data };
+
+}
+
 // export const getProjectDetails = async ({
 //     id
 // }: {
