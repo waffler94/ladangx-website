@@ -9,7 +9,7 @@ import { createUserVisit } from '@/lib/actions'
 import { Calendar, ChevronRight, Clock, Ticket, UsersRound } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import React, { useContext } from 'react'
-import { PopupContext } from '@/components/context/PopupProvider'
+import { modalList, PopupContext } from '@/components/context/PopupProvider'
 
 export default function page() {
     const t = useTranslations()
@@ -20,7 +20,7 @@ export default function page() {
     const [internationalTickets, setInternationalTickets] = React.useState({ child: 0, adult: 0, senior: 0 })
     const [timeLeft, setTimeLeft] = React.useState(600) // 10 minutes in seconds
     const { data, isLoading } = useGetTicketAvailability({ target_date: date ? formatToLocalDate(date) : undefined })
-    const { openSuccessModal, closeAllModal } = useContext(PopupContext)
+    const { openModal, closeAllModal } = useContext(PopupContext)
     React.useEffect(() => {
         const date = localStorage.getItem('ticket_date')
         const malaysian = localStorage.getItem('malaysian_tickets')
@@ -184,28 +184,10 @@ export default function page() {
             })
             console.log(result)
             if (result.res_status === 200 || result.res_status === 201) {
-                openSuccessModal({
-                    title: t("payment_successful"),
-                    description: t("payment_successful_desc"),
-                    buttonText: t("ok"),
-                    buttonOnClick: () => {
-                        closeAllModal()
-                        // Clear local storage
-                        localStorage.removeItem('ticket_date')
-                        localStorage.removeItem('malaysian_tickets')
-                        localStorage.removeItem('international_tickets')
-                        router.push("/ticket")
-                    },
-                    outsideOnClick: () => {
-                        closeAllModal()
-                        // Clear local storage
-                        localStorage.removeItem('ticket_date')
-                        localStorage.removeItem('malaysian_tickets')
-                        localStorage.removeItem('international_tickets')
-                        router.push("/ticket")
-                    },
 
-                })
+                openModal(modalList.successPay.key, { orderId: result.data.id })
+
+
             } else {
                 throw new Error('Failed to create visit')
             }

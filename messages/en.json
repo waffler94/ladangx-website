@@ -134,5 +134,16 @@
     "tax": "Tax(+6%SST)",
     "total_payment": "Total Payment",
     "payment_successful": "Yippee! Payment Confirmed!",
-    "payment_successful_desc": "Thank you. Your payment has been successfully processed."
+    "payment_successful_desc": "Thank you. Your payment has been successfully processed.",
+    "back_to_home": "Back to Home",
+    "view_booking_details": "View Booking Details",
+    "scan_at_entrance": "Scan at the Entrance !",
+    "references_number": "References Number",
+    "date_time": "Date & Time",
+    "payment_method": "Payment Method",
+    "master_debit_card": "Master/Debit Card",
+    "discount": "Discount",
+    "download_pdf": "Download PDF",
+    "adults": "adults",
+    "children": "children"
 }

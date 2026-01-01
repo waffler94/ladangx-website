@@ -1,8 +1,9 @@
-@baseUrl=https://ladangxadmin.upplex.com.my
+@baseUrl= https://ladangxadmin.upplex.com.my
+@token= 38|Uzpgz3xGhsLkCrfzGMQlsLFgrwDGHggQ5bTuTzaG
 
 
 ###
-POST https://ladangxadmin.upplex.com.my/api/v1/otp/resend
+POST {{baseUrl}}/api/v1/otp/resend
 Content-Type: application/json
 Accept: application/json
 
@@ -15,3 +16,9 @@ Accept: application/json
   "password_confirmation":"123123123",
   "request_type": 1
 }
+
+###
+GET {{baseUrl}}/api/v1/visits/v2
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}

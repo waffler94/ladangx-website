@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getTicketResponse, loginResponse, ticketDateAvailabilityResponse } from "./declaration";
+import { getTicketResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -195,6 +195,22 @@ export const createUserVisit = async ({
 
     return { res_status: response.status, ...response.data };
 
+}
+
+export const getVisitDetails = async ({
+    id
+}: {
+    id: number
+}) => {
+    const response = await axios.get<visitDetailsResponse>('/visits/' + id,
+        {
+            params: {
+                include_qr: 1
+            }
+        }
+    );
+
+    return { res_status: response.status, ...response.data };
 }
 
 // export const getProjectDetails = async ({

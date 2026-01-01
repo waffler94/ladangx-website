@@ -5,6 +5,7 @@ import LanguageModal from '@/app/modal/language-modal';
 import LoginWarnModal from '@/app/modal/login-warn';
 
 import Success from '@/app/modal/success';
+import SuccessPay from '@/app/modal/success-pay';
 import TicketInfo from '@/app/modal/ticket-info';
 import React, { createContext, useState } from 'react';
 
@@ -53,6 +54,10 @@ export const modalList = {
     ticketInfo: {
         key: 'ticketInfo',
         modal: TicketInfo,
+    },
+    successPay: {
+        key: 'successPay',
+        modal: SuccessPay,
     }
 };
 
@@ -71,16 +76,21 @@ export const PopUpProvider = ({ children }) => {
         failModal: false,
     }
     const [popup, setPopup] = useState(initState);
+    const [modalData, setModalData] = useState({});
     const [successModalData, setSuccessModalData] = useState({ title: '', description: '', buttonText: '', buttonOnClick: () => { }, outsideOnClick: () => { } });
     const [failModalData, setFailModalData] = useState({ title: '', description: '', buttonText: '', buttonOnClick: () => { } });
 
-    const openModal = (modalName) => {
+    const openModal = (modalName, data) => {
         console.log("open modal:", modalName);
         // only one modal open at a time
         setPopup((prev) => ({
             ...initState,
             [modalName]: true,
         }));
+        // store modal data if provided
+        if (data) {
+            setModalData(data);
+        }
     }
 
     const openSuccessModal = ({ title, description, buttonText, buttonOnClick, outsideOnClick }) => {
@@ -104,6 +114,7 @@ export const PopUpProvider = ({ children }) => {
     const closeAllModal = () => {
         console.log("close all modals");
         setPopup(initState);
+        setModalData({});
     }
 
 
@@ -123,7 +134,7 @@ export const PopUpProvider = ({ children }) => {
             <Fail open={popup.failModal} title={failModalData.title} description={failModalData.description} buttonText={failModalData.buttonText} buttonOnClick={failModalData.buttonOnClick} />
             {
                 Object.values(modalList).map(({ key, modal: Component }) => (
-                    <Component key={key} open={popup[key]} />
+                    <Component key={key} open={popup[key]} data={modalData} />
                 ))
             }
 

@@ -8,6 +8,11 @@ const nextConfig = {
             hostname: 'ladangxadmin.upplex.com.my',
             port: '',
             pathname: '/**',
+        }, {
+            protocol: 'https',
+            hostname: 'static.zpao.com',
+            port: '',
+            pathname: '/**',
         },
 
 
