@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { QRCodeSVG } from 'qrcode.react';
 import React from 'react'
+import ShowTicketButton from './_components/show-ticket-btn';
 
 export default async function page({ params }) {
     const { id } = params;
@@ -50,14 +51,16 @@ export default async function page({ params }) {
         hour12: true
     });
 
+
+
     return (
         <div className="bg-[#F5FEBB] min-h-screen flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl shadow-lg max-w-md w-full overflow-hidden">
                 {/* QR Code Section */}
-                <div className=" bg-white p-6 text-center">
-                    <h2 className="text-lg font-semibold mb-[8px]">{t('scan_at_entrance')}</h2>
+                <div className=" bg-white pt-[24px] text-center">
+                    <h2 className="text-lg font-semibold ">{t('scan_at_entrance')}</h2>
                     <div className="bg-white inline-block  relative">
-                        <QRCodeSVG
+                        {/* <QRCodeSVG
                             value={qrCodes[0]?.qr_string || ''}
                             size={200}
                             level="H"
@@ -72,7 +75,7 @@ export default async function page({ params }) {
                             <div className="bg-white px-2 py-1 rounded text-xs font-bold text-red-500">
                                 LADANG X
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -171,10 +174,8 @@ export default async function page({ params }) {
                 </div>
 
                 {/* Download Button */}
-                <div className="px-6 pb-6">
-                    <button className="w-full bg-white   text-[#446A2A] font-semibold py-3 underline hover:bg-gray-50 transition-colors">
-                        {t('download_pdf')}
-                    </button>
+                <div className="flex items-center justify-center pb-6">
+                    <ShowTicketButton />
                 </div>
             </div>
         </div>

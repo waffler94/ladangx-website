@@ -23,12 +23,15 @@ export default function page() {
     const { openModal, closeAllModal } = useContext(PopupContext)
     React.useEffect(() => {
         const date = localStorage.getItem('ticket_date')
-        const malaysian = localStorage.getItem('malaysian_tickets')
-        const international = localStorage.getItem('international_tickets')
+        const malaysian = sessionStorage.getItem('malaysian_tickets')
+        const international = sessionStorage.getItem('international_tickets')
+        if (!date) { router.push('/ticket/date') }
         if (date) setDate(new Date(date))
         if (malaysian) setMalaysianTickets(JSON.parse(malaysian))
         if (international) setInternationalTickets(JSON.parse(international))
     }, [])
+
+
 
     React.useEffect(() => {
         if (timeLeft <= 0) return
@@ -184,7 +187,9 @@ export default function page() {
             })
             console.log(result)
             if (result.res_status === 200 || result.res_status === 201) {
-
+                sessionStorage.removeItem('malaysian_tickets')
+                sessionStorage.removeItem('international_tickets')
+                localStorage.removeItem('ticket_date')
                 openModal(modalList.successPay.key, { orderId: result.data.id })
 
 

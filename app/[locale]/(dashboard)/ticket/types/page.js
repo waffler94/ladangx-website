@@ -25,8 +25,8 @@ export default function page() {
 
     useEffect(() => {
         // init the ticket from localstorage
-        const savedMalaysian = localStorage.getItem('malaysian_tickets')
-        const savedInternational = localStorage.getItem('international_tickets')
+        const savedMalaysian = sessionStorage.getItem('malaysian_tickets')
+        const savedInternational = sessionStorage.getItem('international_tickets')
         if (savedMalaysian) {
             setMalaysianTickets(JSON.parse(savedMalaysian))
         }
@@ -58,8 +58,8 @@ export default function page() {
             })
             return
         }
-        localStorage.setItem('malaysian_tickets', JSON.stringify(malaysianTickets))
-        localStorage.setItem('international_tickets', JSON.stringify(internationalTickets))
+        sessionStorage.setItem('malaysian_tickets', JSON.stringify(malaysianTickets))
+        sessionStorage.setItem('international_tickets', JSON.stringify(internationalTickets))
         router.push("/ticket/checkout")
 
     }
