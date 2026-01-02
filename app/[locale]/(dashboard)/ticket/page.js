@@ -18,7 +18,7 @@ export default async function page() {
 
                 <h1 className="font-semibold text-[22px]">{t("ticket")}</h1>
 
-                <Link href="/home" className="absolute left-[12px] top-[17px]">
+                <Link href="/" className="absolute left-[12px] top-[17px]">
                     <BackButton />
                 </Link>
             </div>

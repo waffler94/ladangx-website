@@ -40,14 +40,14 @@ export default function VerificationPage({ onSubmit, init_phone_number, errors, 
                 <ChevronLeft className="text-[24px] text-white bg-[#245B00] " />
             </Link>
             <div className="mt-[32px]">
-                <h1 className="text-[19px] font-bold mb-[4px]">{t("verification_code")}</h1>
+                <h1 className="text-[19px] font-semibold mb-[4px]">{t("verification_code")}</h1>
                 <p className="text-[#60756E]">
-                    {t("enter_verification_code_sent")} <span className="font-bold text-black">{init_phone_number}</span>
+                    {t("enter_verification_code_sent")} <span className="font-semibold text-black">{init_phone_number}</span>
                 </p>
             </div>
             <form onSubmit={submitHandler}>
                 <div className="mt-[27px] flex flex-col">
-                    <label className="font-bold mb-[8px] block">{t("code")}</label>
+                    <label className="font-semibold mb-[8px] block">{t("code")}</label>
                     <div className="flex flex-col w-full ">
 
 

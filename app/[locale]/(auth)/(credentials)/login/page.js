@@ -35,7 +35,7 @@ export default function page() {
 
         if (res.status === 200) {
             Cookies.set('access_token', res.data.token);
-            router.push('/home')
+            router.push('/')
         }
 
 
@@ -63,7 +63,7 @@ export default function page() {
                 </div>
             </form>
             <div className='text-center mt-[16px] font-medium hover:underline'>
-                <Link href="/home">
+                <Link href="/">
                     {t("continue_guest")}
 
                 </Link>

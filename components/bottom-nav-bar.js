@@ -15,7 +15,7 @@ export default function BottomNavBar() {
                     [
                         {
                             icon: <Home size={30} className="text-white" />,
-                            href: "/home",
+                            href: "/",
                             activeClassName: "bg-[#D23535] shadow-[0px_2px_0px_rgba(181,19,19,1)]",
                             className: "bg-red-500 shadow-[0px_4px_0px_rgba(181,19,19,1)]"
                         },

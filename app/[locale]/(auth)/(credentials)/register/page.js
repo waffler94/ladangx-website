@@ -70,7 +70,7 @@ export default function page() {
 
             </form>
             <div className='text-center mt-[16px] font-medium hover:underline'>
-                <Link href="/home">
+                <Link href="/">
                     {t("continue_guest")}
                 </Link>
             </div>

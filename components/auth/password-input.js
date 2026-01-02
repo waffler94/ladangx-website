@@ -6,7 +6,7 @@ export default function PasswordInput({ label, placeholder, inputName, error }) 
     const [isShowPassword, setIsShowPassword] = React.useState(false);
     return (
         <div className="relative">
-            <label className="block  font-bold text-[#313F3A] mb-[8px]">{label}</label>
+            <label className="block  font-semibold text-[#313F3A] mb-[8px]">{label}</label>
             <input
                 type={isShowPassword ? "text" : "password"}
                 name={inputName}

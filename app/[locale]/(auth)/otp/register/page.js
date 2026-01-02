@@ -47,11 +47,11 @@ export default function page() {
                 buttonText: t("go_to_home"),
                 buttonOnClick: () => {
                     closeAllModal()
-                    router.push("/home")
+                    router.push("/")
                 },
                 outsideOnClick: () => {
                     closeAllModal()
-                    router.push("/home")
+                    router.push("/")
                 }
             })
             localStorage.removeItem("register_phone_number")

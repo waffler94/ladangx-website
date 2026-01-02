@@ -3,7 +3,7 @@ import React from 'react'
 export default function AuthInput({ label, type, placeholder, inputName, error, required = false }) {
     return (
         <div className="">
-            <label className="block  font-bold text-[#313F3A] mb-[8px]">{label}</label>
+            <label className="block  font-semibold text-[#313F3A] mb-[8px]">{label}</label>
             <input
                 type={type}
                 required={required}

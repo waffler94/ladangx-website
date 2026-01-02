@@ -17,7 +17,7 @@ export default function CredLinks() {
             <Link
                 href="/login"
                 className={` py-2 text-center rounded-full transition-all ${isLoginPage
-                    ? 'bg-white text-[#313F3A] font-bold shadow-sm'
+                    ? 'bg-white text-[#313F3A] font-semibold shadow-sm'
                     : 'bg-transparent text-gray-500'
                     }`}
             >
@@ -26,7 +26,7 @@ export default function CredLinks() {
             <Link
                 href="/register"
                 className={` py-2 text-center rounded-full transition-all ${isRegisterPage
-                    ? 'bg-white text-[#313F3A] font-bold shadow-sm'
+                    ? 'bg-white text-[#313F3A] font-semibold shadow-sm'
                     : 'bg-transparent text-gray-500'
                     }`}
             >

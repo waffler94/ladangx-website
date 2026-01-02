@@ -12,7 +12,7 @@ export default async function layout({ children }) {
     const locale = await getLocale();
     if (token) {
         redirect({
-            href: "/home",
+            href: "/",
             locale: locale
         })
     }
