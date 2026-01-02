@@ -90,3 +90,45 @@ export interface visitDetailsResponse {
         total_tickets: number;
     };
 }
+
+export interface getUserResponse {
+    status: number;
+    message: string;
+    message_key: string;
+    data: {
+        id: number;
+        username: string;
+        fullname: string;
+        first_name: string | null;
+        last_name: string | null;
+        facebook_name: string | null;
+        email: string;
+        calling_code: string;
+        phone_number: string;
+        email_verified_at: string | null;
+        last_login_at: string | null;
+        last_login_ip: string | null;
+        two_factor_secret: string | null;
+        two_factor_recovery_codes: string | null;
+        two_factor_confirmed_at: string | null;
+        address_1: string | null;
+        address_2: string | null;
+        city: string | null;
+        state: string | null;
+        postcode: string | null;
+        account_type: string | null;
+        date_of_birth: string | null;
+        is_social_account: number;
+        platform: number;
+        profile_picture: string;
+        remember_token: string | null;
+        created_at: string;
+        referral_id: number;
+        invitation_code: string;
+        referral_structure: string;
+        nationality: string | null;
+        profile_picture_path: string;
+        iso_code: string;
+        nationality_info: any;
+    };
+}

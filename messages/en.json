@@ -146,5 +146,7 @@
     "download_pdf": "Download PDF",
     "adults": "adults",
     "children": "children",
-    "show_ticket": "Show Ticket(s)"
+    "show_ticket": "Show Ticket(s)",
+    "profile": "Profile",
+    "default_user_name": "LadangX User"
 }
