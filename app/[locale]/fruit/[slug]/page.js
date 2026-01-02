@@ -63,7 +63,7 @@ export default async function FruitPage({ params }) {
   return (
     <div className="max-w-xl mx-auto space-y-6 pb-12 px-4">
       <Link
-        href={`/${locale}`}
+        href={`/e-learning`}
         className="inline-flex items-center font-bold text-sky-500 hover:bg-sky-100 px-4 py-2 rounded-xl transition-colors"
       >
         ⬅ {t('back')}

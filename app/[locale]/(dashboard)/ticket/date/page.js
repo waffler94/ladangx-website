@@ -7,7 +7,7 @@ import { Link, useRouter } from '@/i18n/navigation'
 import { getTicketDateAvailability } from '@/lib/actions'
 import { formatToLocalDate } from '@/lib/helper'
 import { useTranslations } from 'next-intl'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 export default function page() {
     const [isSubmitDisable, setIsSubmitDisable] = React.useState(false);
@@ -15,8 +15,18 @@ export default function page() {
     const [date, setDate] = React.useState()
     const t = useTranslations()
     const router = useRouter()
+
+    useEffect(() => {
+        const storedDate = localStorage.getItem('ticket_date')
+        if (storedDate) {
+            setDate(new Date(storedDate))
+        }
+    }, [])
+
     const onSelectDate = async (e) => {
+        if (!e) return
         setIsSubmitDisable(true)
+
         const localDate = formatToLocalDate(e)
         const res = await getTicketDateAvailability({ target_date: localDate })
         console.log(res)

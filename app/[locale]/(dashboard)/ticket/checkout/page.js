@@ -203,17 +203,31 @@ export default function page() {
         }
     }
 
-
     if (isLoading) {
-        return <div className="bg-[#F5FEBB] min-h-screen relative flex items-center justify-center">Loading...</div>
+        return (
+            <div className="bg-[#F5FEBB] min-h-screen relative">
+                <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
+
+                    <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
+
+                    <Link href="/ticket/types" className="absolute left-[12px] top-[17px]">
+                        <BackButton />
+                    </Link>
+                </div>
+                <div className="mt-[31px] w-full px-[20px] pb-[200px]">
+                    <div className="bg-white rounded-[20px] shadow-md size-full min-h-screen animate-pulse"></div>
+                </div>
+            </div>
+        )
     }
+
     return (
         <div className="bg-[#F5FEBB] min-h-screen relative">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
 
                 <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
 
-                <Link href="/ticket/date" className="absolute left-[12px] top-[17px]">
+                <Link href="/ticket/types" className="absolute left-[12px] top-[17px]">
                     <BackButton />
                 </Link>
             </div>
@@ -232,89 +246,39 @@ export default function page() {
 
                         {/* Cart Items */}
                         <div className="space-y-[16px]">
-                            {/* Malaysian Tickets */}
-                            {malaysianTickets.adult >= 1 && (
-                                <TicketItem
-                                    passType="malaysian_one_day_pass"
-                                    categoryType="adult"
-                                    quantity={malaysianTickets.adult}
-                                    price={malaysianTickets.adult * data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Adult')).price}
-                                />
-                            )}
+                            {(() => {
+                                const ticketItems = [
+                                    // Malaysian Tickets
+                                    { passType: 'malaysian_one_day_pass', categoryType: 'child', quantity: malaysianTickets.child, searchTerm: 'Child', ticketGroup: 'malaysia' },
 
-                            {malaysianTickets.adult >= 1 && malaysianTickets.child >= 1 && (
-                                <div className="border-t border-gray-200"></div>
-                            )}
+                                    { passType: 'malaysian_one_day_pass', categoryType: 'adult', quantity: malaysianTickets.adult, searchTerm: 'Adult', ticketGroup: 'malaysia' },
+                                    { passType: 'malaysian_one_day_pass', categoryType: 'senior_citizen', quantity: malaysianTickets.senior, searchTerm: 'Senior', ticketGroup: 'malaysia' },
+                                    // International Tickets
+                                    { passType: 'international_one_day_pass', categoryType: 'child', quantity: internationalTickets.child, searchTerm: 'Child', ticketGroup: 'international' },
 
-                            {malaysianTickets.child >= 1 && (
-                                <TicketItem
-                                    passType="malaysian_one_day_pass"
-                                    categoryType="child"
-                                    quantity={malaysianTickets.child}
-                                    price={malaysianTickets.child * data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Child')).price}
-                                />
-                            )}
+                                    { passType: 'international_one_day_pass', categoryType: 'adult', quantity: internationalTickets.adult, searchTerm: 'Adult', ticketGroup: 'international' },
+                                    { passType: 'international_one_day_pass', categoryType: 'senior_citizen', quantity: internationalTickets.senior, searchTerm: 'Senior', ticketGroup: 'international' },
+                                ].filter(item => item.quantity >= 1)
 
-                            {((malaysianTickets.adult >= 1 || malaysianTickets.child >= 1) && malaysianTickets.senior >= 1) && (
-                                <div className="border-t border-gray-200"></div>
-                            )}
-
-                            {malaysianTickets.senior >= 1 && (
-                                <TicketItem
-                                    passType="malaysian_one_day_pass"
-                                    categoryType="senior_citizen"
-                                    quantity={malaysianTickets.senior}
-                                    price={malaysianTickets.senior * data.data.ticket_types.malaysia.find(t => t.ticket_type_name.includes('Senior')).price}
-                                />
-                            )}
-
-                            {/* International Tickets */}
-                            {((malaysianTickets.adult >= 1 || malaysianTickets.child >= 1 || malaysianTickets.senior >= 1) &&
-                                (internationalTickets.adult >= 1 || internationalTickets.child >= 1 || internationalTickets.senior >= 1)) && (
-                                    <div className="border-t border-gray-200"></div>
-                                )}
-
-                            {internationalTickets.adult >= 1 && (
-                                <TicketItem
-                                    passType="international_one_day_pass"
-                                    categoryType="adult"
-                                    quantity={internationalTickets.adult}
-                                    price={internationalTickets.adult * data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Adult')).price}
-                                />
-                            )}
-
-                            {internationalTickets.adult >= 1 && internationalTickets.child >= 1 && (
-                                <div className="border-t border-gray-200"></div>
-                            )}
-
-                            {internationalTickets.child >= 1 && (
-                                <TicketItem
-                                    passType="international_one_day_pass"
-                                    categoryType="child"
-                                    quantity={internationalTickets.child}
-                                    price={internationalTickets.child * data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Child')).price}
-                                />
-                            )}
-
-                            {((internationalTickets.adult >= 1 || internationalTickets.child >= 1) && internationalTickets.senior >= 1) && (
-                                <div className="border-t border-gray-200"></div>
-                            )}
-
-                            {internationalTickets.senior >= 1 && (
-                                <TicketItem
-                                    passType="international_one_day_pass"
-                                    categoryType="senior_citizen"
-                                    quantity={internationalTickets.senior}
-                                    price={internationalTickets.senior * data.data.ticket_types.international.find(t => t.ticket_type_name.includes('Senior')).price}
-                                />
-                            )}
+                                return ticketItems.map((item, index) => (
+                                    <React.Fragment key={`${item.passType}-${item.categoryType}`}>
+                                        {index > 0 && <div className="border-t border-gray-200"></div>}
+                                        <TicketItem
+                                            passType={item.passType}
+                                            categoryType={item.categoryType}
+                                            quantity={item.quantity}
+                                            price={item.quantity * data.data.ticket_types[item.ticketGroup].find(t => t.ticket_type_name.includes(item.searchTerm)).price}
+                                        />
+                                    </React.Fragment>
+                                ))
+                            })()}
                         </div>
 
                         {/* Booking Details */}
                         <div className="mt-[20px] border border-[#CFDDCF] rounded-[12px] p-[16px]">
                             <div className="flex items-center gap-[8px] mb-[8px]">
                                 <Calendar size={20} className="text-gray-700" />
-                                <span className="text-[14px] text-gray-700">{date ? date.toLocaleDateString() : ""}</span>
+                                <span className="text-[14px] text-gray-700">{date ? date.toLocaleDateString('en-GB') : ""}</span>
                             </div>
                             <div className="flex items-center gap-[8px] mb-[12px]">
                                 <UsersRound size={20} className="text-gray-700" />
