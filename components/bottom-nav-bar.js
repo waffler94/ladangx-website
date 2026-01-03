@@ -1,5 +1,5 @@
 'use client';
-import { usePathname } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { Bell, Home, ShoppingCart, Smile } from 'lucide-react'
 import React from 'react'
 
@@ -33,7 +33,7 @@ export default function BottomNavBar() {
                         },
                         {
                             icon: <Smile size={30} className="text-white" />,
-                            href: "#",
+                            href: "/profile",
                             activeClassName: "bg-[#4E6D31] shadow-[0px_2px_0px_rgba(55,78,34,1)]",
                             className: "bg-[#79A74E] shadow-[0px_4px_0px_rgba(104,143,68,1)]"
                         },
@@ -41,9 +41,12 @@ export default function BottomNavBar() {
                         const isActive = pathname.includes(item.href);
 
                         return (
-                            <div key={index} className={`size-full   rounded-[16px] flex items-center justify-center transition-all cursor-pointer ${!isActive && "hover:translate-y-1 hover:shadow-none"} ${isActive ? item.activeClassName : item.className} `}>
-                                {item.icon}
-                            </div>
+                            <Link href={item.href} key={index}>
+                                <div className={`size-full   rounded-[16px] flex items-center justify-center transition-all cursor-pointer ${!isActive && "hover:translate-y-1 hover:shadow-none"} ${isActive ? item.activeClassName : item.className} `}>
+                                    {item.icon}
+                                </div>
+                            </Link>
+
                         )
                     })
                 }

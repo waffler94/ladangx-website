@@ -148,5 +148,13 @@
     "children": "children",
     "show_ticket": "Show Ticket(s)",
     "profile": "Profile",
-    "default_user_name": "LadangX User"
+    "default_user_name": "LadangX User",
+    "change_password": "Change Password",
+    "redeem_voucher": "Redeem Voucher",
+    "privacy_policy": "Privacy Policy",
+    "logout": "Logout",
+    "logout_modal_title": "Logging out?",
+    "logout_modal_desc": "Are you sure? Your adventure will wait for you!",
+    "yes": "Yes",
+    "delete_account": "Delete Account"
 }

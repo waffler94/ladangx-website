@@ -2,6 +2,7 @@
 import AuthInput from '@/components/auth/auth-input'
 import PasswordInput from '@/components/auth/password-input'
 import PhoneInput from '@/components/auth/phone-input'
+import SubmitButton from '@/components/auth/submit-btn'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Link, useRouter } from '@/i18n/navigation'
 import { login } from '@/lib/actions'
@@ -12,9 +13,11 @@ import React from 'react'
 export default function page() {
     const t = useTranslations()
     const [errors, setErrors] = React.useState([])
+    const [isDisableSubmit, setIsDisableSubmit] = React.useState(false)
     const router = useRouter();
     const submitHandler = async (e) => {
         e.preventDefault();
+        setIsDisableSubmit(true)
         setErrors({})
         // get all input values
         const formData = new FormData(e.target);
@@ -37,7 +40,7 @@ export default function page() {
             Cookies.set('access_token', res.data.token);
             router.push('/')
         }
-
+        setIsDisableSubmit(false)
 
     }
     return (
@@ -52,12 +55,9 @@ export default function page() {
                     <div className="py-2 pl-1 pr-2 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 
 
-                        <button
-                            type="submit"
-                            className="w-full group-hover:scale-105 transition-all  flex justify-center font-semibold py-3 px-4 rounded-full shadow-[4px_4px_0px_0px_rgba(57,83,39,1)]  text-white bg-[#446A2A] "
-                        >
+                        <SubmitButton isDisabled={isDisableSubmit}>
                             {t("login")}
-                        </button>
+                        </SubmitButton>
                     </div>
 
                 </div>

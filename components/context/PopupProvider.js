@@ -3,6 +3,7 @@ import ExampleModal from '@/app/modal/example';
 import Fail from '@/app/modal/fail';
 import LanguageModal from '@/app/modal/language-modal';
 import LoginWarnModal from '@/app/modal/login-warn';
+import LogoutModal from '@/app/modal/logout-modal';
 
 import Success from '@/app/modal/success';
 import SuccessPay from '@/app/modal/success-pay';
@@ -58,6 +59,10 @@ export const modalList = {
     successPay: {
         key: 'successPay',
         modal: SuccessPay,
+    },
+    logout: {
+        key: 'logoutModal',
+        modal: LogoutModal,
     }
 };
 
