@@ -57,7 +57,7 @@ export default function page() {
                                     href: ""
                                 }, {
                                     label: t("Ticket"),
-                                    href: "/ticket"
+                                    href: "/ticket/date"
                                 }, {
                                     label: t("Map"),
                                     href: "/map"

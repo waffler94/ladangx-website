@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse } from "./declaration";
+import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -157,14 +157,60 @@ export const resetPassword = async ({
 
 }
 
-export const getTicketList = async () => {
+export const getTicketList = async ({ nationality }: { nationality: string }) => {
     const res = await axios.get<getTicketResponse>('/visits/ticket-types', {
         params: {
-            nationality: ""
+            nationality: nationality
         }
     })
 
     return { status: res.status, ...res.data };
+}
+
+export const addToCart = async ({ visit_date, details, voucher_code }: {
+    visit_date: string,
+    details: {
+        ticket_type_id: string,
+        quantity: number
+    }[],
+    voucher_code?: string
+}) => {
+    const res = await axios.post("/visits/cart/add", {
+        visit_date, details, voucher_code
+    })
+    return { res_status: res.status, ...res.data };
+}
+
+export const getCart = async ({ visit_date }) => {
+    const res = await axios.get<getCartResponse>("/visits/cart", {
+        params: {
+            visit_date
+        }
+    })
+    return { res_status: res.status, ...res.data };
+}
+
+export const updateCart = async ({ cart_id, details }: {
+    cart_id: string,
+    details: {
+        ticket_type_id: string,
+        quantity: number
+    }[]
+}) => {
+    const res = await axios.put("/visits/cart/update", {
+        cart_id,
+        details
+    })
+    return { res_status: res.status, ...res.data };
+
+}
+
+export const createVisit = async ({ cart_id }: { cart_id: string }) => {
+    const res = await axios.post('/visits/', {
+        cart_id,
+    });
+
+    return { res_status: res.status, ...res.data };
 }
 
 export const getTicketDateAvailability = async ({ target_date }: { target_date: string }) => {

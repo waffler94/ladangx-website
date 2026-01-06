@@ -22,3 +22,40 @@ GET {{baseUrl}}/api/v1/visits/v2
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
+
+
+###
+
+GET {{baseUrl}}/api/v1/visits/cart?ticket_date=2026-01-22
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+###
+
+POST {{baseUrl}}/api/v1/visits/cart/add
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "visit_date":"2026-01-22",
+  "details":[]
+}
+
+###
+
+PUT {{baseUrl}}/api/v1/visits/cart/update
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "details":[
+    {
+      "ticket_type_id":"ow",
+      "quantity":2
+    }
+  ]
+}

@@ -10,19 +10,19 @@ import { Link } from '@/i18n/navigation';
 import BackButton from '@/components/back-button';
 
 export default async function page({ params }) {
-    const { id } = params;
+    const { id } = await params;
     const t = await getTranslations();
     const res = await getVisitDetails({ id: id });
 
     const visit = res.data.visit;
-    const qrCodes = res.data.qr_codes;
 
     // Format date
     const visitDate = new Date(visit.visit_date);
     const formattedDate = visitDate.toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
-        year: 'numeric',
+        year: 'numeric'
+    }) + ', ' + visitDate.toLocaleDateString('en-GB', {
         weekday: 'long'
     });
 
@@ -65,30 +65,13 @@ export default async function page({ params }) {
                     <BackButton />
                 </Link>
             </div>
+            {/* {JSON.stringify(res)} */}
             <div className="px-[20px] pb-[200px]">
-
                 <div className="bg-white rounded-3xl shadow-lg max-w-md mx-auto w-full mt-[31px] overflow-hidden">
                     {/* QR Code Section */}
-                    <div className=" bg-white pt-[24px] text-center">
-                        <h2 className="text-lg font-semibold ">{t('scan_at_entrance')}</h2>
-                        <div className="bg-white inline-block  relative">
-                            {/* <QRCodeSVG
-                            value={qrCodes[0]?.qr_string || ''}
-                            size={200}
-                            level="H"
-                            imageSettings={{
-                                src: "/logo.png",
-                                height: 40,
-                                width: 40,
-                                excavate: true,
-                            }}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="bg-white px-2 py-1 rounded text-xs font-bold text-red-500">
-                                LADANG X
-                            </div>
-                        </div> */}
-                        </div>
+                    <div className=" bg-white pt-[24px] ml-[20px] mb-[24px]">
+                        <h2 className="text-lg font-semibold underline ">{t('order_summary')}</h2>
+
                     </div>
 
                     {/* Booking Info Card */}
@@ -162,14 +145,23 @@ export default async function page({ params }) {
                         ))}
 
                         <div className="flex justify-between text-gray-700">
-                            <span>{t('discount')}</span>
-                            <span>-RM0.00</span>
+                            <span>{t('subtotal')}</span>
+                            <span>RM{visit.subtotal.toFixed(2)}</span>
                         </div>
 
-                        <div className="flex justify-between text-gray-700">
-                            <span>{t('tax')}</span>
-                            <span>(RM0.00)</span>
-                        </div>
+                        {visit.discount_amount > 0 && (
+                            <div className="flex justify-between text-gray-700">
+                                <span>{t('discount')}</span>
+                                <span>-RM{visit.discount_amount.toFixed(2)}</span>
+                            </div>
+                        )}
+
+                        {visit.tax_breakdown.map((tax, index) => (
+                            <div key={index} className="flex justify-between text-gray-700">
+                                <span>{t('tax')} ({tax.name} {tax.rate}%)</span>
+                                <span>RM{tax.amount.toFixed(2)}</span>
+                            </div>
+                        ))}
                     </div>
 
                     {/* Divider */}
@@ -181,13 +173,16 @@ export default async function page({ params }) {
                     <div className="px-6 py-4">
                         <div className="flex justify-between items-center text-[#446A2A]">
                             <span className="font-semibold">{t('total_payment')}</span>
-                            <span className="font-semibold text-lg">RM{visit.total_amount.toFixed(2)}</span>
+                            <span className="font-semibold text-lg">RM{visit.grand_total.toFixed(2)}</span>
                         </div>
                     </div>
 
                     {/* Download Button */}
                     <div className="flex items-center justify-center pb-6">
-                        <ShowTicketButton />
+                        <Link href={res.data.pdf_url} target="_blank" className="">
+                            <ShowTicketButton />
+
+                        </Link>
                     </div>
                 </div>
             </div>

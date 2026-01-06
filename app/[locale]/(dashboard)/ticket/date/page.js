@@ -2,6 +2,7 @@
 import SubmitButton from '@/components/auth/submit-btn'
 import BackButton from '@/components/back-button'
 import { PopupContext } from '@/components/context/PopupProvider'
+import InfoButton from '@/components/info/info-button'
 import { Calendar } from '@/components/ui/calendar'
 import { Link, useRouter } from '@/i18n/navigation'
 import { getTicketDateAvailability } from '@/lib/actions'
@@ -58,18 +59,23 @@ export default function page() {
             })
         }
         localStorage.setItem('ticket_date', date?.toISOString())
-        router.push("/ticket/types")
+        router.push("/ticket/types?date=" + formatToLocalDate(date))
     }
 
     return (
         <div className="bg-[#F5FEBB] min-h-screen relative">
-            <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
-
-                <h1 className="font-semibold text-[22px]">{t("select_visit_date")}</h1>
-
-                <Link href="/ticket" className="absolute left-[12px] top-[17px]">
+            <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
+                <Link href="/ticket" className="">
                     <BackButton />
                 </Link>
+                <h1 className="font-semibold text-[22px]">{t("select_visit_date")}</h1>
+
+
+                <div className="">
+                    <InfoButton />
+
+                </div>
+
             </div>
             <div className="mt-[31px] w-full items-center px-[20px] justify-center">
                 <Calendar

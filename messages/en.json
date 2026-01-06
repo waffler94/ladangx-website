@@ -131,7 +131,7 @@
     "payment_details": "Payment Details",
     "amount": "Amount",
     "voucher": "Voucher",
-    "tax": "Tax(+6%SST)",
+    "tax": "Tax",
     "total_payment": "Total Payment",
     "payment_successful": "Yippee! Payment Confirmed!",
     "payment_successful_desc": "Thank you. Your payment has been successfully processed.",
@@ -156,5 +156,12 @@
     "logout_modal_title": "Logging out?",
     "logout_modal_desc": "Are you sure? Your adventure will wait for you!",
     "yes": "Yes",
-    "delete_account": "Delete Account"
+    "delete_account": "Delete Account",
+    "loading_tickets": "Loading tickets...",
+    "ticket(s)": "ticket(s)",
+    "order_summary": "Order Summary",
+    "your_selection": "Your Selection:",
+    "empty": "Empty",
+    "no_ticket_selected": "No Ticket Selected",
+    "select_at_least_one_ticket": "Please select at least one ticket to proceed."
 }

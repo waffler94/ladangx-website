@@ -19,8 +19,7 @@ export interface loginResponse {
 export interface getTicketResponse {
     status: string;
     data: {
-        malaysia: TicketItem[]
-        international: TicketItem[]
+        [categoryName: string]: TicketItem[],
     }
 
 }
@@ -58,6 +57,7 @@ export interface ticketInfoItem {
 export interface visitDetailsResponse {
     status: string;
     data: {
+        pdf_url: string;
         visit: {
             id: string;
             reference: string;
@@ -72,9 +72,20 @@ export interface visitDetailsResponse {
                 ticket_type_id: number;
                 ticket_type_name: string;
                 ticket_type_price: number;
+                unit_price_paid: number;
                 quantity: number;
                 total_price: number;
             }[];
+            subtotal: number;
+            discount_amount: number;
+            amount_after_discount: number;
+            tax_amount: number;
+            tax_breakdown: {
+                name: string;
+                rate: number;
+                amount: number;
+            }[];
+            grand_total: number;
         };
         qr_codes: {
             ticket_number: number;
@@ -84,10 +95,51 @@ export interface visitDetailsResponse {
             order_id: string;
             guest_type: string;
             sequence: string;
-            qr_image: string;
-            qr_image_path: string;
+            qr_image_base64: string;
+            entry_date: string;
         }[];
-        total_tickets: number;
+    };
+}
+
+export interface getCartResponse {
+    status: string;
+    message: string;
+    data: {
+        cart_id: string;
+        cart: {
+            id: string;
+            visit_date: string;
+            visit_day: string;
+            voucher_code: string | null;
+            items: {
+                cart_item_id: string;
+                ticket_type_id: string;
+                ticket_type_name: string;
+                ticket_type_nationality: string;
+                price: string;
+                quantity: number;
+                total_price: string;
+            }[];
+            subtotal: string;
+            discount_amount: string;
+            amount_after_discount: string;
+            tax_amount: string;
+            tax_breakdown: {
+                name: string;
+                rate: number;
+                amount: string;
+            }[];
+            grand_total: string;
+            total_tickets: string;
+            timer: {
+                total_seconds: number;
+                elapsed_seconds: number;
+                time_left_seconds: number;
+                time_left_minutes: number;
+                is_expired: boolean;
+                updated_at: string;
+            };
+        };
     };
 }
 
