@@ -65,11 +65,11 @@ export default async function page() {
                                 }, {
                                     image: "/images/",
                                     label: t("privacy_policy"),
-                                    href: "#"
+                                    href: "/profile/documents/privacy-policy"
                                 }, {
                                     image: "/images/",
                                     label: t("terms_and_conditions"),
-                                    href: "#"
+                                    href: "/profile/documents/terms"
                                 },
                             ].map((item, index) => {
                                 return (

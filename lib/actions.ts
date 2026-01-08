@@ -275,6 +275,19 @@ export const updateUser = async ({
     return { status: res.status, ...res.data };
 }
 
+export const updateUserPassword = async ({
+    old_password,
+    password,
+    password_confirmation
+}: { old_password: string; password: string; password_confirmation: string }) => {
+    const res = await axios.post('/users/update-password', {
+        old_password,
+        password,
+        password_confirmation
+    });
+    return { status: res.status, ...res.data };
+}
+
 // export const getProjectDetails = async ({
 //     id
 // }: {

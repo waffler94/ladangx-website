@@ -172,5 +172,6 @@
     "delete_acc_modal_title": "Delete Account",
     "delete_acc_modal_desc": "This action can't be undone.",
     "edit_profile": "Edit Profile",
-    "birth_date": "Birth Date"
+    "birth_date": "Birth Date",
+    "current_password": "Current Password"
 }

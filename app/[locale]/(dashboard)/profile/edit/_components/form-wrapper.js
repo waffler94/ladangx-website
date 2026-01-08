@@ -6,7 +6,7 @@ import { updateUser } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
 import React, { useContext } from 'react'
 
-export default function CheckoutWrapper({ children }) {
+export default function FormWrapper({ children }) {
     const t = useTranslations()
     const [isSubmitDisabled, setIsSubmitDisabled] = React.useState(false)
     const { openSuccessModal, closeAllModal } = useContext(PopupContext);
