@@ -27,7 +27,7 @@ export default function TicketInfo({ open }) {
                         ))}
                     </ul>
                     <div className="pb-2 py-1 pl-1 pr-3 w-full group bg-white  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
-                        <form className="block w-full" onSubmit={closeAllModal}>
+                        <form className="block w-full" onSubmit={(e) => { e.preventDefault(); closeAllModal(); }}>
                             <SubmitButton >
                                 {t("ok")}
                             </SubmitButton>

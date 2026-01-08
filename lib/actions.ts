@@ -264,6 +264,17 @@ export const getUser = async () => {
     return { status: res.status, ...res.data };
 }
 
+export const updateUser = async ({
+    fullname,
+    email
+}: { fullname: string; email: string }) => {
+    const res = await axios.post('/users/update', {
+        fullname,
+        email
+    });
+    return { status: res.status, ...res.data };
+}
+
 // export const getProjectDetails = async ({
 //     id
 // }: {

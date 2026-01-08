@@ -4,15 +4,18 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/navigation'
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useGetCart } from '@/lib/hooks/useGetCart'
 
 export default function CartTimer({ initialTime = 600 }) {
     const t = useTranslations()
     const date = useSearchParams().get('date')
+    const { data, isLoading, refresh } = useGetCart();
     const [timeLeft, setTimeLeft] = React.useState(initialTime)
     const router = useRouter()
 
     React.useEffect(() => {
         if (timeLeft <= 0) {
+            refresh();
             router.push(`/ticket/types?date=${date}`)
             return
         }
@@ -20,6 +23,8 @@ export default function CartTimer({ initialTime = 600 }) {
         const timer = setInterval(() => {
             setTimeLeft(prev => {
                 if (prev <= 1) {
+                    refresh();
+
                     clearInterval(timer)
                     router.push(`/ticket/types?date=${date}`)
                     return 0

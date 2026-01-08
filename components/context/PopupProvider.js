@@ -1,4 +1,7 @@
 'use client'
+import CartDrawer from '@/app/modal/cart-drawer';
+import DeleteAccountModal from '@/app/modal/delete-acc-modal';
+import EmptyCart from '@/app/modal/empty-cart';
 import ExampleModal from '@/app/modal/example';
 import Fail from '@/app/modal/fail';
 import LanguageModal from '@/app/modal/language-modal';
@@ -63,7 +66,19 @@ export const modalList = {
     logout: {
         key: 'logoutModal',
         modal: LogoutModal,
-    }
+    },
+    cartDrawer: {
+        key: 'cartDrawer',
+        modal: CartDrawer,
+    },
+    emptyCart: {
+        key: 'emptyCart',
+        modal: EmptyCart,
+    },
+    deleteAccount: {
+        key: 'deleteAccountModal',
+        modal: DeleteAccountModal,
+    },
 };
 
 

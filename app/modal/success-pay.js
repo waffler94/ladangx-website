@@ -24,7 +24,7 @@ export default function SuccessPay({ open, data }) {
                     </div>
                     <h1 className="text-2xl font-semibold text-center my-4">{t("payment_successful")}</h1>
                     <p className="text-gray-600 text-center mb-8">{t("payment_successful_desc")}</p>
-                    <form className="w-full" onSubmit={(e) => { e.preventDefault(); router.push('/home'); closeAllModal(); }}>
+                    <form className="w-full" onSubmit={(e) => { e.preventDefault(); router.push('/'); closeAllModal(); }}>
                         <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                             <button
                                 type="submit"

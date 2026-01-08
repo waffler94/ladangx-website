@@ -65,7 +65,7 @@ export default function page() {
     return (
         <div className="bg-[#F5FEBB] min-h-screen relative">
             <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
-                <Link href="/ticket" className="">
+                <Link href="/" className="">
                     <BackButton />
                 </Link>
                 <h1 className="font-semibold text-[22px]">{t("select_visit_date")}</h1>

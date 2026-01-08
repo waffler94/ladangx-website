@@ -1,3 +1,4 @@
+import DeleteAccountButtonWrapper from '@/components/auth/delete-account-button-wrapper'
 import LogoutButtonWrapper from '@/components/auth/logout-button-wrapper'
 import BottomNavBar from '@/components/bottom-nav-bar'
 import EditButton from '@/components/edit-button'
@@ -56,7 +57,7 @@ export default async function page() {
                                 {
                                     image: "/images/",
                                     label: t("change_password"),
-                                    href: "#"
+                                    href: "/profile/change-password"
                                 }, {
                                     image: "/images/",
                                     label: t("redeem_voucher"),
@@ -67,7 +68,7 @@ export default async function page() {
                                     href: "#"
                                 }, {
                                     image: "/images/",
-                                    label: t("change_password"),
+                                    label: t("terms_and_conditions"),
                                     href: "#"
                                 },
                             ].map((item, index) => {
@@ -88,19 +89,21 @@ export default async function page() {
                                 )
                             })
                         }
+                        <DeleteAccountButtonWrapper>
 
-                        <div className="bg-white rounded-[16px] w-full h-[60px] hover:scale-[101%] transition-all flex flex-row items-center justify-between px-[20px] shadow-[0px_4px_0px_0px_rgba(0,0,0,0.1)]">
+                            <div className="bg-white rounded-[16px] w-full h-[60px] hover:scale-[101%] transition-all flex flex-row items-center justify-between px-[20px] shadow-[0px_4px_0px_0px_rgba(0,0,0,0.1)]">
 
-                            <div className="flex flex-row items-center gap-x-[9px]">
+                                <div className="flex flex-row items-center gap-x-[9px]">
 
 
-                                <div className="size-[24px] rounded-full bg-gray-200 ">
+                                    <div className="size-[24px] rounded-full bg-gray-200 ">
 
+                                    </div>
+                                    <p className="font-semibold">{t('delete_account')}</p>
                                 </div>
-                                <p className="font-semibold">{t('delete_account')}</p>
+                                <ChevronRight size={20} />
                             </div>
-                            <ChevronRight size={20} />
-                        </div>
+                        </DeleteAccountButtonWrapper>
 
 
                         <LogoutButtonWrapper>

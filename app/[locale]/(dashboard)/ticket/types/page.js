@@ -20,7 +20,7 @@ export default function page() {
     const [isSubmitDisable, setIsSubmitDisable] = useState(false);
     const { openFailModal, closeAllModal } = useContext(PopupContext);
     const { data: ticketList, isLoading: ticketListLoading } = useGetTicketList({ nationality: "" });
-    const { data: cartData, isLoading: isCartLoading } = useGetCart({ visit_date: searchParams.get('date') });
+    const { data: cartData, isLoading: isCartLoading, refresh } = useGetCart({ visit_date: searchParams.get('date') });
 
     const isNewCart = cartData?.res_status != 200;
     const [ticketQuantities, setTicketQuantities] = useState({});
@@ -86,6 +86,7 @@ export default function page() {
             setIsSubmitDisable(false);
             return;
         }
+        refresh();
         router.push('/ticket/checkout?date=' + searchParams.get('date'));
         setIsSubmitDisable(false);
     }

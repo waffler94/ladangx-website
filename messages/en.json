@@ -163,5 +163,14 @@
     "your_selection": "Your Selection:",
     "empty": "Empty",
     "no_ticket_selected": "No Ticket Selected",
-    "select_at_least_one_ticket": "Please select at least one ticket to proceed."
+    "select_at_least_one_ticket": "Please select at least one ticket to proceed.",
+    "cart_empty": "Your cart is empty.",
+    "empty_cart_modal_title": "Your cart is empty!",
+    "empty_cart_modal_desc": "Get a ticket and go explore!",
+    "go_to_ticket": "Go to Ticket",
+    "terms_and_conditions": "Terms & Conditions",
+    "delete_acc_modal_title": "Delete Account",
+    "delete_acc_modal_desc": "This action can't be undone.",
+    "edit_profile": "Edit Profile",
+    "birth_date": "Birth Date"
 }
