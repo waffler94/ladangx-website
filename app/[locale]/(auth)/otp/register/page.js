@@ -40,14 +40,11 @@ export default function page() {
         if (res.status == 422) {
             setErrors(res.errors)
         } else if (res.status == 200) {
-            Cookies.set('access_token', res.data.token,
-                {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: 'Lax'
-                }
-            );
+            Cookies.set('access_token', res.data.token, {
+                secure: true,
+                sameSite: 'lax',
+                expires: 7
+            });
             openSuccessModal({
                 title: t("register_success"),
                 description: t("you_have_successfully_registered"),
