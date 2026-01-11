@@ -119,7 +119,7 @@ export default function CartDrawer({ open }) {
 
                             {/* Timer */}
                             <div className="flex items-center gap-[8px]">
-                                <CartTimer initialTime={data.data.cart.timer.time_left_seconds} />
+                                <CartTimer initialTime={data.data?.cart?.timer?.time_left_seconds} />
                             </div>
 
                             {/* Review Order Button */}

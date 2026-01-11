@@ -11,7 +11,7 @@ export default function BottomNavBar() {
     const { data, isLoading } = useGetCart();
     const cartHandler = () => {
         console.log(data)
-        if (data.res_status == 500) {
+        if (data.res_status == 500 || data.data.cart.length == 0) {
             openModal(modalList.emptyCart.key);
             return;
         }
