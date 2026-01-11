@@ -81,14 +81,16 @@ export default async function page({ params }) {
                                 <Calendar className="w-5 h-5 text-gray-600" />
                                 <span className="text-gray-700">{formattedDate}</span>
                             </div>
-                            <div className="flex items-center gap-3 text-sm">
-                                <Users className="w-5 h-5 text-gray-600" />
-                                <span className="text-gray-700">
-                                    {adultCount > 0 && `${adultCount} ${adultCount > 1 ? t('adults') : t('adult')}`}
-                                    {adultCount > 0 && childCount > 0 && ', '}
-                                    {childCount > 0 && `${childCount} ${childCount > 1 ? t('children') : t('child')}`}
-                                </span>
-                            </div>
+                            {(adultCount > 0 || childCount > 0) && (
+                                <div className="flex items-center gap-3 text-sm">
+                                    <Users className="w-5 h-5 text-gray-600" />
+                                    <span className="text-gray-700">
+                                        {adultCount > 0 && `${adultCount} ${adultCount > 1 ? t('adults') : t('adult')}`}
+                                        {adultCount > 0 && childCount > 0 && ', '}
+                                        {childCount > 0 && `${childCount} ${childCount > 1 ? t('children') : t('child')}`}
+                                    </span>
+                                </div>
+                            )}
                             <div className="space-y-1 text-xs text-gray-600">
                                 <div className="flex items-start gap-2">
                                     <span className="text-gray-400">•</span>
@@ -156,7 +158,7 @@ export default async function page({ params }) {
                             </div>
                         )}
 
-                        {visit.tax_breakdown.map((tax, index) => (
+                        {visit.tax_breakdown.filter(tax => tax.amount > 0).map((tax, index) => (
                             <div key={index} className="flex justify-between text-gray-700">
                                 <span>{t('tax')} ({tax.name} {tax.rate}%)</span>
                                 <span>RM{tax.amount.toFixed(2)}</span>
@@ -178,12 +180,14 @@ export default async function page({ params }) {
                     </div>
 
                     {/* Download Button */}
-                    <div className="flex items-center justify-center pb-6">
-                        <Link href={res.data.pdf_url} target="_blank" className="">
-                            <ShowTicketButton />
+                    {visit.total_tickets > 0 && (
+                        <div className="flex items-center justify-center pb-6">
+                            <Link href={res.data.pdf_url} target="_blank" className="">
+                                <ShowTicketButton />
 
-                        </Link>
-                    </div>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

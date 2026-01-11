@@ -24,22 +24,22 @@ export default function SuccessPay({ open, data }) {
                     </div>
                     <h1 className="text-2xl font-semibold text-center my-4">{t("payment_successful")}</h1>
                     <p className="text-gray-600 text-center mb-8">{t("payment_successful_desc")}</p>
-                    <form className="w-full" onSubmit={(e) => { e.preventDefault(); router.push('/'); closeAllModal(); }}>
+                    <form className="w-full" onSubmit={(e) => { e.preventDefault(); router.push('/ticket/details/' + orderId); closeAllModal(); }}>
                         <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                             <button
                                 type="submit"
                                 className="w-full group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-semibold py-3 px-4 rounded-full shadow-[4px_4px_0px_0px_rgba(57,83,39,1)]  text-white bg-[#446A2A] "
                             >
-                                {t("back_to_home")}
+                                {t("view_booking_details")}
                             </button>
                         </div>
                     </form>
-                    <form className="mt-[16px] mx-auto" onSubmit={(e) => { e.preventDefault(); router.push('/ticket/details/' + orderId); closeAllModal(); }}>
+                    <form className="mt-[16px] mx-auto" onSubmit={(e) => { e.preventDefault(); router.push('/'); closeAllModal(); }}>
                         <button
                             type="submit"
                             className="underline text-[#446A2A] font-semibold "
                         >
-                            {t("view_booking_details")}
+                            {t("back_to_home")}
                         </button>
                     </form>
                 </div>

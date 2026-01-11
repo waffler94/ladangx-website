@@ -9,6 +9,7 @@ import { getTicketDateAvailability } from '@/lib/actions'
 import { formatToLocalDate } from '@/lib/helper'
 import { useTranslations } from 'next-intl'
 import React, { useContext, useEffect } from 'react'
+import "./daypicker.css"
 
 export default function page() {
     const [isSubmitDisable, setIsSubmitDisable] = React.useState(false);
@@ -63,8 +64,8 @@ export default function page() {
     }
 
     return (
-        <div className="bg-[#F5FEBB] min-h-screen relative">
-            <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
+        <div className="bg-[#F5FEBB] min-h-screen relative ">
+            <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0">
                 <Link href="/" className="">
                     <BackButton />
                 </Link>
@@ -77,18 +78,25 @@ export default function page() {
                 </div>
 
             </div>
-            <div className="mt-[31px] w-full items-center px-[20px] justify-center">
+
+            <div className="  flex flex-col px-[20px]  mx-auto  pb-32">
+
                 <Calendar
                     onSelect={onSelectDate}
                     selected={date}
                     mode="single"
+
                     disabled={(date) => {
                         const yesterday = new Date();
                         yesterday.setDate(yesterday.getDate() - 1);
                         return date < yesterday;
                     }}
-                    className="rounded-md w-full border shadow-sm"
+                    fixedWeeks
+                    className="rounded-md border shadow-sm mt-[31px] w-full aspect-square    bg-white"
+
                 />
+
+
             </div>
             <div className="fixed bottom-0 bg-white py-[20px] px-[25px] rounded-t-[20px] w-full drop-shadow-md">
 

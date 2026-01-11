@@ -27,7 +27,7 @@ export default async function page({ searchParams }) {
     return (
         <div className="bg-[#F5FEBB] min-h-screen relative">
             <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
-                <Link href="/ticket/date" className="">
+                <Link href={`/ticket/types?date=${date}`} className="">
                     <BackButton />
                 </Link>
                 <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
@@ -37,6 +37,7 @@ export default async function page({ searchParams }) {
 
                 </div>
             </div>
+            {/* {JSON.stringify(cartData)} */}
             <div className="mt-[31px] w-full px-[20px] pb-[200px]">
                 {/* Connected Container */}
                 <div className="bg-white rounded-[20px] shadow-md">
@@ -124,7 +125,7 @@ export default async function page({ searchParams }) {
                                     <span className="font-medium text-green-600">-RM{cartData.data.cart.discount_amount}</span>
                                 </div>
                             )}
-                            {cartData?.data?.cart?.tax_breakdown && cartData.data.cart.tax_breakdown.map((tax, index) => (
+                            {cartData?.data?.cart?.tax_breakdown && cartData.data.cart.tax_breakdown.filter(tax => parseFloat(tax.amount) > 0).map((tax, index) => (
                                 (
                                     <div key={index} className="flex justify-between text-[14px]">
                                         <span className="text-gray-600">{tax.name.charAt(0).toUpperCase() + tax.name.slice(1)} ({tax.rate}%)</span>

@@ -173,5 +173,8 @@
     "delete_acc_modal_desc": "This action can't be undone.",
     "edit_profile": "Edit Profile",
     "birth_date": "Birth Date",
-    "current_password": "Current Password"
+    "current_password": "Current Password",
+    "subtotal": "Subtotal",
+    "no_items_selected": "No items selected.",
+    "please_select_at_least_one_item": "Please select at least one item to proceed."
 }

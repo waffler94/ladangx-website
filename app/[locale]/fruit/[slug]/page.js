@@ -92,7 +92,7 @@ export default async function FruitPage({ params }) {
 
         <div className="mt-6 relative z-10">
           <Link
-            href={`/${locale}/quiz/${fruit.slug}`}
+            href={`/quiz/${fruit.slug}`}
             className="inline-block bg-white text-slate-800 font-black text-xl px-8 py-3 rounded-2xl shadow-lg border-b-4 border-slate-200 active:border-b-0 active:translate-y-1 transition-all"
           >
             🎮 {t('play')}
