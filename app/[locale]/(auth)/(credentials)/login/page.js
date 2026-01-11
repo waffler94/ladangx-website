@@ -37,7 +37,14 @@ export default function page() {
 
 
         if (res.status === 200) {
-            Cookies.set('access_token', res.data.token);
+            Cookies.set('access_token', res.data.token,
+                {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Lax'
+                }
+            );
             router.push('/')
         }
         setIsDisableSubmit(false)
