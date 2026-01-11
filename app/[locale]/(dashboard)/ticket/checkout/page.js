@@ -15,7 +15,7 @@ export default async function page({ searchParams }) {
     const cartData = await getCart({ visit_date: date });
     const locale = await getLocale();
 
-    if (cartData.res_status !== 200) {
+    if (cartData.res_status !== 200 || cartData.data.cart.length == 0) {
         redirect({
             href: '/ticket/types',
             locale: locale
@@ -45,7 +45,7 @@ export default async function page({ searchParams }) {
                     <div className="p-[20px]">
                         <div className="flex justify-between items-center mb-[24px]">
                             <h2 className="underline font-semibold">{t("your_cart")}</h2>
-                            <CartTimer initialTime={cartData.data.cart.timer.time_left_seconds} />
+                            <CartTimer initialTime={cartData.data?.cart?.timer?.time_left_seconds} />
                         </div>
 
                         {/* Cart Items */}

@@ -61,7 +61,7 @@ export default async function page({ params }) {
 
                 <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
 
-                <Link href="/ticket/types" className="absolute left-[12px] top-[17px]">
+                <Link href="/" className="absolute left-[12px] top-[17px]">
                     <BackButton />
                 </Link>
             </div>

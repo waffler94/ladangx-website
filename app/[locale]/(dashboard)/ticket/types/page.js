@@ -22,7 +22,7 @@ export default function page() {
     const { data: ticketList, isLoading: ticketListLoading } = useGetTicketList({ nationality: "" });
     const { data: cartData, isLoading: isCartLoading, refresh } = useGetCart({ visit_date: searchParams.get('date') });
 
-    const isNewCart = cartData?.res_status != 200;
+    const isNewCart = cartData?.res_status != 200 || cartData.data.cart.length == 0;
     const [ticketQuantities, setTicketQuantities] = useState({});
 
     useEffect(() => {
@@ -117,7 +117,6 @@ export default function page() {
 
                 </div>
             </div>
-            {/* {JSON.stringify(ticketList)} */}
             <div className="mt-[31px] w-full px-[20px]">
                 {ticketListLoading || isCartLoading && (
                     <div className="space-y-6">

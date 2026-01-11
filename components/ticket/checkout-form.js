@@ -25,6 +25,8 @@ export default function CheckoutForm() {
             const result = await createVisit({
                 cart_id: cartData.data.cart_id,
             })
+            console.log(result)
+
 
             if (result.res_status === 200 || result.res_status === 201) {
                 openModal(modalList.successPay.key, { orderId: result.data.id })
@@ -32,7 +34,6 @@ export default function CheckoutForm() {
                 throw new Error('Failed to create visit')
             }
         } catch (error) {
-            console.error('Error creating visit:', error)
             // You might want to show an error modal here
             setIsSubmitDisable(false)
         }
