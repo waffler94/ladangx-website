@@ -101,7 +101,7 @@ export default async function RootLayout({ children, params }) {
         )} */}
       </head>
       <body
-        className={`${fredoka.className} antialiased bg-[#76BFDC]`}
+        className={`${fredoka.className} antialiased `}
       >
         <IntlProvider messages={messages} locale={locale}>
           <PopUpProvider>
