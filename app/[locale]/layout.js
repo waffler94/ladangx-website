@@ -75,6 +75,12 @@ export const metadata = {
   // category: "Real Estate",
 };
 
+export const viewport = {
+  // ... other viewport properties
+  viewportFit: "cover",
+};
+
+
 export default async function RootLayout({ children, params }) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
@@ -85,7 +91,7 @@ export default async function RootLayout({ children, params }) {
   setRequestLocale(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} >
       <head>
         {/* {!!process.env.ENABLE_ERUDA && (
           <>
@@ -95,7 +101,7 @@ export default async function RootLayout({ children, params }) {
         )} */}
       </head>
       <body
-        className={`${fredoka.className} antialiased `}
+        className={`${fredoka.className} antialiased bg-[#76BFDC]`}
       >
         <IntlProvider messages={messages} locale={locale}>
           <PopUpProvider>

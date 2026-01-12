@@ -48,7 +48,7 @@ export default function page() {
 
     }
     return (
-        <div className="px-4 pt-6 pb-10 flex flex-col">
+        <div className="px-4 pt-6 pb-10 flex flex-col bg-white">
             <form onSubmit={submitHandler} className=" gap-y-[12px] flex flex-col">
                 <PhoneInput error={errors?.account} />
                 <PasswordInput inputName={"password"} label={t("password")} placeholder={t("enter_password")} error={errors?.account} />

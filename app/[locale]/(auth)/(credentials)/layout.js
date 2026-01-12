@@ -26,7 +26,7 @@ export default async function layout({ children }) {
                 <LanguageGlobe />
 
             </div>
-            <div className="px-4 pt-[22px] ">
+            <div className="px-4 pt-[22px] bg-white">
                 <CredLinks />
 
             </div>
