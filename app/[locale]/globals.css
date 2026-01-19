@@ -122,7 +122,7 @@
   }
 }
 
-html{
+html {
   letter-spacing: -2%;
 }
 
@@ -130,6 +130,7 @@ html{
   animation: float 3s ease-in-out infinite;
 }
 
-button{
+button {
   cursor: pointer;
+  outline: none;
 }
