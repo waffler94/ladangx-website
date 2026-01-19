@@ -10,7 +10,7 @@ export default async function page() {
 
 const EnglishTerms = () => {
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl pb-[12px] mx-auto">
             <h1 className="text-2xl font-bold text-center mb-2">MOTOMARIN SDN BHD</h1>
 
             <h2 className="text-xl font-bold text-center mb-3">PRIVACY POLICY & PARK RULES</h2>
@@ -20,8 +20,8 @@ const EnglishTerms = () => {
             </p>
 
             <div className="mb-4">
-                <p><span className="font-bold">Effective Date:</span> [Insert Date]</p>
-                <p><span className="font-bold">Last Updated:</span> [Insert Date]</p>
+                <p><span className="font-bold">Effective Date:</span> 20/01/2026</p>
+                <p><span className="font-bold">Last Updated:</span> 20/01/2026</p>
             </div>
 
             <p className="mb-6">
@@ -265,44 +265,18 @@ const EnglishTerms = () => {
 
             <div className="mb-6">
                 <p className="font-bold">Motomarin Sdn Bhd</p>
-                <p>📧 Email: [Insert Official Email]</p>
+                <p>📧 Email: <a href="mailto:ladangxpark@gmail.com" className="text-blue-600 hover:underline">ladangxpark@gmail.com</a></p>
                 <p>🌐 Website: [Insert Website]</p>
             </div>
 
-            <h4 className="text-lg font-bold mb-3">IN-APP ACCEPTANCE (MANDATORY)</h4>
 
-            <div className="mb-4 space-y-2">
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>I agree to the <span className="font-bold">Privacy Policy (PDPA)</span></p>
-                </div>
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>I agree to the <span className="font-bold">Park Rules & Code of Conduct</span></p>
-                </div>
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>I agree to the <span className="font-bold">Waiver & Indemnity</span> (where applicable)</p>
-                </div>
-            </div>
-
-            <div className="text-center mt-6">
-                <p className="font-bold">[CONTINUE]</p>
-            </div>
-
-            <hr className="my-8 border-gray-300" />
-
-            <h4 className="text-lg font-bold mb-3">Contact Us</h4>
-            <p className="mb-6">
-                For questions, concerns, or requests related to this Privacy Policy or your personal data, please contact us at <a href="tel:+60115532282" className="text-blue-600 hover:underline font-semibold">011-5553 2282</a>.
-            </p>
         </div>
     )
 }
 
 const MalayTerms = () => {
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl pb-[12px] mx-auto">
             <h1 className="text-2xl font-bold text-center mb-2">MOTOMARIN SDN BHD</h1>
 
             <h2 className="text-xl font-bold text-center mb-3">DASAR PRIVASI & PERATURAN TAMAN</h2>
@@ -312,8 +286,8 @@ const MalayTerms = () => {
             </p>
 
             <div className="mb-4">
-                <p><span className="font-bold">Tarikh Berkuatkuasa:</span> [Masukkan Tarikh]</p>
-                <p><span className="font-bold">Kemas Kini Terakhir:</span> [Masukkan Tarikh]</p>
+                <p><span className="font-bold">Tarikh Berkuatkuasa:</span> 20/01/2026</p>
+                <p><span className="font-bold">Kemas Kini Terakhir:</span> 20/01/2026</p>
             </div>
 
             <p className="mb-6">
@@ -557,37 +531,11 @@ const MalayTerms = () => {
 
             <div className="mb-6">
                 <p className="font-bold">Motomarin Sdn Bhd</p>
-                <p>📧 E-mel: [Masukkan E-mel Rasmi]</p>
-                <p>🌐 Laman web: [Masukkan Laman Web]</p>
+                <p>📧 E-mel: <a href="mailto:ladangxpark@gmail.com" className="text-blue-600 hover:underline">ladangxpark@gmail.com</a></p>
+                <p>🌐 Laman web: [Insert Website]</p>
             </div>
 
-            <h4 className="text-lg font-bold mb-3">PENERIMAAN DALAM APLIKASI (WAJIB)</h4>
 
-            <div className="mb-4 space-y-2">
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>Saya bersetuju dengan <span className="font-bold">Dasar Privasi (PDPA)</span></p>
-                </div>
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>Saya bersetuju dengan <span className="font-bold">Peraturan Taman & Kod Tingkah Laku</span></p>
-                </div>
-                <div className="flex items-start">
-                    <span className="mr-2">☐</span>
-                    <p>Saya bersetuju dengan <span className="font-bold">Penepian & Indemniti</span> (di mana berkenaan)</p>
-                </div>
-            </div>
-
-            <div className="text-center mt-6">
-                <p className="font-bold">[TERUSKAN]</p>
-            </div>
-
-            <hr className="my-8 border-gray-300" />
-
-            <h4 className="text-lg font-bold mb-3">Hubungi Kami</h4>
-            <p className="mb-6">
-                Untuk pertanyaan, kebimbangan, atau permintaan berkaitan Dasar Privasi ini atau data peribadi anda, sila hubungi kami di <a href="tel:+60115532282" className="text-blue-600 hover:underline font-semibold">011-5553 2282</a>.
-            </p>
         </div>
     )
 }
