@@ -64,7 +64,7 @@ export default async function page() {
                                 }, {
                                     image: "/icons/colour/redeem_voucher.svg",
                                     label: t("redeem_voucher"),
-                                    href: "#"
+                                    href: "/profile/vouchers/available"
                                 }, {
                                     image: "/icons/colour/privacy_policy.svg",
                                     label: t("privacy_policy"),

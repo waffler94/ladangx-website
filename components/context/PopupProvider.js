@@ -11,6 +11,7 @@ import LogoutModal from '@/app/modal/logout-modal';
 import Success from '@/app/modal/success';
 import SuccessPay from '@/app/modal/success-pay';
 import TicketInfo from '@/app/modal/ticket-info';
+import VoucherDetailDrawer from '@/app/modal/voucher-detail-drawer';
 import React, { createContext, useState } from 'react';
 
 /**
@@ -78,6 +79,10 @@ export const modalList = {
     deleteAccount: {
         key: 'deleteAccountModal',
         modal: DeleteAccountModal,
+    },
+    voucherDetail: {
+        key: 'voucherDetailDrawer',
+        modal: VoucherDetailDrawer,
     },
 };
 

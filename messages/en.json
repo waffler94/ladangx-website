@@ -179,5 +179,6 @@
     "please_select_at_least_one_item": "Please select at least one item to proceed.",
     "notification": "Notification",
     "no_notification_title": "No messages yet!",
-    "no_notification_description": "Come back later to check!"
+    "no_notification_description": "Come back later to check!",
+    "redeem": "Redeem"
 }
