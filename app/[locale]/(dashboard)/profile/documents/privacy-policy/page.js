@@ -10,7 +10,7 @@ export default async function page() {
 
 const EnglishTerms = () => {
     return (
-        <div className="p-6 max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-2">MOTOMARIN SDN BHD</h1>
 
             <h2 className="text-xl font-bold text-center mb-3">PRIVACY POLICY & PARK RULES</h2>
@@ -302,7 +302,7 @@ const EnglishTerms = () => {
 
 const MalayTerms = () => {
     return (
-        <div className="p-6 max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold text-center mb-2">MOTOMARIN SDN BHD</h1>
 
             <h2 className="text-xl font-bold text-center mb-3">DASAR PRIVASI & PERATURAN TAMAN</h2>
