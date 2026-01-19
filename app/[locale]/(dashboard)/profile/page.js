@@ -18,7 +18,7 @@ export default async function page() {
 
     return (
         <>
-            <div className="bg-[#F5FEBB] min-h-screen pt-[17px] px-4 ">
+            <div className="bg-[url('/images/bg4-home.png')] bg-cover bg-bottom min-h-screen pt-[17px] pb-[12px] px-4 ">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-[22px] font-semibold">{t('profile')}</h1>
                     <div>
@@ -28,11 +28,13 @@ export default async function page() {
                 <div className="mt-[28px]">
                     <Suspense fallback={<div className="bg-gray-300 rounded-[16px] h-[100px] w-full animate-pulse"></div>}>
 
-                        <div className="bg-[#446A2A] relative shadow-[0px_4px_0px_0px_rgba(218,226,218,1)] text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
-                            <div className="bg-white rounded-full w-[80px] h-[80px] flex items-center justify-center">
+                        <div className=" relative  text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
+                            <Image src="/images/image15-frame_profile.png" alt="frame bg" className="absolute top-0 left-0 size-full " width={800} height={359} />
+
+                            <div className="bg-white rounded-full w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
                                 <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-contain " />
                             </div>
-                            <div>
+                            <div className="relative z-10 ">
                                 <p className="mb-1 text-[19px] font-semibold">
                                     {user.data.fullname || t("default_user_name")}
                                 </p>
@@ -49,25 +51,26 @@ export default async function page() {
 
 
                         </div>
+
                     </Suspense>
 
                     <div className="flex flex-col mt-[24px] gap-y-[20px]">
                         {
                             [
                                 {
-                                    image: "/images/",
+                                    image: "/icons/colour/change_password.svg",
                                     label: t("change_password"),
                                     href: "/profile/change-password"
                                 }, {
-                                    image: "/images/",
+                                    image: "/icons/colour/redeem_voucher.svg",
                                     label: t("redeem_voucher"),
                                     href: "#"
                                 }, {
-                                    image: "/images/",
+                                    image: "/icons/colour/privacy_policy.svg",
                                     label: t("privacy_policy"),
                                     href: "/profile/documents/privacy-policy"
                                 }, {
-                                    image: "/images/",
+                                    image: "/icons/colour/terms_conditions.svg",
                                     label: t("terms_and_conditions"),
                                     href: "/profile/documents/terms"
                                 },
@@ -78,8 +81,8 @@ export default async function page() {
                                             <div className="flex flex-row items-center gap-x-[9px]">
 
 
-                                                <div className="size-[24px] rounded-full bg-gray-200 ">
-
+                                                <div className="size-[24px]   ">
+                                                    <Image src={item.image} alt={item.label} width={24} height={24} />
                                                 </div>
                                                 <p className="font-semibold">{item.label}</p>
                                             </div>
@@ -96,8 +99,8 @@ export default async function page() {
                                 <div className="flex flex-row items-center gap-x-[9px]">
 
 
-                                    <div className="size-[24px] rounded-full bg-gray-200 ">
-
+                                    <div className="size-[24px] ">
+                                        <Image src="/icons/colour/delete.svg" alt={t('delete_account')} width={24} height={24} />
                                     </div>
                                     <p className="font-semibold">{t('delete_account')}</p>
                                 </div>
@@ -112,8 +115,8 @@ export default async function page() {
                                 <div className="flex flex-row items-center gap-x-[9px]">
 
 
-                                    <div className="size-[24px] rounded-full bg-gray-200 ">
-
+                                    <div className="size-[24px] ">
+                                        <Image src="/icons/colour/logout.svg" alt={t('logout')} width={24} height={24} />
                                     </div>
                                     <p className="font-semibold">{t('logout')}</p>
                                 </div>

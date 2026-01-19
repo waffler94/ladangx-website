@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { PopupContext } from '@/components/context/PopupProvider';
 import { Check } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Success({ open, title, description, buttonText, buttonOnClick, outsideOnClick }) {
     const t = useTranslations();
@@ -20,6 +21,8 @@ export default function Success({ open, title, description, buttonText, buttonOn
                 }
             }} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
+                <Image src="/images/image1-successful.png" width={800} height={254} alt="Success" className="absolute -translate-y-full" />
+
                 <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
                     <div className="rounded-full size-[50px] bg-[#79A74E] flex items-center justify-center border-[3.7px] border-white shadow-[0px_4px_0px_0px_rgba(104,143,68,1)] ">
                         <Check className="text-[24px] text-white" />

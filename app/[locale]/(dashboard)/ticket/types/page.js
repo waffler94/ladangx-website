@@ -106,7 +106,7 @@ export default function page() {
     }
 
     return (
-        <div className="bg-[#F5FEBB] min-h-screen relative pb-[120px]">
+        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative pb-[120px]">
             <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
                 <Link href="/ticket/date" className="">
                     <BackButton />

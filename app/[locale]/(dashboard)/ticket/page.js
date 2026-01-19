@@ -13,7 +13,7 @@ export default async function page() {
     const t = await getTranslations()
     const ticketTypes = (await getTicketList()).data
     return (
-        <div className="bg-[#F5FEBB] min-h-screen relative">
+        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
 
                 <h1 className="font-semibold text-[22px]">{t("ticket")}</h1>

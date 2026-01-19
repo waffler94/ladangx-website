@@ -45,16 +45,21 @@ export default function page() {
                 buttonText: t("proceed_to_login"),
                 buttonOnClick: () => {
                     closeAllModal()
+                    router.push("/login")
+
                 },
+                outsideOnClick: () => {
+                    closeAllModal()
+                    router.push("/login")
+                }
             })
-            router.push("/login")
 
         }
         console.log(res)
         setDisableSubmit(false)
     }
     return (
-        <div className="bg-[#F5FEBB] min-h-screen pt-[17px] px-4 ">
+        <div className="bg-[url('/images/bg3-forgot_reset_password.png')] bg-cover min-h-screen pt-[17px] px-4 ">
             <Link href="/login" className="rounded-full size-[40px] bg-[#245B00] hover:scale-110 transition-all  items-center justify-center flex border-white border-[3px] shadow-[0px_4px_0px_0px_rgba(57,83,39,1)] ">
                 <ChevronLeft className="text-[24px] text-white bg-[#245B00] " />
             </Link>

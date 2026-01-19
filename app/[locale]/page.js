@@ -8,10 +8,13 @@ import { useTranslations } from 'next-intl'
 import { getLocale, getTranslations } from 'next-intl/server'
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie'
+import { useGetUser } from '@/lib/hooks/useGetUser'
+import Image from 'next/image'
 
 export default function page() {
     const t = useTranslations()
     const router = useRouter()
+    const { data: userData, isLoading: isLoadingUser } = useGetUser()
     useEffect(() => {
         const token = Cookies.get('access_token');
         const isWelcome = sessionStorage.getItem('is_welcome');
@@ -24,19 +27,40 @@ export default function page() {
     return (
         <>
 
-            <div className="min-h-screen  bg-[#76BFDC] ">
+            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom ">
                 <div className="px-[18px] py-[22px]">
 
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center justify-center gap-x-[10px]">
-                            <div className="rounded-full size-[46px] bg-gray-400">
-
-                            </div>
-                            <div>
-                                <p>{t("hello")}!</p>
-                                <p className="font-semibold">Nicole Wong</p>
-                            </div>
-
+                            {isLoadingUser ? (
+                                <>
+                                    <div className="rounded-full size-[46px] bg-gray-300 animate-pulse"></div>
+                                    <div>
+                                        <div className="h-4 w-12 bg-gray-300 rounded animate-pulse mb-1"></div>
+                                        <div className="h-5 w-24 bg-gray-300 rounded animate-pulse"></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="rounded-full size-[46px] bg-white flex items-center justify-center overflow-hidden">
+                                        {userData?.data?.profile_picture_path ? (
+                                            <Image
+                                                src={userData.data.profile_picture_path}
+                                                alt="Profile Picture"
+                                                width={46}
+                                                height={46}
+                                                className="object-cover w-full h-full"
+                                            />
+                                        ) : (
+                                            <div className="rounded-full size-[46px] bg-gray-400"></div>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <p>{t("hello")}!</p>
+                                        <p className="font-semibold">{userData?.data?.fullname || t("default_user_name")}</p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                         <LanguageGlobe />
 

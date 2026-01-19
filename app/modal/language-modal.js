@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PopupContext } from '@/components/context/PopupProvider';
 import { Check, Globe } from 'lucide-react';
 import { useRouter, usePathname } from '@/i18n/navigation';
+import Image from 'next/image';
 
 export default function LanguageModal({ open }) {
     const t = useTranslations();
@@ -16,8 +17,8 @@ export default function LanguageModal({ open }) {
     const locale = useLocale()
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const languages = [
-        { code: 'en', name: 'EN' },
-        { code: 'my', name: "BM" },
+        { code: 'en', name: 'EN', image: '/images/GB.png' },
+        { code: 'my', name: "BM", image: '/images/MY.png' },
 
     ]
     return (
@@ -25,6 +26,8 @@ export default function LanguageModal({ open }) {
 
             <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
+                <Image src="/images/image3-information.png" width={800} height={254} alt="Success" className="absolute -translate-y-[99%]" />
+
                 <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
                     <div className="transition-all mx-auto  size-[50px] bg-[#446A2A] rounded-full flex border-[3px] shadow-[4px_4px_0px_0px_rgba(57,83,39,1)] border-white items-center justify-center size ml-auto hover:cursor-pointer">
                         <Globe className="text-[#446A2A] text-[30px] bg-white rounded-full" />
@@ -40,7 +43,7 @@ export default function LanguageModal({ open }) {
                                 onClick={() => setSelectedLanguage(language.code)}
                                 className="w-full bg-white border border-gray-200 rounded-2xl p-4 flex items-center gap-4 hover:bg-gray-50 transition-all"
                             >
-                                <div className="size-[24px] rounded-full bg-gray-200 flex-shrink-0"></div>
+                                <Image src={language.image} alt={language.name} width={24} height={24} className="size-[24px] rounded-full object-cover" />
 
                                 <span className="text-[19px] font-semibold flex-grow text-left">
                                     {language.name}

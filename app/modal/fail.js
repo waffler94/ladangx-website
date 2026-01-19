@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PopupContext } from '@/components/context/PopupProvider';
 import { X } from 'lucide-react';
 import SubmitButton from '@/components/auth/submit-btn';
+import Image from 'next/image';
 
 export default function Fail({ open, title, description, buttonText, buttonOnClick }) {
     const t = useTranslations();
@@ -16,6 +17,7 @@ export default function Fail({ open, title, description, buttonText, buttonOnCli
 
             <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
+                <Image src="/images/image2-failed.png" width={800} height={254} alt="Fail" className="absolute -translate-y-full" />
                 <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
                     <div className="rounded-full size-[50px] bg-red-500 flex items-center justify-center border-[3.7px] border-white shadow-[0px_4px_0px_0px_rgba(240,6,6,1)] ">
                         <X className="text-[24px] text-white" />

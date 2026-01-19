@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PopupContext } from '@/components/context/PopupProvider';
 import { Check, ShoppingCart } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
+import Image from 'next/image';
 
 export default function EmptyCart({ open, data }) {
     const { orderId } = data
@@ -17,6 +18,8 @@ export default function EmptyCart({ open, data }) {
         <Dialog open={open} >
             <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
+                <Image src="/images/image3-information.png" width={800} height={254} alt="Success" className="absolute -translate-y-[99%]" />
+
                 <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
                     <div className="rounded-full size-[50px] bg-[#446A2A] flex items-center justify-center border-[3.7px] border-white shadow-[0px_4px_0px_0px_rgba(104,143,68,1)] ">
                         <ShoppingCart className="text-[24px] text-white" />

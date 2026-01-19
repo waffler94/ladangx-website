@@ -8,7 +8,7 @@ export default function layout({ children }) {
     const t = useTranslations();
     const pathname = usePathname();
     return (
-        <div className="bg-[#F5FEBB] min-h-screen pt-[17px] px-4 relative ">
+        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-[17px] px-4 relative ">
             <div className="flex flex-row items-center justify-center">
                 <Link className="absolute left-4" href="/profile">
                     <BackButton />

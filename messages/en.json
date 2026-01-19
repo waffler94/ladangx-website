@@ -176,5 +176,8 @@
     "current_password": "Current Password",
     "subtotal": "Subtotal",
     "no_items_selected": "No items selected.",
-    "please_select_at_least_one_item": "Please select at least one item to proceed."
+    "please_select_at_least_one_item": "Please select at least one item to proceed.",
+    "notification": "Notification",
+    "no_notification_title": "No messages yet!",
+    "no_notification_description": "Come back later to check!"
 }

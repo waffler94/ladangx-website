@@ -21,9 +21,9 @@ const fredoka = Fredoka({
 });
 
 export const metadata = {
-  title: "Title",
-  // description:
-  //   "Homeland helps you find, buy, and manage your dream property with ease. Discover the latest real estate listings, market insights, and smart investment tools.",
+  title: "LadangX",
+  description:
+    "LadangX",
   // keywords: [
   //   "Homeland",
   //   "real estate",
@@ -56,11 +56,11 @@ export const metadata = {
   //     },
   //   ],
   // },
-  // icons: {
-  //   icon: "/images/favicon.ico",
-  //   shortcut: "/images/favicon-16x16.png",
-  //   apple: "/images/apple-touch-icon.png",
-  // },
+  icons: {
+    icon: "/fav.ico",
+    shortcut: "/fav.ico",
+    apple: "/fav.ico",
+  },
   // robots: {
   //   index: true,
   //   follow: true,

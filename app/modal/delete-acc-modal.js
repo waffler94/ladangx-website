@@ -8,6 +8,7 @@ import { PopupContext } from '@/components/context/PopupProvider';
 import { Check, Globe, LogIn, Trash } from 'lucide-react';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 export default function DeleteAccountModal({ open }) {
     const t = useTranslations();
@@ -17,6 +18,8 @@ export default function DeleteAccountModal({ open }) {
         <Dialog open={open} >
             <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
+                <Image src="/images/image2-failed.png" width={800} height={254} alt="Fail" className="absolute -translate-y-full" />
+
                 <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
                     <div className="transition-all mx-auto  size-[50px] bg-[#FE3939] rounded-full flex border-[3px] shadow-[4px_4px_0px_0px_rgba(240,6,6,1)] border-white items-center justify-center size ml-auto ">
                         <Trash className="text-white" size={28} />

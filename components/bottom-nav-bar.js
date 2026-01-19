@@ -39,7 +39,7 @@ export default function BottomNavBar() {
                         },
                         {
                             icon: <Bell size={30} className="text-white" />,
-                            href: "#",
+                            href: "/notifications",
                             activeClassName: "bg-[#D5980C] shadow-[0px_2px_0px_rgba(167,88,15,1)]",
                             className: "bg-[#FFBE29] shadow-[0px_4px_0px_rgba(255,132,19,1)]"
                         },

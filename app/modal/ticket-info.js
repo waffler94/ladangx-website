@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react'
 import { PopupContext } from '@/components/context/PopupProvider';
 import { Check, Info } from 'lucide-react';
 import SubmitButton from '@/components/auth/submit-btn';
+import Image from 'next/image';
 
 export default function TicketInfo({ open }) {
     const t = useTranslations();
@@ -14,12 +15,12 @@ export default function TicketInfo({ open }) {
 
     return (
         <Dialog open={open} >
-            <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px] w-[90vw] p-0 border-0">
+            <DialogContent onPointerDownOutside={closeAllModal} showCloseButton={false} className="max-w-none rounded-[24px]  w-[90vw] p-0 border-0">
                 <DialogTitle></DialogTitle>
-                <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center">
-                    <div className="size-[50px] rounded-full bg-gray-500 flex items-center justify-center">
-                        <Info className="text-white" size={32} />
-                    </div>
+                <Image src="/images/image3-information.png" width={800} height={254} alt="Success" className="absolute -translate-y-full" />
+                <div className="p-8 w-full lg:w-lg flex flex-col items-center justify-center max-h-[70vh]">
+                    <Image src="/images/image10-info1.png" width={400} height={392} className="size-[50px]" alt="Info" />
+
                     <h1 className="text-[19px] font-semibold text-center my-4">{t("terms_condition")}</h1>
                     <ul className="text-gray-600 text-sm space-y-3 list-disc list-inside mb-8 max-h-[60vh] overflow-y-auto">
                         {termsList && termsList.map((term, index) => (

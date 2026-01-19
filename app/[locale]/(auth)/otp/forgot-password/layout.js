@@ -8,7 +8,7 @@ export default function layout({ children }) {
         if (!localStorage.getItem("forgot_password_phone_number")) {
             router.push("/login")
         }
-    })
+    }, [])
     return (
         <>{children}</>
     )

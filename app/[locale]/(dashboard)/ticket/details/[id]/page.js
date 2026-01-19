@@ -56,7 +56,7 @@ export default async function page({ params }) {
 
 
     return (
-        <div className="bg-[#F5FEBB] min-h-screen relative">
+        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen relative">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
 
                 <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
