@@ -28,7 +28,7 @@ export default function page() {
         <>
 
             <div className="min-h-screen pt-safe  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom ">
-                <div className="px-[18px] py-[22px]">
+                <div className="px-[18px] pb-[22px]">
 
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center justify-center gap-x-[10px]">

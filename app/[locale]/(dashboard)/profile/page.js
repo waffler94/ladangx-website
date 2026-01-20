@@ -39,8 +39,8 @@ export default async function page() {
                                     {user.data.fullname || t("default_user_name")}
                                 </p>
                                 <div className="flex flex-row items-center gap-x-[8px]">
-                                    <div className="rounded-full size-[22px] bg-[#E4B726] border-white border-[2px]">
-
+                                    <div className="rounded-full size-[22px] bg-white border-white border-[1px]">
+                                        <Image src="/images/image16-stamp.png" alt="points icon" className="size-full" width={22} height={22} />
                                     </div>
                                     <p className="font-semibold text-[19px]">0 pts</p>
                                 </div>

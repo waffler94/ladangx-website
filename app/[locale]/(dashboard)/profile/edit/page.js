@@ -74,19 +74,25 @@ export default function Page() {
                 <div />
             </div>
             <div className="mt-[36px] flex flex-col ">
-                <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center mx-auto relative z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
-                    <Image
-                        src={profilePicturePreview || userData.data.profile_picture_path}
-                        alt="Profile Picture"
-                        width={80}
-                        height={80}
-                        className="p-2 object-contain "
-                    />
-                    <div className="size-[24px] absolute bottom-0 right-0">
+                <div className="relative w-[80px] h-[80px] mx-auto">
+
+                    <div className="bg-white overflow-hidden w-[80px] h-[80px] rounded-full flex items-center justify-center mx-auto relative z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
+                        <Image
+                            src={profilePicturePreview || userData.data.profile_picture_path}
+                            alt="Profile Picture"
+                            width={80}
+                            height={80}
+                            className="p-2 object-contain   "
+                        />
+
+                    </div>
+                    <div className="size-[24px] absolute bottom-0 right-0 z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
                         <Image src="/icons/button/edit_profile.svg" alt="edit icon" className="size-full" width={24} height={24} />
                     </div>
-
                 </div>
+                {errors.profile_picture && (
+                    <p className="text-red-500 text-center text-sm mt-1">{errors.profile_picture}</p>
+                )}
                 <div className="mt-[19px] ">
                     <form className="space-y-[24px]" onSubmit={submitHandler}>
 
