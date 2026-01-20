@@ -32,7 +32,7 @@ export default function page() {
     ]
 
     return (
-        <div className="">
+        <div className="pt-safe">
             <div className="flex flex-col w-full gap-[16px]">
                 {vouchers.map((voucher) => (
                     <VoucherCard

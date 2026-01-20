@@ -18,7 +18,7 @@ export default async function page() {
 
     return (
         <>
-            <div className="bg-[url('/images/bg4-home.png')] bg-cover bg-bottom min-h-screen pt-[17px] pb-[12px] px-4 ">
+            <div className="bg-[url('/images/bg4-home.png')] bg-cover bg-bottom min-h-screen pt-[17px] pb-[12px] px-4 pt-safe">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-[22px] font-semibold">{t('profile')}</h1>
                     <div>

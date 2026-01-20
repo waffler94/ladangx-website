@@ -47,7 +47,7 @@ export default function page() {
         setDisableSubmit(false)
     }
     return (
-        <div className="bg-[url('/images/bg3-forgot_reset_password.png')] bg-cover min-h-screen pt-[17px] px-4 ">
+        <div className="bg-[url('/images/bg3-forgot_reset_password.png')] bg-cover min-h-screen pt-[17px] px-4 pt-safe">
             <Link href="/login" >
                 <BackButton />
             </Link>

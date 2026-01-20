@@ -8,7 +8,7 @@ export default function page() {
     const t = useTranslations();
     return (
         <>
-            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom   pt-[17px] pb-[12px] px-4">
+            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom   pt-[17px] pb-[12px] px-4 pt-safe">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-[22px] font-semibold">{t("notification")}</h1>
                     <div>

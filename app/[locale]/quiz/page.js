@@ -8,7 +8,7 @@ export default async function QuizHome({ params }) {
   const fruits = await getFruits(locale);
 
   return (
-    <div className="min-h-screen bg-fuchsia-50 bg-[radial-gradient(#e879f9_2px,transparent_2px)] [background-size:24px_24px] pb-12">
+    <div className="min-h-screen bg-fuchsia-50 bg-[radial-gradient(#e879f9_2px,transparent_2px)] [background-size:24px_24px] pb-12 pt-safe">
       <LanguageToggle />
       <div className="pt-8 pb-8 px-4 text-center">
         <div className="inline-block bg-white border-4 border-fuchsia-400 p-6 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(232,121,249,0.4)] transform rotate-1">

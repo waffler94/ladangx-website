@@ -106,7 +106,7 @@ export default function page() {
     }
 
     return (
-        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative pb-[120px]">
+        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative pb-[120px] pt-safe">
             <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px]">
                 <Link href="/ticket/date" className="">
                     <BackButton />
@@ -117,7 +117,7 @@ export default function page() {
 
                 </div>
             </div>
-            <div className="mt-[31px] w-full px-[20px]">
+            <div className="mt-[31px] w-full px-[20px] pb-[120px]">
                 {ticketListLoading || isCartLoading && (
                     <div className="space-y-6">
                         <div className="bg-white rounded-lg p-4 h-[200px] shadow-md animate-pulse">

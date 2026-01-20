@@ -12,7 +12,7 @@ export default async function page() {
 
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-end px-4 pb-[37px]">
+        <div className="min-h-screen flex flex-col items-center justify-end px-4 pb-[37px] pt-safe">
             <Image src="/images/bg1-splash_screen.png" alt="Welcome Background" width={800} height={1733} className="absolute top-0 left-0 w-full h-full object-cover -z-10" />
 
             <Link href="/login" className="w-full mb-[16px]">

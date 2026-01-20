@@ -64,7 +64,7 @@ export default function page() {
     }
 
     return (
-        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative">
+        <div className="bg-[url('/images/bg16-ticket.png')] bg-cover bg-bottom min-h-screen relative pt-safe">
             <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0">
                 <Link href="/" className="">
                     <BackButton />

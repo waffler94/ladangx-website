@@ -48,7 +48,7 @@ export default function page() {
         setDisableSubmit(false)
     }
     return (
-        <div className="px-4 pt-6 pb-10 bg-white">
+        <div className="px-4 pt-6 pb-10 bg-white pt-safe">
 
             <form onSubmit={submitHandler} className="gap-y-[12px] flex flex-col">
                 <AuthInput label={t("full_name")} type="text" placeholder={t("enter_fullname")} inputName="fullname" error={errors.fullname} />

@@ -23,7 +23,7 @@ export default function AdventureMap() {
   // Filter logic
   const filteredSuggestions = useMemo(() => {
     if (!searchQuery) return [];
-    return allLocations.filter(loc => 
+    return allLocations.filter(loc =>
       loc.name.toLowerCase().includes(searchQuery.toLowerCase())
     ).slice(0, 5); // Limit to 5 suggestions
   }, [searchQuery, allLocations]);
@@ -39,12 +39,12 @@ export default function AdventureMap() {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setIsDropdownOpen(true);
-    if(e.target.value === "") setSelectedLocation(null); // Reset map if cleared
+    if (e.target.value === "") setSelectedLocation(null); // Reset map if cleared
   };
 
   return (
-    <div className="min-h-screen bg-[#d0f0eb] font-sans pb-12">
-      
+    <div className="min-h-screen bg-[#d0f0eb] font-sans pb-12 pt-safe">
+
       {/* --- 1. TOP SEARCH BAR --- */}
       <div className="sticky top-0 z-50 p-4 bg-[#d0f0eb]/90 backdrop-blur-sm">
         <div className="max-w-2xl mx-auto relative">
@@ -52,9 +52,9 @@ export default function AdventureMap() {
             <div className="absolute left-4 text-slate-500">
               <SearchIcon />
             </div>
-            <input 
-              type="text" 
-              placeholder="Search where you wanna go..." 
+            <input
+              type="text"
+              placeholder="Search where you wanna go..."
               value={searchQuery}
               onChange={handleSearchChange}
               onFocus={() => setIsDropdownOpen(true)}
@@ -85,30 +85,30 @@ export default function AdventureMap() {
       {/* --- 2. MAP DISPLAY AREA --- */}
       <div className="px-4 mb-8">
         <div className="max-w-4xl mx-auto bg-[#fdf6e3] rounded-[2rem] border-[6px] border-[#8b7355] shadow-[8px_8px_0px_0px_rgba(60,50,40,0.2)] overflow-hidden relative min-h-[400px] flex items-center justify-center p-4">
-          
+
           {/* 
              NOTE: Replace '/images/main-map.jpg' with your actual full map image.
              The 'selectedLocation.image' should be a zoomed-in version or the same map with a highlight.
           */}
-          
+
           {selectedLocation ? (
             <div className="text-center animate-in zoom-in-95 duration-300">
-                <Image 
-                    src={selectedLocation.image} 
-                    alt={selectedLocation.name} 
-                    className="object-cover"
-                    width={800}
-                    height={800}
-                />
-            </div>
-          ) : (
-            // DEFAULT FULL MAP
-            <Image 
-                src={'/maps/dragon-fruit.png'} 
-                alt={'default map'} 
+              <Image
+                src={selectedLocation.image}
+                alt={selectedLocation.name}
                 className="object-cover"
                 width={800}
                 height={800}
+              />
+            </div>
+          ) : (
+            // DEFAULT FULL MAP
+            <Image
+              src={'/maps/dragon-fruit.png'}
+              alt={'default map'}
+              className="object-cover"
+              width={800}
+              height={800}
             />
           )}
 
@@ -118,7 +118,7 @@ export default function AdventureMap() {
       {/* --- 3. CATEGORIZED LIST --- */}
       <div className="max-w-5xl mx-auto px-6">
         <div className="bg-[#fdfbe7] rounded-3xl p-4 border-4 border-[#5c4a35] shadow-lg relative">
-          
+
           {/* Decorative Corner */}
           <div className="absolute top-4 left-4 text-[#5c4a35] opacity-20 text-4xl">🌿</div>
           <div className="absolute bottom-4 right-4 text-[#5c4a35] opacity-20 text-4xl">🐇</div>
@@ -130,20 +130,20 @@ export default function AdventureMap() {
                 <h3 className="text-2xl font-black text-[#2f3e2e] pb-1 inline-block self-start">
                   {category.category}
                 </h3>
-                
+
                 {/* List Items */}
                 <ul className="space-y-2">
                   {category.items.map((item) => {
                     const isSelected = selectedLocation?.id === item.id;
-                    
+
                     return (
                       <li key={item.id}>
                         <button
                           onClick={() => handleSelect(item)}
                           className={`
                             text-left text-sm md:text-base transition-all duration-200
-                            ${isSelected 
-                              ? 'font-black text-green-700 bg-green-200 px-3 py-1 rounded-lg scale-105 shadow-sm translate-x-2' 
+                            ${isSelected
+                              ? 'font-black text-green-700 bg-green-200 px-3 py-1 rounded-lg scale-105 shadow-sm translate-x-2'
                               : 'font-medium text-[#5c4a35] hover:text-green-700 hover:translate-x-1'
                             }
                           `}

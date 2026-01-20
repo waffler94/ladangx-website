@@ -27,7 +27,7 @@ export default function page() {
     return (
         <>
 
-            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom ">
+            <div className="min-h-screen pt-safe  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom ">
                 <div className="px-[18px] py-[22px]">
 
                     <div className="flex flex-row justify-between">
@@ -71,29 +71,38 @@ export default function page() {
                             [
                                 {
                                     label: t("E-learning"),
-                                    href: "/e-learning"
+                                    href: "/e-learning",
+                                    image: "/images/image17-e-learning.png"
                                 },
                                 {
                                     label: t("StampQues"),
-                                    href: ""
+                                    href: "",
+                                    image: "/images/image18-stampques.png"
                                 }, {
                                     label: t("Activity"),
-                                    href: ""
+                                    href: "",
+                                    image: "/images/image19-activity.png"
                                 }, {
                                     label: t("Ticket"),
-                                    href: "/ticket/date"
+                                    href: "/ticket/date",
+                                    image: "/images/image20-tickets.png"
                                 }, {
                                     label: t("Map"),
-                                    href: "/map"
+                                    href: "/map",
+                                    image: "/images/image21-map.png"
                                 }, {
                                     label: t("Ask Chatbot"),
-                                    href: ""
+                                    href: "",
+                                    image: "/images/image22-adk_chatbot.png"
                                 }
                             ].map(
                                 (item, index) => {
-                                    return (<div key={index} className="rounded-[32px] w-full h-[180px] bg-gray-200 relative mb-[30px]">
+                                    return (<div key={index} className="rounded-[32px] w-full h-[180px]  relative mb-[30px]">
                                         <div className="rounded-t-[32px] w-full flex items-center justify-center h-[50px] bg-white">
                                             <p className="text-center  font-semibold">{item.label}</p>
+                                        </div>
+                                        <div>
+                                            <Image src={item.image} alt={item.label} width={180} height={130} className="rounded-b-[32px] w-full h-[130px] object-cover" />
                                         </div>
                                         <div className="pb-2 py-1 pl-1 pr-2 w-[65px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                                             <PlayButton href={item.href} label={t("play_btn")} />

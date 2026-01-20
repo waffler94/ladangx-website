@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import React, { useContext, useState } from 'react'
 import { useGetUser } from '@/lib/hooks/useGetUser';
 import { PopupContext } from '@/components/context/PopupProvider';
+import Image from 'next/image';
 
 export default function Page() {
     const t = useTranslations();
@@ -16,18 +17,34 @@ export default function Page() {
     const user = userData?.data;
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     const [errors, setErrors] = useState({});
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePicturePreview, setProfilePicturePreview] = useState(null);
     const { openSuccessModal, closeAllModal } = useContext(PopupContext);
     const router = useRouter();
+
+    const handleProfilePictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfilePicture(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePicturePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
         setIsSubmitDisabled(true);
         const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        const res = await updateUser({
-            fullname: data.full_name,
-            email: data.email,
-        });
+
+        // Remove the profile_picture field from form if no new file selected
+        if (!profilePicture) {
+            formData.delete('profile_picture');
+        }
+
+        const res = await updateUser(formData);
         console.log(res);
         if (res.status == 422) {
             setErrors(res.errors);
@@ -48,7 +65,7 @@ export default function Page() {
     }
 
     return (
-        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-[17px] px-4 relative ">
+        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-[17px] px-4 relative pt-safe">
             <div className="flex flex-row items-center justify-center">
                 <Link className="absolute left-4" href="/profile">
                     <BackButton />
@@ -57,10 +74,33 @@ export default function Page() {
                 <div />
             </div>
             <div className="mt-[36px] flex flex-col ">
-                <div className="bg-gray-400 rounded-full size-[80px] mx-auto " />
+                <div className="bg-white rounded-full  w-[80px] h-[80px] flex items-center justify-center mx-auto relative z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
+                    <Image
+                        src={profilePicturePreview || userData.data.profile_picture_path}
+                        alt="Profile Picture"
+                        width={80}
+                        height={80}
+                        className="p-2 object-contain "
+                    />
+                    <div className="size-[24px] absolute bottom-0 right-0">
+                        <Image src="/icons/button/edit_profile.svg" alt="edit icon" className="size-full" width={24} height={24} />
+                    </div>
+
+                </div>
                 <div className="mt-[19px] ">
                     <form className="space-y-[24px]" onSubmit={submitHandler}>
-                        <AuthInput inputName="full_name" label={t("full_name")} initialValue={user.fullname} error={errors.fullname} />
+
+                        <input
+                            type="file"
+                            id="profile-picture-input"
+                            name="profile_picture"
+                            accept="image/*"
+                            onChange={handleProfilePictureChange}
+                            className="hidden"
+                        />
+
+
+                        <AuthInput inputName="fullname" label={t("full_name")} initialValue={user.fullname} error={errors.fullname} />
                         <AuthInput inputName="email" label={t("email")} initialValue={user.email} error={errors.email} />
                         <PhoneInput inputName="phone_number" label={t("phone_number")} initialValue={user.phone_number} disabled={true} />
                         <AuthInput inputName="birth_date" label={t("birth_date")} type="email" initialValue={user.date_of_birth} disabled={true} />

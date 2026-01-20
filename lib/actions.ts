@@ -264,13 +264,11 @@ export const getUser = async () => {
     return { status: res.status, ...res.data };
 }
 
-export const updateUser = async ({
-    fullname,
-    email
-}: { fullname: string; email: string }) => {
-    const res = await axios.post('/users/update', {
-        fullname,
-        email
+export const updateUser = async (formData: FormData) => {
+    const res = await axios.post('/users/update', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
     });
     return { status: res.status, ...res.data };
 }

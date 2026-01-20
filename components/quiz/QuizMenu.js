@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 export default function QuizMenu({ fruit, onSelectCategory }) {
   const t = useTranslations();
   return (
-    <div className="min-h-screen bg-green-50 p-6 flex flex-col items-center">
+    <div className="min-h-screen bg-green-50 p-6 flex flex-col items-center pt-safe">
       <div className="w-full max-w-md flex justify-between items-center mb-6">
         <Link href="/quiz" className="font-bold text-green-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-green-200">
           ⬅ {t('back')}

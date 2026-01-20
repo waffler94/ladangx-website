@@ -59,7 +59,7 @@ export default function page() {
         setDisableSubmit(false)
     }
     return (
-        <div className="bg-[url('/images/bg3-forgot_reset_password.png')] bg-cover min-h-screen pt-[17px] px-4 ">
+        <div className="bg-[url('/images/bg3-forgot_reset_password.png')] bg-cover min-h-screen pt-[17px] px-4 pt-safe">
             <Link href="/login" className="rounded-full size-[40px] bg-[#245B00] hover:scale-110 transition-all  items-center justify-center flex border-white border-[3px] shadow-[0px_4px_0px_0px_rgba(57,83,39,1)] ">
                 <ChevronLeft className="text-[24px] text-white bg-[#245B00] " />
             </Link>
