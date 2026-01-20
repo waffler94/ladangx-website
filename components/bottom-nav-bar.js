@@ -26,7 +26,7 @@ export default function BottomNavBar() {
             <div className="h-[100px]">
 
             </div>
-            <div className="fixed bottom-0 w-full h-[120px] pb-[30px] rounded-t-[20px] grid gap-x-[18px] py-[16px] px-[20px] bg-white grid-cols-4 ">
+            <div className="fixed bottom-0 w-full h-[110px] pb-[30px] rounded-t-[20px] grid gap-x-[18px] py-[16px] px-[20px] bg-white grid-cols-4 ">
                 {
                     [
                         {
