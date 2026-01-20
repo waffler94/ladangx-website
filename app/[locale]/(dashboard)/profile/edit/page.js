@@ -61,11 +61,11 @@ export default function Page() {
     };
 
     if (isLoading || !user) {
-        return <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-[17px] px-4">Loading...</div>;
+        return <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-safe px-4">Loading...</div>;
     }
 
     return (
-        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-[17px] px-4 relative pt-safe">
+        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-safe px-4 relative pt-safe">
             <div className="flex flex-row items-center justify-center">
                 <Link className="absolute left-4" href="/profile">
                     <BackButton />
@@ -74,7 +74,7 @@ export default function Page() {
                 <div />
             </div>
             <div className="mt-[36px] flex flex-col ">
-                <div className="bg-white rounded-full  w-[80px] h-[80px] flex items-center justify-center mx-auto relative z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
+                <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center mx-auto relative z-10 cursor-pointer" onClick={() => document.getElementById('profile-picture-input').click()}>
                     <Image
                         src={profilePicturePreview || userData.data.profile_picture_path}
                         alt="Profile Picture"

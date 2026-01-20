@@ -18,7 +18,7 @@ export default async function page() {
 
     return (
         <>
-            <div className="bg-[url('/images/bg4-home.png')] bg-cover bg-bottom min-h-screen pt-[17px] pb-[12px] px-4 pt-safe">
+            <div className="bg-[url('/images/bg4-home.png')] bg-cover bg-bottom min-h-screen pb-[12px] px-4 pt-safe">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-[22px] font-semibold">{t('profile')}</h1>
                     <div>
@@ -31,8 +31,8 @@ export default async function page() {
                         <div className=" relative  text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
                             <Image src="/images/image15-frame_profile.png" alt="frame bg" className="absolute top-0 left-0 size-full " width={800} height={359} />
 
-                            <div className="bg-white rounded-full w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
-                                <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-contain " />
+                            <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
+                                <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-cover " />
                             </div>
                             <div className="relative z-10 ">
                                 <p className="mb-1 text-[19px] font-semibold">

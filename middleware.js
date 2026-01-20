@@ -10,7 +10,7 @@ export function middleware(request) {
     const response = handleI18nRouting(request);
     response.headers.set("x-pathname", request.nextUrl.pathname);
     const localeFromPath = request.nextUrl.pathname.split("/")[1];
-    const supportedLocales = ["en", "my", "zh"]; // Add your supported locales
+    const supportedLocales = ["en", "my"]; // Add your supported locales
     let locale = "en"; // default
 
     if (supportedLocales.includes(localeFromPath)) {
