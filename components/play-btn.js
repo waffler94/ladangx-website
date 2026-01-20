@@ -21,13 +21,13 @@ export default function PlayButton({ href, label }) {
             {
                 !isMounted ? (
                     <button
-                        className="w-full text-[13px] group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-4 rounded-[18px] shadow-[4px_4px_0px_0px_rgba(255,178,95,1)]  text-white bg-[#FFDB0A] ">
+                        className="w-full text-[13px] group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-8 rounded-[18px] shadow-[4px_4px_0px_0px_rgba(255,178,95,1)]  text-white bg-[#FFDB0A] ">
                         {label}!
                     </button>
                 ) : isLogin ? (
                     <Link href={href}>
                         <button
-                            className="w-full text-[13px] group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-4 rounded-[18px] shadow-[4px_4px_0px_0px_rgba(255,178,95,1)]  text-white bg-[#FFDB0A] ">
+                            className="w-full text-[13px] group-hover:scale-105 transition-all  flex justify-center items-center gap-2 font-bold py-3 px-8 rounded-[18px] shadow-[4px_4px_0px_0px_rgba(255,178,95,1)]  text-white bg-[#FFDB0A] ">
                             {label}!
                         </button>
                     </Link>

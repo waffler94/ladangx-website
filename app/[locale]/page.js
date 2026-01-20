@@ -104,7 +104,7 @@ export default function page() {
                                         <div>
                                             <Image src={item.image} alt={item.label} width={180} height={130} className="rounded-b-[32px] w-full h-[130px] object-cover" />
                                         </div>
-                                        <div className="pb-2 py-1 pl-1 pr-2 w-[65px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                                        <div className="pb-2 py-1 pl-1 pr-2 w-[85px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                                             <PlayButton href={item.href} label={t("play_btn")} />
                                         </div>
                                     </div>)
