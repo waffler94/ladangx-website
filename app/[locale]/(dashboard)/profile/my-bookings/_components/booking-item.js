@@ -161,6 +161,14 @@ export default function BookingItem({ visit }) {
                             </div>
                         </div>
                     </div>
+                    {visit.total_tickets > 0 && visit.pdf_url && (
+                        <div className="flex items-center justify-center pb-4">
+                            <Link href={visit.pdf_url} target="_blank" className="bg-white text-[#446A2A] font-semibold py-3 underline transition-colors">
+                                {t('show_ticket')}
+                            </Link>
+                        </div>
+                    )}
+
                 </div>
 
                 <div className="w-full flex items-center justify-center">

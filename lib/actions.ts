@@ -243,27 +243,23 @@ export const createUserVisit = async ({
 
 }
 
-export const getVisits = async () => {
-    const response = await axios.get<getVisitsResponse>('/visits');
+export const getVisits = async ({ filter, page, per_page }: {
+    filter?: "upcoming" | "past",
+    page?: number,
+    per_page?: number
+}) => {
+    const response = await axios.get<getVisitsResponse>('/visits', {
+        params: {
+            filter,
+            page,
+            per_page
+        }
+    });
 
     return { res_status: response.status, ...response.data };
 }
 
-export const getUpcomingVisits = async () => {
-    const visitResponse = await getVisits();
-    // upcoming by date
-    const upcomingVisits = visitResponse.data.filter(visit => visit.visit_date >= new Date().toISOString().split('T')[0]);
 
-    return { res_status: visitResponse.res_status, data: upcomingVisits };
-}
-
-export const getPastVisits = async () => {
-    const visitResponse = await getVisits();
-    // past by date
-    const pastVisits = visitResponse.data.filter(visit => visit.visit_date < new Date().toISOString().split('T')[0]);
-
-    return { res_status: visitResponse.res_status, data: pastVisits };
-}
 
 export const getVisitDetails = async ({
     id
