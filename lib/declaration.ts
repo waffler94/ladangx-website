@@ -143,6 +143,27 @@ export interface getCartResponse {
     };
 }
 
+export interface getVisitsResponse {
+    status: string;
+    data: {
+        id: string;
+        visit_date: string;
+        reference: string;
+        status: number;
+        status_text: string;
+        total_amount: number;
+        created_at: string;
+        details: {
+            ticket_type_id: string;
+            ticket_type_name: string;
+            ticket_type_price: number;
+            unit_price_paid: number;
+            quantity: number;
+            total_price: number;
+        }[];
+    }[];
+}
+
 export interface getUserResponse {
     status: number;
     message: string;

@@ -8,6 +8,7 @@ import React from 'react'
 import ShowTicketButton from './_components/show-ticket-btn';
 import { Link } from '@/i18n/navigation';
 import BackButton from '@/components/back-button';
+import BackBtn from './_components/back-btn';
 
 export default async function page({ params }) {
     const { id } = await params;
@@ -61,9 +62,7 @@ export default async function page({ params }) {
 
                 <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
 
-                <Link href="/" className="absolute left-[12px] top-[17px]">
-                    <BackButton />
-                </Link>
+                <BackBtn />
             </div>
             {/* {JSON.stringify(res)} */}
             <div className="px-[20px] pb-[200px]">

@@ -62,6 +62,10 @@ export default async function page() {
                                     label: t("change_password"),
                                     href: "/profile/change-password"
                                 }, {
+                                    image: "/icons/colour/tickets.svg",
+                                    label: t("my_bookings"),
+                                    href: "/profile/my-bookings/upcoming"
+                                }, {
                                     image: "/icons/colour/redeem_voucher.svg",
                                     label: t("redeem_voucher"),
                                     href: "/profile/vouchers/available"
