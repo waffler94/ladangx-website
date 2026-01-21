@@ -19,7 +19,7 @@ export default function BackBtn() {
     }
 
     return (
-        <button onClick={handleBack} className="absolute left-[12px] top-[17px]">
+        <button onClick={handleBack} className="absolute left-4">
             <BackButton />
         </button>
     )

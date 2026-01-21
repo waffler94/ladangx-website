@@ -59,10 +59,11 @@ export default async function page({ params }) {
     return (
         <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen relative pt-safe">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
-
-                <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
-
-                <BackBtn />
+                <div className="flex flex-row items-center justify-center">
+                    <BackBtn />
+                    <h1 className="text-[22px] font-semibold">{t('review_order')}</h1>
+                    <div />
+                </div>
             </div>
             {/* {JSON.stringify(res)} */}
             <div className="px-[20px] pb-[200px]">
