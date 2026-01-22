@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useCallback  } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import CloseButton from '@/components/close-button'
 
 // Helper to shuffle an array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -115,10 +116,6 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
     const newLines = [];
 
     Object.entries(connections).map(([leftId, rightId]) => {
-      // Find the visual index of the item with this specific ID
-      // (Because the arrays are shuffled, ID 0 might be at index 2)
-      
-      // We stored refs by ITEM ID, so we can access them directly:
       const leftDot = leftDotRefs.current[leftId];
       const rightDot = rightDotRefs.current[rightId]; // Note: logic depends on how we assign refs below
 
@@ -172,113 +169,172 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
   const isPerfect = score === data.originalLength;
 
   return (
-    <div className="min-h-screen bg-rose-50 p-4 flex flex-col items-center">
-      <div className="w-full max-w-md flex justify-between items-center mb-6">
-        <button onClick={onBack} className="font-bold text-rose-500 bg-white px-4 py-2 rounded-xl shadow-sm">
-           {t('back')}
+    <div className="bg-[url('/images/bg10-benefits.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
+        <button onClick={onBack}>
+          <CloseButton />
         </button>
-        <h2 className="font-black text-2xl text-rose-400 uppercase tracking-widest">{t('match_it')}</h2>
+        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('match_it')}</h1>
       </div>
-
-      <div className="w-full max-w-md text-center mb-4">
-        <p className="text-slate-500 font-bold">{t('tap_icon')}</p>
-      </div>
-
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("matching_it_desc")} </h2>
       {/* GAME BOARD */}
-      <div ref={containerRef} className="relative w-full max-w-md flex justify-between gap-8 mb-8">
+      <div ref={containerRef} className="relative w-full max-w-md flex justify-between gap-8 mb-12 px-4">
         
-        {/* SVG Overlay */}
+        {/* SVG Overlay (Lines) */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-50 overflow-visible">
           {lines.map((line) => {
-            let strokeColor = "#fb7185"; 
-            if (isSubmitted) strokeColor = line.isCorrect ? "#4ade80" : "#ef4444"; 
+            // Line Logic: Orange (Active) -> Green (Correct) -> Red (Wrong)
+            let strokeColor = "#FFB323"; 
+            if (isSubmitted) strokeColor = line.isCorrect ? "#79A74E" : "#FE3939"; 
+            
             return (
               <line
                 key={line.key}
                 x1={line.x1} y1={line.y1}
                 x2={line.x2} y2={line.y2}
                 stroke={strokeColor}
-                strokeWidth="6"
+                strokeWidth="4"
                 strokeLinecap="round"
-                className="transition-all duration-300 drop-shadow-sm"
+                className="transition-all duration-300"
               />
             );
           })}
         </svg>
 
-        {/* LEFT COLUMN (Randomized Icons) */}
+        {/* LEFT COLUMN (Icons) */}
         <div className="flex flex-col gap-6 w-1/3 relative z-20">
-          {data.left.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleLeftClick(item.id)}
-              className={`
-                relative h-24 w-full bg-white rounded-2xl border-4 flex items-center justify-center shadow-sm transition-all
-                ${selectedLeft === item.id ? 'border-rose-500 scale-105 bg-rose-50' : 'border-slate-200'}
-                ${isSubmitted && connections[item.id] === item.id ? 'border-green-400 bg-green-50' : ''}
-              `}
-            >
-              <Image src={item.image || "/next.svg"} className="w-12 h-12" alt="icon" width={50} height={50} />
-              {/* IMPORTANT: Use item.id for the Ref Key so lines track correctly regardless of shuffle */}
-              <div ref={el => leftDotRefs.current[item.id] = el} className={`absolute -right-3 w-5 h-5 rounded-full border-2 border-white ${selectedLeft === item.id || connections[item.id] !== undefined ? 'bg-rose-500' : 'bg-slate-300'}`}></div>
-            </button>
-          ))}
+          {data.left.map((item) => {
+            const isSelected = selectedLeft === item.id;
+            const isConnected = connections[item.id] !== undefined;
+            
+            // Result Logic
+            const isCorrect = isSubmitted && connections[item.id] === item.id;
+            const isWrong = isSubmitted && isConnected && !isCorrect;
+
+            // Determine Styles based on state
+            let borderClass = 'border-slate-200';
+            let bgClass = 'bg-white';
+            let dotColor = 'bg-slate-300';
+
+            if (isSelected || isConnected) {
+              borderClass = 'border-[#FFB323]';
+              dotColor = 'bg-[#FFB323]';
+              if (isSelected) bgClass = 'bg-orange-50 scale-105'; // Little pop when selecting
+            }
+
+            if (isCorrect) {
+              borderClass = 'border-[#79A74E]'; // Green
+              bgClass = 'bg-green-50';
+              dotColor = 'bg-[#79A74E]';
+            } else if (isWrong) {
+              borderClass = 'border-[#FE3939]'; // Red
+              bgClass = 'bg-rose-50';
+              dotColor = 'bg-[#FE3939]';
+            }
+
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleLeftClick(item.id)}
+                disabled={isSubmitted} // Disable clicking after submit
+                className={`
+                  relative h-24 w-full rounded-2xl border-2 flex items-center justify-center shadow-sm transition-all
+                  ${borderClass} ${bgClass}
+                `}
+              >
+                <Image src={item.image || "/next.svg"} className="w-12 h-12" alt="icon" width={50} height={50} />
+                <div ref={el => leftDotRefs.current[item.id] = el} className={`absolute -right-2 w-4 h-4 rounded-full ${dotColor}`}></div>
+              </button>
+            );
+          })}
         </div>
 
-        {/* RIGHT COLUMN (Randomized Text) */}
+        {/* RIGHT COLUMN (Text) */}
         <div className="flex flex-col gap-6 w-1/3 relative z-20">
-          {data.right.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleRightClick(item.id)}
-              className={`
-                relative h-24 w-full bg-white rounded-2xl border-4 flex items-center px-4 shadow-sm text-left transition-all
-                ${Object.values(connections).includes(item.id) ? 'border-rose-200' : 'border-slate-200'}
-                ${isSubmitted && connections[item.id] === item.id ? 'border-green-400 bg-green-50' : ''}
-              `}
-            >
-               <div ref={el => rightDotRefs.current[item.id] = el} className={`absolute -left-3 w-5 h-5 rounded-full border-2 border-white ${Object.values(connections).includes(item.id) ? 'bg-rose-500' : 'bg-slate-300'}`}></div>
-              <span className="font-bold text-sm text-slate-700 leading-tight pl-2">{item.text}</span>
-            </button>
-          ))}
+          {data.right.map((item) => {
+            // Find if this right item is connected to ANY left item
+            const connectedLeftId = Object.keys(connections).find(key => connections[key] === item.id);
+            const isConnected = connectedLeftId !== undefined;
+
+            // Result Logic
+            // It is correct if the connected Left ID (parsed to int) equals this item's ID
+            const isCorrect = isSubmitted && isConnected && parseInt(connectedLeftId) === item.id;
+            const isWrong = isSubmitted && isConnected && !isCorrect;
+
+            // Determine Styles
+            let borderClass = 'border-slate-200';
+            let bgClass = 'bg-white';
+            let dotColor = 'bg-slate-300';
+
+            if (isConnected) {
+              borderClass = 'border-[#FFB323]';
+              dotColor = 'bg-[#FFB323]';
+            }
+
+            if (isCorrect) {
+              borderClass = 'border-[#79A74E]'; // Green
+              bgClass = 'bg-green-50';
+              dotColor = 'bg-[#79A74E]';
+            } else if (isWrong) {
+              borderClass = 'border-[#FE3939]'; // Red
+              bgClass = 'bg-rose-50';
+              dotColor = 'bg-[#FE3939]';
+            }
+
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleRightClick(item.id)}
+                disabled={isSubmitted}
+                className={`
+                  relative h-24 w-full rounded-2xl border-2 flex items-center px-3 shadow-sm text-left transition-all
+                  ${borderClass} ${bgClass}
+                `}
+              >
+                 <div ref={el => rightDotRefs.current[item.id] = el} className={`absolute -left-2 w-4 h-4 rounded-full ${dotColor}`}></div>
+                <span className="font-medium text-[14px] text-[#313F3A] leading-tight">{item.text}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md px-4">
         {!isSubmitted ? (
           <button 
             onClick={handleSubmit}
             disabled={Object.keys(connections).length < data.originalLength}
-            className="w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-xl hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#0f172a] active:shadow-none active:translate-y-1 transition-all"
+            className="w-full bg-[#FFBB68] text-white py-4 rounded-full font-medium text-xl hover:bg-[#FFBB68] disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_0_#FFA536] active:shadow-none active:translate-y-1 transition-all"
           >
             {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
              {isPerfect ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
-                  🎉 {t('perfect_score')}
+               <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
+                 {t('you_got_all')} 🎉 
                </div>
              ) : (
-               <div className="bg-rose-100 text-rose-700 p-4 rounded-2xl font-bold border-2 border-rose-400 mb-4">
+               <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
                   {t('you_got', {
                     score: score,
                     length: data.originalLength
                   })}
+                  <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
                </div>
              )}
 
              {isPerfect ? (
                <button 
                  onClick={onNext} // Proceed to Next Level (or Finish if last)
-                 className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md active:translate-y-1 transition-all"
+                 className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all"
                >
                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
                </button>
              ) : (
                <button 
                  onClick={handleRetry} // Reset Game
-                 className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md active:translate-y-1 transition-all"
+                 className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all"
                >
                  {t('try_again')} ↺
                </button>

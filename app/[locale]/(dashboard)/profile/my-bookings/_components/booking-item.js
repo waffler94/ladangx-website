@@ -47,7 +47,6 @@ export default function BookingItem({ visit }) {
     }).toUpperCase();
 
     return (
-        <div>
             <div className="bg-white rounded-2xl shadow-md p-4 mb-4 overflow-hidden">
                 <div className=" bg-white mb-[24px]">
                     <h2 className="text-lg font-semibold underline ">{t('order_summary')}</h2>
@@ -182,6 +181,5 @@ export default function BookingItem({ visit }) {
                     </button>
                 </div>
             </div>
-        </div>
     )
 }

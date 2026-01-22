@@ -1,45 +1,36 @@
-import { Link } from '@/i18n/navigation';
 import { categories } from '@/utils/quizLogic';
 import { useTranslations } from 'next-intl';
+import { useRouter } from "next/navigation";
+import Image from 'next/image';
+import BackButton from '@/components/back-button'
 
 export default function QuizMenu({ fruit, onSelectCategory }) {
+  const router = useRouter();
   const t = useTranslations();
   return (
-    <div className="min-h-screen bg-green-50 p-6 flex flex-col items-center pt-safe">
-      <div className="w-full max-w-md flex justify-between items-center mb-6">
-        <Link href="/quiz" className="font-bold text-green-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-green-200">
-          ⬅ {t('back')}
-        </Link>
+    <div className="bg-[url('/images/bg8-e_learning.png')] bg-cover bg-top min-h-screen relative pt-safe">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0">
+        <button onClick={() => router.back()} className="">
+            <BackButton />
+        </button>
         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-slate-200 shadow-sm">
-          <img src={fruit.image} className="w-8 h-8" alt={fruit.name} />
-          <span className="font-black text-slate-700">{fruit.name}</span>
+          <Image src={fruit.image} className="w-8 h-8" alt={fruit.name} width={30} height={30} />
+          <span className="font-semibold text-[#313F3A]">{fruit.name}</span>
         </div>
       </div>
-
-      <h1 className="text-3xl font-black text-center text-slate-700 mb-6">
-        {t('pick_challenge')}
-      </h1>
-
-      <div className="grid grid-cols-1 w-full max-w-md gap-4">
+      <h1 className='text-[#313F3A] text-[22px] text-center flex items-center justify-center gap-2 font-semibold py-4'>{t("pick_challenge")} <Image src={'/images/lightning.png'} alt="lightning" width={30} height={30} /> </h1>
+      <div className="grid grid-cols-1 w-full max-w-md gap-4 px-4 pb-12">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => onSelectCategory(cat.id)}
             className={`
-              ${cat.color} 
-              relative w-full p-4 rounded-3xl border-b-8 active:border-b-4 active:translate-y-1 
+              
+              relative w-full rounded-3xl active:translate-y-1 
               flex items-center justify-between group transition-all duration-150
             `}
           >
-            <div className="flex items-center gap-4">
-              <span className="text-4xl bg-white/40 w-14 h-14 flex items-center justify-center rounded-2xl">
-                {cat.icon}
-              </span>
-              <span className="text-2xl font-black tracking-wide uppercase">
-                {t(cat.label)}
-              </span>
-            </div>
-            <div className="bg-white/40 rounded-full p-2 w-[40px] h-[40px]">➡</div>
+            <Image src={`/images/${cat.background}.png`} alt={cat.label} className="w-full" width={800} height={200} />
           </button>
         ))}
       </div>

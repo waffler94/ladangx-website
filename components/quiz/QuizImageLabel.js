@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import CloseButton from '@/components/close-button'
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
@@ -139,7 +140,14 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
   const isPerfect = getScore() === gameData.items.length;
 
   return (
-    <div className="min-h-screen bg-yellow-50 p-4 flex flex-col items-center">
+    <div className="bg-[url('/images/bg10-benefits.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
+        <button onClick={onBack}>
+          <CloseButton />
+        </button>
+        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('name_it')}</h1>
+      </div>
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("tap_name")} </h2>
       
       {/* HEADER */}
       <div className="w-full max-w-md flex justify-between items-center mb-6">

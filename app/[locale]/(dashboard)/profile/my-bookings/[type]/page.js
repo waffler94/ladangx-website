@@ -43,9 +43,7 @@ export default function page() {
                 <BookingsLinks />
             </div>
             <div className="mt-4">
-                {isLoading ? (<div className="w-full mt-[34px] animate-pulse min-h-[70vh] bg-white rounded-[16px]">
-
-                </div>) :
+                {isLoading ? (<div className="w-full mt-[34px] animate-pulse min-h-[70vh] bg-white rounded-[16px]"></div>) :
                     (
                         data?.data?.length <= 0 ? (
                             <div className="w-full mt-[34px] min-h-[70vh] bg-white rounded-[16px]">
@@ -63,7 +61,7 @@ export default function page() {
                                     </Link>
                                 </div>
                             </div>) : (
-                            <div>
+                            <div className=' grid grid-cols-1 md:grid-cols-2 gap-4'>
                                 {data?.data?.map((visit) => (
                                     <BookingItem key={visit.id} visit={visit} />
                                 ))}

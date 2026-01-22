@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import CloseButton from '@/components/close-button'
 
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -162,149 +163,144 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
   const isPerfect = getScore() === gameData.targets.length;
 
   return (
-    <div className="min-h-screen bg-emerald-50 p-4 flex flex-col items-center">
-      
-      {/* Header */}
-      <div className="w-full max-w-md flex justify-between items-center mb-4">
-        <button onClick={onBack} className="font-bold text-emerald-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-emerald-200">
-           {t('back')}
+    <div className="bg-[url('/images/bg11-fruit_part.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
+        <button onClick={onBack}>
+          <CloseButton />
         </button>
-        <h2 className="font-black text-2xl text-emerald-500 uppercase tracking-widest">{t('label_it')}</h2>
+        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('label_it')}</h1>
       </div>
-
-      <p className="text-slate-500 font-bold mb-4 text-center text-sm">
-        {t('match_the_names')}
-      </p>
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("match_the_names")} </h2>
 
       {/* 🖼️ DIAGRAM IMAGE */}
-      <div className="w-full max-w-md h-64 bg-white rounded-3xl border-4 border-emerald-200 shadow-sm mb-6 flex items-center justify-center p-4 relative overflow-hidden">
-        <Image 
-          src={gameData.diagramImage} 
-          alt="Diagram" 
-          fill 
-          className="object-contain" 
-        />
-      </div>
+      <div className='px-4'>
+        <div className="w-full max-w-md h-64 bg-white rounded-3xl border-b-4 border-[#DAE2DA] shadow-sm mb-6 flex items-center justify-center p-4 relative overflow-hidden">
+          <Image 
+            src={gameData.diagramImage} 
+            alt="Diagram" 
+            fill 
+            className="object-contain" 
+          />
+        </div>
 
-      {/* 📥 NUMBERED SLOTS */}
-      <div className="w-full max-w-md space-y-3 mb-8">
-        {gameData.targets.map((target) => {
-          const placedOptionId = matches[target.id];
-          
-          const placedText = placedOptionId !== undefined 
-            ? gameData.options.find(o => o.id === placedOptionId)?.name 
-            : null;
+        {/* 📥 NUMBERED SLOTS */}
+        <div className="w-full max-w-md space-y-3 mb-8">
+          {gameData.targets.map((target) => {
+            const placedOptionId = matches[target.id];
+            
+            const placedText = placedOptionId !== undefined 
+              ? gameData.options.find(o => o.id === placedOptionId)?.name 
+              : null;
 
-          let slotStyle = "bg-white border-slate-300 text-slate-400"; // Empty
-          
-          if (placedOptionId !== undefined) {
-            slotStyle = "bg-emerald-100 border-emerald-500 text-emerald-800"; // Filled
-          }
+            let slotStyle = "bg-white border-slate-300 text-slate-400"; // Empty
+            
+            if (placedOptionId !== undefined) {
+              slotStyle = "bg-[#E0FFC2] border-[#79A74E] text-[#688F44]"; // Filled
+            }
 
-          if (isSubmitted) {
-            if (placedOptionId === target.id) slotStyle = "bg-green-100 border-green-600 text-green-800"; // Correct
-            else slotStyle = "bg-red-100 border-red-500 text-red-800"; // Wrong
-          } else if (selectedOptionId !== null && placedOptionId === undefined) {
-            slotStyle = "bg-yellow-50 border-yellow-400 animate-pulse border-dashed"; // Hint
-          }
-
-          return (
-            <div key={target.id} className="flex items-center gap-3">
-              {/* Number Circle */}
-              <div className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 text-white font-black text-lg shadow-sm shrink-0">
-                {target.labelNumber}
-              </div>
-
-              {/* The Input Box */}
-              <button
-                onClick={() => handleSlotClick(target.id)}
-                disabled={isSubmitted}
-                className={`
-                  flex-1 h-12 rounded-xl border-4 font-bold text-center flex items-center justify-center shadow-sm transition-all
-                  ${slotStyle}
-                `}
-              >
-                {placedText || <span className="opacity-30 text-sm italic">{t('tap_to_place')}</span>}
-              </button>
-
-              {/* Result Icon */}
-              {isSubmitted && (
-                <div className="text-2xl w-8 text-center">
-                  {placedOptionId === target.id ? '✅' : '❌'}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 🏷️ OPTIONS POOL (Targets + Wrong Answers) */}
-      <div className="w-full max-w-md bg-white/60 p-4 rounded-2xl border-2 border-slate-200">
-        <div className="flex flex-wrap justify-center gap-3">
-          {gameData.options.map((opt) => {
-            const isUsed = Object.values(matches).includes(opt.id);
-            const isSelected = selectedOptionId === opt.id;
-
-            if (isUsed && !isSubmitted) return null; 
+            if (isSubmitted) {
+              if (placedOptionId === target.id) slotStyle = "bg-green-100 border-green-600 text-green-800"; // Correct
+              else slotStyle = "bg-red-100 border-red-500 text-red-800"; // Wrong
+            } else if (selectedOptionId !== null && placedOptionId === undefined) {
+              slotStyle = "bg-yellow-50 border-yellow-400 animate-pulse border-dashed"; // Hint
+            }
 
             return (
-              <button
-                key={opt.id}
-                onClick={() => handleOptionClick(opt.id)}
-                disabled={isSubmitted}
-                className={`
-                  px-4 py-2 rounded-xl font-bold border-b-4 border-2 transition-all text-sm
-                  ${isSelected 
-                    ? 'bg-emerald-500 border-emerald-700 text-white scale-110 shadow-lg' 
-                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}
-                  ${isUsed && isSubmitted ? 'opacity-50 grayscale' : ''}
-                `}
-              >
-                {opt.name}
-              </button>
+              <div key={target.id} className="flex items-center gap-3">
+                {/* Number Circle */}
+                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#FFD323] text-white font-medium text-[16px] border-4 border-white">
+                  {target.labelNumber}
+                </div>
+
+                {/* The Input Box */}
+                <button
+                  onClick={() => handleSlotClick(target.id)}
+                  disabled={isSubmitted}
+                  className={`
+                    flex-1 h-12 rounded-[16px] border-b-4 border-[#DAE2DA] font-medium text-center flex items-center justify-center transition-all relative
+                    ${slotStyle}
+                  `}
+                >
+                  {placedText || <span className="opacity-30 text-sm italic">{t('tap_to_place')}</span>}
+                    {isSubmitted && (
+                    <div className="text-[14px] text-center absolute right-3">
+                      {placedOptionId === target.id ? <div className='w-[25px] h-[25px] rounded-full flex items-center justify-center bg-[#688F44] text-[#E0FFC2]'><i className="icon-check_thick"></i></div> : <div className='w-[25px] h-[25px] rounded-full flex items-center justify-center bg-[#F00606] text-[#FFB2B2]'><i className="icon-close_thick"></i></div>}
+                    </div>
+                  )}
+                </button>
+              </div>
             );
           })}
         </div>
-      </div>
 
-      {/* FOOTER */}
-      <div className="w-full max-w-md mt-8 pb-12">
-        {!isSubmitted ? (
-          <button 
-            onClick={handleSubmit}
-            disabled={Object.keys(matches).length < gameData.targets.length}
-            className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-xl hover:bg-emerald-700 disabled:opacity-50 shadow-[0_4px_0_#047857] active:translate-y-1 active:shadow-none transition-all"
-          >
-            {t('submit_answer')}
-          </button>
-        ) : (
-          <div className="text-center animate-bounce">
-             {isPerfect ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
-                  🎉 {t('perfect_score')}
-               </div>
-             ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
-                  {t('you_got', {
-                    score: getScore(),
-                    length: gameData.targets.length
-                  })}
-               </div>
-             )}
+        {/* 🏷️ OPTIONS POOL (Targets + Wrong Answers) */}
+        <div className="w-full max-w-md bg-white/60 p-4 rounded-2xl border-2 border-slate-200">
+          <div className="flex flex-wrap justify-center gap-3">
+            {gameData.options.map((opt) => {
+              const isUsed = Object.values(matches).includes(opt.id);
+              const isSelected = selectedOptionId === opt.id;
 
-             {isPerfect ? (
-               <button onClick={onNext} className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md">
-                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
-               </button>
-             ) : (
-               <button onClick={handleRetry} className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md">
-                 {t('try_again')} ↺
-               </button>
-             )}
+              if (isUsed && !isSubmitted) return null; 
+
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => handleOptionClick(opt.id)}
+                  disabled={isSubmitted}
+                  className={`
+                    px-4 py-2 rounded-xl font-medium border-b-4 border-2 transition-all text-sm
+                    ${isSelected 
+                      ? 'bg-emerald-500 border-emerald-700 text-white scale-110 shadow-lg' 
+                      : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}
+                    ${isUsed && isSubmitted ? 'opacity-50 grayscale' : ''}
+                  `}
+                >
+                  {opt.name}
+                </button>
+              );
+            })}
           </div>
-        )}
-      </div>
+        </div>
 
+        {/* FOOTER */}
+        <div className="w-full max-w-md mt-8 pb-12">
+          {!isSubmitted ? (
+            <button 
+              onClick={handleSubmit}
+              disabled={Object.keys(matches).length < gameData.targets.length}
+              className="w-full bg-[#FFE064] text-white py-4 rounded-full font-semibold hover:bg-[#FFE064] disabled:opacity-50 shadow-[0_4px_0_#E7C230] active:translate-y-1 active:shadow-none transition-all"
+            >
+              {t('submit_answer')}
+            </button>
+          ) : (
+            <div className="text-center animate-bounce">
+              {isPerfect ? (
+                <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
+                    {t('you_got_all')} 🎉
+                </div>
+              ) : (
+                <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
+                    {t('you_got', {
+                      score: getScore(),
+                      length: gameData.targets.length
+                    })}
+                    <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
+                </div>
+              )}
+
+              {isPerfect ? (
+                <button onClick={onNext} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all">
+                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+                </button>
+              ) : (
+                <button onClick={handleRetry} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all">
+                  {t('try_again')} ↺
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

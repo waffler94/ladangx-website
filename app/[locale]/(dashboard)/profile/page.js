@@ -28,10 +28,8 @@ export default async function page() {
                 <div className="mt-[28px]">
                     <Suspense fallback={<div className="bg-gray-300 rounded-[16px] h-[100px] w-full animate-pulse"></div>}>
 
-                        <div className=" relative  text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
-                            <Image src="/images/image15-frame_profile.png" alt="frame bg" className="absolute top-0 left-0 size-full " width={800} height={359} />
-
-                            <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
+                        <div className="bg-[url('/images/image15-frame_profile.png')] bg-cover bg-center relative text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
+                           <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
                                 <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-cover " />
                             </div>
                             <div className="relative z-10 ">
