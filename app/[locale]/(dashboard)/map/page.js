@@ -1,7 +1,10 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { farmData } from '@/data/farmLocations';
+import { useTranslations } from 'next-intl'
+import BackButton from '@/components/back-button'
 
 // Icons
 const SearchIcon = () => (
@@ -14,7 +17,7 @@ export default function AdventureMap() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const t = useTranslations()
   // Flatten data for easier searching
   const allLocations = useMemo(() => {
     return farmData.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.category })));
@@ -43,10 +46,17 @@ export default function AdventureMap() {
   };
 
   return (
-    <div className="min-h-screen bg-[#d0f0eb] font-sans pb-12 pt-safe">
+    <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover bg-bottom min-h-screen relative pt-safe">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0">
+        <Link href="/" className="">
+            <BackButton />
+        </Link>
+        <h1 className="font-semibold text-[22px]">{t("Map")}</h1>
+        <span></span>
+      </div>
 
       {/* --- 1. TOP SEARCH BAR --- */}
-      <div className="sticky top-0 z-50 p-4 bg-[#d0f0eb]/90 backdrop-blur-sm">
+      <div className="sticky top-0 z-50 p-4 mt-4">
         <div className="max-w-2xl mx-auto relative">
           <div className="relative flex items-center">
             <div className="absolute left-4 text-slate-500">
@@ -58,7 +68,7 @@ export default function AdventureMap() {
               value={searchQuery}
               onChange={handleSearchChange}
               onFocus={() => setIsDropdownOpen(true)}
-              className="w-full pl-12 pr-4 py-4 rounded-full bg-[#cadfc9] border-2 border-[#b5cbb4] text-slate-700 placeholder-slate-500 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-200 transition-all font-bold text-lg shadow-sm"
+              className="w-full pl-12 pr-4 py-4 rounded-full bg-white text-slate-700 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all text-lg shadow-[0_4px_12px_0_#0D0A2C0F]"
             />
           </div>
 
@@ -86,10 +96,6 @@ export default function AdventureMap() {
       <div className="px-4 mb-8">
         <div className="max-w-4xl mx-auto bg-[#fdf6e3] rounded-[2rem] border-[6px] border-[#8b7355] shadow-[8px_8px_0px_0px_rgba(60,50,40,0.2)] overflow-hidden relative min-h-[400px] flex items-center justify-center p-4">
 
-          {/* 
-             NOTE: Replace '/images/main-map.jpg' with your actual full map image.
-             The 'selectedLocation.image' should be a zoomed-in version or the same map with a highlight.
-          */}
 
           {selectedLocation ? (
             <div className="text-center animate-in zoom-in-95 duration-300">
@@ -117,22 +123,17 @@ export default function AdventureMap() {
 
       {/* --- 3. CATEGORIZED LIST --- */}
       <div className="max-w-5xl mx-auto px-6">
-        <div className="bg-[#fdfbe7] rounded-3xl p-4 border-4 border-[#5c4a35] shadow-lg relative">
-
-          {/* Decorative Corner */}
-          <div className="absolute top-4 left-4 text-[#5c4a35] opacity-20 text-4xl">🌿</div>
-          <div className="absolute bottom-4 right-4 text-[#5c4a35] opacity-20 text-4xl">🐇</div>
-
+        <div className="bg-[#fdfbe7] rounded-3xl p-6 border-4 border-[#5c4a35] shadow-lg relative">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {farmData.map((category) => (
               <div key={category.category} className="flex flex-col gap-2">
                 {/* Category Header (Thick Label) */}
-                <h3 className="text-2xl font-black text-[#2f3e2e] pb-1 inline-block self-start">
+                <h3 className="text-[1rem] font-semibold text-black inline-block self-start">
                   {category.category}
                 </h3>
 
                 {/* List Items */}
-                <ul className="space-y-2">
+                <ul className="space-y-1">
                   {category.items.map((item) => {
                     const isSelected = selectedLocation?.id === item.id;
 
@@ -141,10 +142,10 @@ export default function AdventureMap() {
                         <button
                           onClick={() => handleSelect(item)}
                           className={`
-                            text-left text-sm md:text-base transition-all duration-200
+                            text-left text-[0.85rem] transition-all duration-200
                             ${isSelected
-                              ? 'font-black text-green-700 bg-green-200 px-3 py-1 rounded-lg scale-105 shadow-sm translate-x-2'
-                              : 'font-medium text-[#5c4a35] hover:text-green-700 hover:translate-x-1'
+                              ? 'font-bold text-[#614200] bg-[#EEDAAF] px-3 py-1 rounded-lg scale-105 shadow-sm translate-x-2'
+                              : 'font-medium text-[#313F3A] hover:text-green-700 hover:translate-x-1'
                             }
                           `}
                         >

@@ -65,7 +65,7 @@ export default function page() {
                         <LanguageGlobe />
 
                     </div>
-                    <div className="mt-[24px] grid grid-cols-2 gap-y-[24px] gap-x-[17px] ">
+                    <div className="mt-[24px] grid grid-cols-2 md:grid-cols-3 gap-y-[24px] gap-x-[17px] ">
                         {
 
                             [
@@ -97,12 +97,12 @@ export default function page() {
                                 }
                             ].map(
                                 (item, index) => {
-                                    return (<div key={index} className="rounded-[32px] w-full h-[180px]  relative mb-[30px]">
-                                        <div className="rounded-t-[32px] w-full flex items-center justify-center h-[50px] bg-white">
+                                    return (<div key={index} className="rounded-[32px] w-full relative mb-[30px] aspect-square">
+                                        <div className="rounded-t-[32px] w-full flex items-center justify-center bg-white py-2 absolute top-0">
                                             <p className="text-center  font-semibold">{item.label}</p>
                                         </div>
                                         <div>
-                                            <Image src={item.image} alt={item.label} width={180} height={130} className="rounded-b-[32px] w-full h-[130px] object-cover" />
+                                            <Image src={item.image} alt={item.label} width={180} height={130} className="rounded-[32px] w-full object-cover" />
                                         </div>
                                         <div className="pb-2 py-1 pl-1 pr-2 w-[85px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                                             <PlayButton href={item.href} label={t("play_btn")} />

@@ -12,6 +12,9 @@
     "facts": "Fun Facts",
     "play": "Play Games!",
     "awesome": "Awesome!",
+    "you_picked_it_right": "You picked it right!",
+    "matching_it_desc": "Tap left icon,then tap matching text",
+    "you_got_all": "You got all the answers correct!",
     "oops": "Oops!",
     "correct": "Correct",
     "next": "Next",
@@ -184,5 +187,7 @@
     "my_bookings": "My Bookings",
     "no_ticket_yet": "You have no tickets yet",
     "no_ticket_description": "You have not purchased any tickets yet.",
-    "purchase_tickets": "Purchase Tickets"
+    "purchase_tickets": "Purchase Tickets",
+
+    "tap_a_fruit": "Tap a fruit to play!"
 }

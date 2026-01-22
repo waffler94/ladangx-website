@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import LanguageToggle from '@/components/LanguageToggle';
 import { Link } from '@/i18n/navigation';
+import BackButton from '@/components/back-button'
 
 export default async function Home({ params }) {
   const { locale } = await params;
@@ -10,20 +11,16 @@ export default async function Home({ params }) {
   const fruits = await getFruits(locale);
 
   return (
-    <div className="min-h-screen bg-sky-50 bg-[radial-gradient(#bae6fd_2px,transparent_2px)] [background-size:24px_24px] pb-12 pt-safe">
-      <LanguageToggle />
-      {/* ☁️ Hero Section */}
-      <div className="pt-8 pb-8 px-4 text-center">
-        <div className="inline-block bg-white border-4 border-sky-400 p-6 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(56,189,248,0.4)] transform -rotate-1">
-          <h1 className="text-4xl font-black text-sky-500 tracking-tight drop-shadow-sm">
-            Fruit Friends!
-          </h1>
-          <p className="text-slate-400 font-bold mt-2 text-lg">
-            Tap a fruit to play! 👇
-          </p>
-        </div>
+    <div className="bg-[url('/images/bg5-fruit_friends1.png')] bg-cover bg-top min-h-screen relative pt-safe">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
+        <Link href="/" className="">
+            <BackButton />
+        </Link>
+        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit">{t("E-learning")}</h1>
       </div>
-
+      {/* <LanguageToggle /> */}
+      <div className='h-[55vw] md:h-[55vh]'></div>
+      <h2 className='text-[#313F3A] text-[19px] text-center flex items-center justify-center gap-4 font-semibold py-4'>{t("tap_a_fruit")} <Image src={'/images/pointing.png'} alt="" width={40} height={40} /> </h2>
       {/* 📱 Mobile Grid: 2 Columns */}
       <div className="px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
         {fruits.map((fruit, index) => {
@@ -40,11 +37,10 @@ export default async function Home({ params }) {
               key={fruit.slug}
               className={`
                 group relative block bg-white 
-                border-4 border-slate-800 
                 rounded-3xl 
                 transition-all duration-200 
-                hover:scale-105 active:scale-95 active:border-b-4
-                shadow-[4px_6px_0px_0px_rgba(30,41,59,0.2)]
+                hover:scale-105 active:scale-95
+                shadow-[0px_4px_0px_0px_#DAE2DA]
                 active:shadow-none
                 ${rotateClass}
                 overflow-hidden
@@ -69,10 +65,10 @@ export default async function Home({ params }) {
 
                 {/* 📝 Text Info */}
                 <div className="text-center w-full z-10 relative">
-                  <h2 className="text-[15px] font-black text-slate-700 leading-tight">
+                  <h2 className="text-[16px] font-semibold text-[#313F3A] leading-tight">
                     {fruit.name}
                   </h2>
-                  <div className="mt-2 inline-block bg-slate-100 text-slate-400 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-slate-200">
+                  <div className="mt-2 inline-block bg-[#F1F5F9] text-[#A0AFC4] text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-[#E2E8F0]">
                     {fruit.origin}
                   </div>
                 </div>
@@ -81,10 +77,6 @@ export default async function Home({ params }) {
             </Link>
           );
         })}
-      </div>
-
-      <div className="mt-12 text-center text-sky-300 opacity-50 font-black tracking-widest">
-        •••
       </div>
     </div>
   );

@@ -62,12 +62,12 @@ export const generateQuestion = (fruit, category, allFruits, locale, t) => {
 
 // UPDATE: Added 'type' property to map to components
 export const categories = [
-  { id: 'origin', type: 'mcq', label: 'origi', icon: '🌍', color: 'bg-orange-100 border-orange-400 text-orange-800' },
-  { id: 'benefits', type: 'matching', label: 'benefits', icon: '💪', color: 'bg-rose-100 border-rose-400 text-rose-800' },
-  { id: 'parts', type: 'labeling', label: 'fruit_parts', icon: '🌱', color: 'bg-green-100 border-green-400 text-green-800' }, 
-  { id: 'nutrients', type: 'multiselect', label: 'vitamin', icon: '💊', color: 'bg-purple-100 border-purple-400 text-purple-800'},
-  { id: 'makes', type: 'imagelabel', label: 'end_product', icon: '🍰', color: 'bg-yellow-100 border-yellow-400 text-yellow-800' },
-  { id: 'funfact', type: 'dragdrop', label: 'fun_fact', icon: '🤩', color: 'bg-sky-100 border-sky-400 text-sky-800' },
+  { id: 'origin', type: 'mcq', label: 'origi', icon: '🌍', background: 'image4-origin' },
+  { id: 'benefits', type: 'matching', label: 'benefits', icon: '💪', background: 'image5-benefits' },
+  { id: 'parts', type: 'labeling', label: 'fruit_parts', icon: '🌱', background: 'image6-fruit_parts' }, 
+  { id: 'nutrients', type: 'multiselect', label: 'vitamin', icon: '💊', background: 'image7-vitamins'},
+  { id: 'makes', type: 'imagelabel', label: 'end_product', icon: '🍰', background: 'image8-end_product' },
+  { id: 'funfact', type: 'dragdrop', label: 'fun_fact', icon: '🤩', background: 'image9-fun_fact' },
 ];
 
 

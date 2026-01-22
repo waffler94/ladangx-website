@@ -79,7 +79,7 @@ export default function page() {
 
             </div>
 
-            <div className="  flex flex-col px-[20px]  mx-auto  pb-32">
+            <div className="flex flex-col px-[20px] max-w-[500px] mx-auto  pb-32">
 
                 <Calendar
                     onSelect={onSelectDate}
