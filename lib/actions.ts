@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse } from "./declaration";
+import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -242,6 +242,24 @@ export const createUserVisit = async ({
     return { res_status: response.status, ...response.data };
 
 }
+
+export const getVisits = async ({ filter, page, per_page }: {
+    filter?: "upcoming" | "past",
+    page?: number,
+    per_page?: number
+}) => {
+    const response = await axios.get<getVisitsResponse>('/visits', {
+        params: {
+            filter,
+            page,
+            per_page
+        }
+    });
+
+    return { res_status: response.status, ...response.data };
+}
+
+
 
 export const getVisitDetails = async ({
     id

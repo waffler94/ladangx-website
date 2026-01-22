@@ -57,37 +57,37 @@ export interface ticketInfoItem {
 export interface visitDetailsResponse {
     status: string;
     data: {
+        id: string;
+        reference: string;
+        visit_date: string;
+        user_email: string;
+        user_name: string | null;
+        status: number;
+        status_text: string;
+        total_amount: number;
+        total_tickets: number;
+        details: {
+            ticket_type_id: string;
+            ticket_type_name: string;
+            ticket_type_price: number;
+            unit_price_paid: number;
+            quantity: number;
+            total_price: number;
+        }[];
+        subtotal: number;
+        discount_amount: number;
+        amount_after_discount: number;
+        tax_amount: number;
+        tax_breakdown: {
+            name: string;
+            rate: number;
+            amount: number;
+        }[];
+        grand_total: number;
         pdf_url: string;
-        visit: {
-            id: string;
-            reference: string;
-            visit_date: string;
-            user_email: string;
-            user_name: string;
-            status: number;
-            status_text: string;
-            total_amount: number;
-            total_tickets: number;
-            details: {
-                ticket_type_id: number;
-                ticket_type_name: string;
-                ticket_type_price: number;
-                unit_price_paid: number;
-                quantity: number;
-                total_price: number;
-            }[];
-            subtotal: number;
-            discount_amount: number;
-            amount_after_discount: number;
-            tax_amount: number;
-            tax_breakdown: {
-                name: string;
-                rate: number;
-                amount: number;
-            }[];
-            grand_total: number;
-        };
-        qr_codes: {
+        pdf_path: string;
+        created_at: string;
+        qr_codes?: {
             ticket_number: number;
             ticket_type_name: string;
             ticket_type_price: number;
@@ -141,6 +141,28 @@ export interface getCartResponse {
             };
         };
     };
+}
+
+export interface getVisitsResponse {
+    status: string;
+    data: {
+        id: string;
+        visit_date: string;
+        reference: string;
+        status: number;
+        status_text: string;
+        total_amount: number;
+        created_at: string;
+        details: {
+            ticket_type_id: string;
+            ticket_type_name: string;
+            ticket_type_price: number;
+            unit_price_paid: number;
+            quantity: number;
+            total_price: number;
+        }[];
+    }[];
+    pagination: Pagination;
 }
 
 export interface getUserResponse {

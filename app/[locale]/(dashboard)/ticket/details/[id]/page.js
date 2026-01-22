@@ -8,6 +8,7 @@ import React from 'react'
 import ShowTicketButton from './_components/show-ticket-btn';
 import { Link } from '@/i18n/navigation';
 import BackButton from '@/components/back-button';
+import BackBtn from './_components/back-btn';
 
 export default async function page({ params }) {
     const { id } = await params;
@@ -58,12 +59,11 @@ export default async function page({ params }) {
     return (
         <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen relative pt-safe">
             <div className="flex flex-row items-center justify-center w-full pt-[17px] px-[20px]">
-
-                <h1 className="font-semibold text-[22px]">{t("review_order")}</h1>
-
-                <Link href="/" className="absolute left-[12px] top-[17px]">
-                    <BackButton />
-                </Link>
+                <div className="flex flex-row items-center justify-center">
+                    <BackBtn />
+                    <h1 className="text-[22px] font-semibold">{t('review_order')}</h1>
+                    <div />
+                </div>
             </div>
             {/* {JSON.stringify(res)} */}
             <div className="px-[20px] pb-[200px]">

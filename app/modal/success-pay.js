@@ -8,12 +8,19 @@ import { PopupContext } from '@/components/context/PopupProvider';
 import { Check } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
 
 export default function SuccessPay({ open, data }) {
     const { orderId } = data
     const t = useTranslations();
     const router = useRouter()
     const { closeAllModal } = useContext(PopupContext);
+    const handleClickOrderDetails = (e) => {
+        e.preventDefault();
+        Cookies.set('isFromCheckout', 'true');
+        router.push('/ticket/details/' + orderId);
+        closeAllModal();
+    }
     return (
         <Dialog open={open} >
             <DialogContent onPointerDownOutside={() => {
@@ -26,7 +33,7 @@ export default function SuccessPay({ open, data }) {
                     </div>
                     <h1 className="text-2xl font-semibold text-center my-4">{t("payment_successful")}</h1>
                     <p className="text-gray-600 text-center mb-8">{t("payment_successful_desc")}</p>
-                    <form className="w-full" onSubmit={(e) => { e.preventDefault(); router.push('/ticket/details/' + orderId); closeAllModal(); }}>
+                    <form className="w-full" onSubmit={handleClickOrderDetails}>
                         <div className="py-2 pl-1 pr-3 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                             <button
                                 type="submit"
