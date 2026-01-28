@@ -176,7 +176,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
         </button>
         <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('match_it')}</h1>
       </div>
-      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("matching_it_desc")} </h2>
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6 px-4 leading-[1.2]'>{t("matching_it_desc")} </h2>
       {/* GAME BOARD */}
       <div ref={containerRef} className="relative w-full max-w-md flex justify-between gap-8 mb-12 px-4">
         
