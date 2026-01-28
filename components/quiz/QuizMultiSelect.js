@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import CloseButton from '@/components/close-button'
 
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -121,27 +122,25 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
   
 
   return (
-    <div className="min-h-screen bg-purple-50 p-6 flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-purple-100 to-purple-200"></div>
-
-      {/* Header */}
-      <div className="w-full max-w-md flex justify-between items-center mb-6 relative z-10">
-        <button onClick={onBack} className="font-bold text-purple-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-purple-200">
-           {t('back')}
+    <div className="bg-[url('/images/bg12-vitamin.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
+      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
+        <button onClick={onBack}>
+          <CloseButton />
         </button>
-        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-purple-200 shadow-sm">
-           <Image src={fruit.image} className="w-8 h-8" alt={fruit.name} width={40} height={40} /> 
-           <span className="font-black text-slate-700">{fruit.name}</span>
-        </div>
+        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('tap_me')}</h1>
       </div>
+      
 
       {/* Question Card */}
-      <div className="w-full max-w-md relative z-10">
-        <div className="bg-white rounded-3xl p-6 text-center border-4 border-purple-300 shadow-xl mb-6">
-           <h2 className="text-xl font-black text-slate-700 leading-snug">
-             {t('tap')} <span className="text-purple-500 underline decoration-wavy">{t('all')}</span> {t('the_vitamins_inside_me')}
+      <div className="w-full max-w-md relative z-10 mt-20 px-4">
+        <div className="bg-white border-b-8 rounded-3xl p-8 text-center border-slate-200 mb-8 relative pt-20">
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-100 p-3 rounded-full border-4 border-white shadow-lg">
+            <Image src={fruit.image} className="w-16 h-16" alt={fruit.name} width={50} height={50} />
+          </div>
+          <h2 className="text-xl font-medium text-slate-700 leading-snug">
+             {t('tap')} <span className="text-[#F4D958] underline decoration-wavy">{t('all')}</span> {t('the_vitamins_inside_me')}
            </h2>
-           <p className="text-slate-400 text-sm font-bold mt-2">({t('you_can_pick')})</p>
+           <p className="text-slate-400 text-sm font-medium mt-2">({t('you_can_pick')})</p>
         </div>
 
         {/* 🔘 OPTIONS GRID */}
@@ -151,27 +150,30 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
             const isCorrect = gameData.correctSet.has(optionText);
             
             // --- STYLING LOGIC ---
-            let bgClass = "bg-white border-slate-200 hover:border-purple-300";
+            let bgClass = "bg-white border-slate-200 hover:border-[#AFD164]";
             let icon = null;
+            let textColor = "text-slate-700";
 
             if (!isSubmitted) {
               // Playing State
               if (isSelected) {
-                bgClass = "bg-purple-100 border-purple-500 ring-2 ring-purple-200";
-                icon = <span className="text-purple-600 text-xl">✅</span>;
+                bgClass = "bg-[#E0FFC2] border-[#AFD164]";
+                icon = <span className="text-[#AFD164] text-xl"></span>;
               }
             } else {
               // Result State
               if (isCorrect) {
                 // It was a correct answer
-                bgClass = "bg-green-100 border-green-500";
-                icon = <span className="text-green-600 text-xl">{t('correct')}!</span>;
+                bgClass = "bg-[#E0FFC2] border-[#688F44]";
+                icon = <span className="text-green-600 text-xl"><i className='text-[#688F44] icon-check_thick'></i></span>;
+                textColor = "text-[#79A74E]"
                 // If user MISSED it, maybe make it lighter green?
                 if (!isSelected) bgClass = "bg-green-50 border-green-300 opacity-70";
               } else if (isSelected && !isCorrect) {
-                // User picked a WRONG answer
-                bgClass = "bg-red-100 border-red-500";
-                icon = <span className="text-red-600 text-xl">❌</span>;
+                // User picked a WRON[G answer
+                bgClass = "bg-[#FFB2B2] border-[#F00606]";
+                icon = <span className="text-[#F00606] text-xl icon-close_thick"></span>;
+                textColor = "text-[#F00606]"
               } else {
                 // Not correct, not selected (Ignore)
                 bgClass = "bg-slate-100 border-slate-200 opacity-50";
@@ -189,7 +191,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
                   ${bgClass}
                 `}
               >
-                <span className="font-bold text-slate-700">{optionText}</span>
+                <span className={`font-medium ${textColor} `}>{optionText}</span>
                 {icon && <div className="absolute top-1 right-2 text-xs font-black">{icon}</div>}
               </button>
             );
@@ -201,7 +203,7 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
           <button 
             onClick={handleSubmit}
             disabled={selected.length === 0}
-            className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black text-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#4c1d95] active:shadow-none active:translate-y-1 transition-all"
+            className="w-full bg-[#AFD164] text-white py-4 rounded-full font-medium text-xl hover:bg-[#AFD164] disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_0_#93B24E] active:shadow-none active:translate-y-1 transition-all"
           >
             {t('submit_answer')}
           </button>
@@ -209,25 +211,27 @@ export default function QuizMultiSelect({ fruit, allFruits, onBack, onNext, isLa
            <div className="animate-float text-center">
             {getResult() === "perfect" ? (
               <>
-                <div className="bg-green-100 text-green-700 p-6 rounded-3xl border-b-8 border-green-700 mb-4">
+                <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
                   <h3 className="text-3xl font-black">🎉 {t('perfect_score')}</h3>
                 </div>
                 <button 
                   onClick={onNext} 
-                  className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md active:translate-y-1 transition-all"
+                  className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all"
                 >
                   {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
                 </button>
               </>
             ) : (
               <>
-                <div className="bg-rose-500 text-white p-6 rounded-3xl border-b-8 border-rose-700 mb-4">
-                  <h3 className="text-3xl font-black">🙈 {t('oops')}</h3>
-                  <p>{t('missed_some_try_again')}</p>
+                <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
+                  <h3 className="text-2xl font-medium flex items-center gap-x-2 mx-auto w-fit">
+                    <span>{t('oops')}</span>
+                    <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
+                  </h3>
                 </div>
                 <button 
                   onClick={handleRetry} 
-                  className="w-full bg-rose-600 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-700 shadow-md active:translate-y-1 transition-all"
+                  className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all"
                 >
                   {t('try_again')} ↺
                 </button>

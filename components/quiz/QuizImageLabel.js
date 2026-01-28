@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import CloseButton from '@/components/close-button'
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
@@ -140,125 +141,116 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
   const isPerfect = getScore() === gameData.items.length;
 
   return (
-    <div className="bg-[url('/images/bg10-benefits.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
+    <div className="bg-[url('/images/bg13-end_product.png')] bg-cover bg-top min-h-screen relative pt-safe pb-12">
       <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
         <button onClick={onBack}>
           <CloseButton />
         </button>
         <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('name_it')}</h1>
       </div>
-      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("tap_name")} </h2>
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6 px-4 leading-[1.2]'>{t("tap_name")} </h2>
       
-      {/* HEADER */}
-      <div className="w-full max-w-md flex justify-between items-center mb-6">
-        <button onClick={onBack} className="font-bold text-yellow-600 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-yellow-200">
-           {t('back')}
-        </button>
-        <h2 className="font-black text-2xl text-yellow-500 uppercase tracking-widest">{t('name_it')}</h2>
-      </div>
-
-      <p className="text-slate-500 font-bold mb-6 text-center text-sm">
-        {t('tap_name')}
-      </p>
 
       {/* 🖼️ IMAGE GRID (Questions) */}
-      <div className="w-full max-w-md grid grid-cols-2 gap-4 mb-8">
-        {gameData.items.map((item, index) => {
-          const placedLabelId = slots[index];
-          const placedLabelText = placedLabelId !== null 
-            ? gameData.items.find(i => i.id === placedLabelId)?.text 
-            : null;
+      <div className='w-full max-w-md px-4'>
+        <div className=" grid grid-cols-2 gap-4 mb-8">
+          {gameData.items.map((item, index) => {
+            const placedLabelId = slots[index];
+            const placedLabelText = placedLabelId !== null 
+              ? gameData.items.find(i => i.id === placedLabelId)?.text 
+              : null;
 
-          let slotStyle = "bg-white border-slate-200";
-          
-          if (isSubmitted) {
-            if (placedLabelId === item.id) slotStyle = "bg-green-100 border-green-500 text-green-700";
-            else slotStyle = "bg-red-100 border-red-400 text-red-700";
-          } else if (selectedLabelId !== null && placedLabelId === null) {
-            slotStyle = "bg-yellow-100 border-yellow-400 animate-pulse"; // Hint
-          }
-
-          return (
-            <div key={item.id} className="flex flex-col items-center">
-              {/* The Image */}
-              <div className="w-full h-32 bg-white rounded-2xl border-4 border-slate-100 flex items-center justify-center mb-2 shadow-sm p-4">
-                <img src={item.image} className="w-20 h-20 object-contain drop-shadow-md" />
-              </div>
-
-              {/* The Drop Slot */}
-              <button
-                onClick={() => handleSlotClick(index)}
-                disabled={isSubmitted}
-                className={`
-                  w-full h-12 rounded-xl border-b-4 border-2 font-black text-sm transition-all
-                  ${slotStyle}
-                `}
-              >
-                {placedLabelText || <span className="opacity-20">???</span>}
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 🏷️ LABEL POOL (Answers) */}
-      <div className="w-full max-w-md bg-white/50 rounded-3xl p-4 border-2 border-slate-200">
-        <div className="flex flex-wrap justify-center gap-3">
-          {gameData.shuffledLabels.map((label) => {
-            const isUsed = slots.includes(label.id);
-            const isSelected = selectedLabelId === label.id;
-
-            if (isUsed && !isSubmitted) return null; // Hide from pool if placed (unless showing results)
+            let slotStyle = "bg-white border-slate-200";
+            
+            if (isSubmitted) {
+              if (placedLabelId === item.id) slotStyle = "bg-[#E0FFC2] border-[#79A74E] text-[#79A74E]";
+              else slotStyle = "bg-red-100 border-red-400 text-red-700";
+            } else if (selectedLabelId !== null && placedLabelId === null) {
+              slotStyle = "bg-yellow-100 border-yellow-400 animate-pulse"; // Hint
+            }
 
             return (
-              <button
-                key={label.id}
-                onClick={() => handlePoolClick(label.id)}
-                disabled={isSubmitted || isUsed}
-                className={`
-                  px-4 py-2 rounded-xl font-bold border-b-4 border-2 transition-all
-                  ${isSelected ? 'bg-yellow-400 border-yellow-600 text-white scale-110 shadow-lg' : 'bg-white border-slate-300 text-slate-700'}
-                  ${isUsed && isSubmitted ? 'opacity-50 grayscale' : ''}
-                `}
-              >
-                {label.text}
-              </button>
+              <div key={item.id} className="flex flex-col items-center">
+                {/* The Image */}
+                <div className="w-full h-32 bg-white rounded-2xl border-4 border-slate-100 flex items-center justify-center mb-2 shadow-sm p-4">
+                  <img src={item.image} className="w-20 h-20 object-contain drop-shadow-md" />
+                </div>
+
+                {/* The Drop Slot */}
+                <button
+                  onClick={() => handleSlotClick(index)}
+                  disabled={isSubmitted}
+                  className={`
+                    w-full h-12 rounded-xl border-b-4 border-2 font-medium text-sm transition-all
+                    ${slotStyle}
+                  `}
+                >
+                  {placedLabelText || <span className="opacity-20">???</span>}
+                </button>
+              </div>
             );
           })}
         </div>
-      </div>
 
+        
+        <div className="w-full max-w-md bg-white/50 rounded-3xl p-4 border-2 border-slate-200">
+          <div className="flex flex-wrap justify-center gap-3">
+            {gameData.shuffledLabels.map((label) => {
+              const isUsed = slots.includes(label.id);
+              const isSelected = selectedLabelId === label.id;
+
+              if (isUsed && !isSubmitted) return null; // Hide from pool if placed (unless showing results)
+
+              return (
+                <button
+                  key={label.id}
+                  onClick={() => handlePoolClick(label.id)}
+                  disabled={isSubmitted || isUsed}
+                  className={`
+                    px-4 py-2 rounded-xl font-medium border-b-4 border-2 transition-all
+                    ${isSelected ? 'bg-yellow-400 border-yellow-600 text-white scale-110 shadow-lg' : 'bg-white border-slate-300 text-slate-700'}
+                    ${isUsed && isSubmitted ? 'opacity-50 grayscale' : ''}
+                  `}
+                >
+                  {label.text}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
       {/* FOOTER */}
-      <div className="w-full max-w-md mt-6">
+      <div className="w-full max-w-md mt-6 px-4 pb-12">
         {!isSubmitted ? (
           <button 
             onClick={handleSubmit}
             disabled={slots.includes(null)}
-            className="w-full bg-yellow-500 text-white py-4 rounded-2xl font-black text-xl hover:bg-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#ca8a04] active:shadow-none active:translate-y-1 transition-all"
+            className="w-full bg-[#60BBEC] text-white py-4 rounded-full font-medium text-xl hover:bg-[#60BBEC] disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_0_#559FC7] active:shadow-none active:translate-y-1 transition-all"
           >
             {t('submit_answer')}
           </button>
         ) : (
           <div className="text-center animate-bounce">
              {isPerfect ? (
-               <div className="bg-green-100 text-green-700 p-4 rounded-2xl font-bold border-2 border-green-400 mb-4">
+               <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
                   🎉 {t('perfect_score')}
                </div>
              ) : (
-               <div className="bg-orange-100 text-orange-700 p-4 rounded-2xl font-bold border-2 border-orange-400 mb-4">
+               <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
                   {t('you_got', {
                     score: getScore(),
                     length: gameData.items.length
                   })}
+                  <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
                </div>
              )}
 
              {isPerfect ? (
-               <button onClick={onNext} className="w-full bg-green-500 text-white py-3 rounded-xl font-black text-lg hover:bg-green-600 shadow-md">
+               <button onClick={onNext} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all">
                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
                </button>
              ) : (
-               <button onClick={handleRetry} className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-lg hover:bg-rose-600 shadow-md">
+               <button onClick={handleRetry} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all">
                  {t('try_again')} ↺
                </button>
              )}

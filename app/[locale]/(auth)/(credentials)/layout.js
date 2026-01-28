@@ -20,10 +20,12 @@ export default async function layout({ children }) {
 
     return (
         <div className="max-w-lg mx-auto ">
+            {/* <div className="relative"> */}
             <div className="bg-[url('/images/bg2-login_register.png')] bg-cover h-[350px] pt-[30px] flex relative px-4">
-                {/* <div className="text-center  absolute left-1/2 -translate-1/2 top-[60px] font-bold text-white text-[40px]">
-                    <Image src="/images/ladangx_logo1.png" alt="LadangX Logo" width={400} height={165} className="mx-auto " />
-                </div> */}
+                {/* <Image src="/images/ladangx_logo1.png" alt="LadangX Logo" width={150} height={165} className="mx-auto z-[2] absolute left-0 right-0 top-[50px]" />
+                <Image src="/images/login_bg.jpeg" alt="LadangX Image" width={1000} height={565} className="mx-auto relative" />
+                
+                <LanguageGlobe className="absolute top-4 right-4 z-[2]" /> */}
                 <LanguageGlobe />
 
             </div>

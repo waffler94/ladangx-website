@@ -170,7 +170,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
         </button>
         <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('label_it')}</h1>
       </div>
-      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6'>{t("match_the_names")} </h2>
+      <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6 px-4 leading-[1.2]'>{t("match_the_names")} </h2>
 
       {/* 🖼️ DIAGRAM IMAGE */}
       <div className='px-4'>

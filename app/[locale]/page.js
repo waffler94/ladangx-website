@@ -52,7 +52,15 @@ export default function page() {
                                                 className="object-cover w-full h-full"
                                             />
                                         ) : (
-                                            <div className="rounded-full size-[46px] bg-gray-400"></div>
+                                            <div className="rounded-full size-[46px] bg-gray-400">
+                                                <Image
+                                                    src={"/images/image16-stamp.png"}
+                                                    alt="Profile Picture"
+                                                    width={46}
+                                                    height={46}
+                                                    className="object-cover w-full h-full"
+                                                />
+                                            </div>
                                         )}
                                     </div>
                                     <div>
