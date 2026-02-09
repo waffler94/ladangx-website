@@ -189,6 +189,6 @@
     "no_ticket_yet": "You have no tickets yet",
     "no_ticket_description": "You have not purchased any tickets yet.",
     "purchase_tickets": "Purchase Tickets",
-
-    "tap_a_fruit": "Tap a fruit to play!"
+    "tap_a_fruit": "Tap a fruit to play!",
+    "search_ticket_placeholder": "Search ..."
 }

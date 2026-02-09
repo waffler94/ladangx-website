@@ -78,3 +78,10 @@ Authorization: Bearer {{token}}
 {
   "locale":"en"
 }
+
+
+###
+GET {{baseUrl}}/api/v1/user-quizzes/check-all-completed
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
