@@ -221,3 +221,22 @@ export interface getUserQuizStatusResponse {
         completion_status: string;
     }[];
 }
+
+export interface getQuizAnswerStatusResponse {
+    status: string;
+    data: {
+        [key: string]: {
+            question_type: string;
+            total_questions: number;
+            correct_answers: number;
+            total_points: number;
+            answers: {
+                user_selection: string;
+                original_selection: string;
+                quiz_locale: string;
+                is_correct: boolean;
+                points: number;
+            }[];
+        };
+    };
+}

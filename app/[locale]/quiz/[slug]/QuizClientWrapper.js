@@ -24,14 +24,14 @@ export default function QuizClientWrapper({ fruit, allFruits, locale, userQuizId
   const [activeCategoryId, setActiveCategoryId] = useState(null);
 
   if (!activeCategoryId) {
-    return <QuizMenu fruit={fruit} onSelectCategory={setActiveCategoryId} locale={locale} />;
+    return <QuizMenu fruit={fruit} onSelectCategory={setActiveCategoryId} locale={locale} userQuizId={userQuizId} />;
   }
 
   const selectedCategory = categories.find(c => c.id === activeCategoryId);
   const GameComponent = GAME_COMPONENTS[selectedCategory.type];
 
   const nextCategoryId = getNextCategory(activeCategoryId);
-  
+
   const handleNextLevel = () => {
     if (nextCategoryId) {
       setActiveCategoryId(nextCategoryId); // Go to next
@@ -41,13 +41,13 @@ export default function QuizClientWrapper({ fruit, allFruits, locale, userQuizId
   };
 
   return (
-    <GameComponent 
-      fruit={fruit} 
-      allFruits={allFruits} 
-      categoryId={activeCategoryId} 
-      onBack={() => setActiveCategoryId(null)} 
+    <GameComponent
+      fruit={fruit}
+      allFruits={allFruits}
+      categoryId={activeCategoryId}
+      onBack={() => setActiveCategoryId(null)}
       onNext={handleNextLevel}
-      locale={locale} 
+      locale={locale}
       isLastLevel={!nextCategoryId}
       userQuizId={userQuizId}
       token={token}

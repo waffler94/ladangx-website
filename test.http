@@ -1,5 +1,6 @@
 @baseUrl= https://ladangxadmin.upplex.com.my
 @token= 115|AZ1q3EtwRD4YThjqYh1NmHz5XVweUy9laIacMQpi
+@token2= 4|3tNUf4GvnzFHJfgwUAvI48FnqfI4L5umXd7faJFn
 
 
 ###
@@ -85,3 +86,32 @@ GET {{baseUrl}}/api/v1/user-quizzes/check-all-completed
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
+
+
+###
+
+POST {{baseUrl}}/api/v1/user-quizzes/start
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "field_item_id":2
+}
+
+###
+GET {{baseUrl}}/api/v1/user-quizzes/answers-by-type
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "user_quiz_id":2
+}
+
+###
+
+GET {{baseUrl}}/api/v1/users
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token2}}

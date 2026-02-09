@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse } from "./declaration";
+import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -306,6 +306,15 @@ export const updateUserPassword = async ({
 export const getUserQuizStatus = async (): Promise<getUserQuizStatusResponse> => {
     const res = await axios.get<getUserQuizStatusResponse>('/user-quizzes')
     return { status: res.status, ...res.data }
+}
+
+export const getQuizAnswerStatus = async ({ user_quiz_id }: { user_quiz_id: number }) => {
+    const res = await axios.get<getQuizAnswerStatusResponse>('/user-quizzes/answers-by-type', {
+        params: {
+            user_quiz_id
+        }
+    })
+    return { res_status: res.status, ...res.data }
 }
 
 // export const getProjectDetails = async ({

@@ -1,14 +1,14 @@
 import { getFruits } from '@/utils/api';
 import { notFound, redirect } from 'next/navigation';
-import { cookies } from 'next/headers'; 
+import { cookies } from 'next/headers';
 import QuizClientWrapper from './QuizClientWrapper';
 
 // 1. Update function to accept ID
 async function checkAuth(id) {
   const cookieStore = await cookies();
-  
+
   // 🟢 HARDCODED TOKEN (As requested)
-  const token = "4|3tNUf4GvnzFHJfgwUAvI48FnqfI4L5umXd7faJFn"; 
+  const token = "4|3tNUf4GvnzFHJfgwUAvI48FnqfI4L5umXd7faJFn";
 
   if (!token) return false;
 
@@ -29,8 +29,8 @@ async function checkAuth(id) {
       const data = await res.json();
       // Assuming the API returns something like { data: { id: 101 } } or just { id: 101 }
       // Adjust 'data.data.id' based on your actual API response structure
-      const userQuizId = data.data?.id || data.id; 
-      
+      const userQuizId = data.data?.id || data.id;
+
       return { isAuthorized: true, token, userQuizId }; // ✅ Return ID and Token
     } else {
       console.error('Auth Check Failed:', await res.text());
@@ -62,12 +62,12 @@ export default async function QuizPage({ params }) {
 
   // 4. Render Game
   return (
-    <QuizClientWrapper 
-      fruit={fruit} 
-      allFruits={fruits} 
-      locale={locale} 
+    <QuizClientWrapper
+      fruit={fruit}
+      allFruits={fruits}
+      locale={locale}
       userQuizId={auth.userQuizId}
-      token={auth.token}          
+      token={auth.token}
       apiUrl={process.env.API_URL}
     />
   );
