@@ -4,10 +4,13 @@ import { generateQuestion } from '@/utils/quizLogic';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import CloseButton from '@/components/close-button'
+import { useGetQuizAnswerStatus } from '@/lib/hooks/useGetQuizAnswerStatus';
 
 export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBack, locale, onNext, isLastLevel, userQuizId, token, apiUrl }) {
-  const t = useTranslations(); 
+  const t = useTranslations();
   const [currentQuestion, setCurrentQuestion] = useState(() => generateQuestion(fruit, categoryId, allFruits, locale, t));
+  const { data: quizAnswerStatusData, isLoading: quizAnswerStatusLoading, refresh: quizAnswerStatusRefresh } = useGetQuizAnswerStatus({ user_quiz_id: userQuizId });
+
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [view, setView] = useState('playing'); // 'playing', 'result'
   const [isCorrect, setIsCorrect] = useState(false);
@@ -36,8 +39,9 @@ export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBac
         },
         body: JSON.stringify(payload)
       });
-      
+
       console.log("✅ Answer submitted:", payload);
+      await quizAnswerStatusRefresh();
     } catch (error) {
       console.error("❌ Failed to submit answer:", error);
     }
@@ -75,21 +79,21 @@ export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBac
       </div>
       <div className="w-full max-w-md relative z-10 px-4">
         <div className="bg-white border-b-8 rounded-3xl p-8 text-center border-slate-200 mb-8">
-           <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-100 p-3 rounded-full border-4 border-white shadow-lg">
-              <Image src={fruit.image} className="w-16 h-16" alt={fruit.name} width={50} height={50} />
-           </div>
-           <h2 className="mt-8 text-[19px] font-semibold text-[#313F3A] leading-snug">
-             {currentQuestion.question}
-           </h2>
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-100 p-3 rounded-full border-4 border-white shadow-lg">
+            <Image src={fruit.image} className="w-16 h-16" alt={fruit.name} width={50} height={50} />
+          </div>
+          <h2 className="mt-8 text-[19px] font-semibold text-[#313F3A] leading-snug">
+            {currentQuestion.question}
+          </h2>
         </div>
 
         <div className="space-y-3">
           {currentQuestion.answers.map((answer, index) => {
-              let btnStyle = "bg-white border-slate-200 text-[#313F3A] hover:bg-sky-50 text-[19px] font-semibold";
+            let btnStyle = "bg-white border-slate-200 text-[#313F3A] hover:bg-sky-50 text-[19px] font-semibold";
             if (view === 'result') {
-              if (answer === currentQuestion.correctAnswer) btnStyle = "bg-[#E0FFC2] border-[#77A44D] text-[#688F44]"; 
-              else if (answer === selectedAnswer) btnStyle = "bg-[#FFB2B2] border-[#F00606] text-[#F00606]"; 
-              else btnStyle = "bg-slate-200 border-slate-300 text-slate-400 opacity-50"; 
+              if (answer === currentQuestion.correctAnswer) btnStyle = "bg-[#E0FFC2] border-[#77A44D] text-[#688F44]";
+              else if (answer === selectedAnswer) btnStyle = "bg-[#FFB2B2] border-[#F00606] text-[#F00606]";
+              else btnStyle = "bg-slate-200 border-slate-300 text-slate-400 opacity-50";
             }
 
             return (
@@ -112,11 +116,11 @@ export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBac
                 <h3 className="text-2xl font-medium mb-2"> {t('awesome')} 🎉</h3>
                 <p className="font-medium mb-4"> {t('you_picked_it_right')}</p>
                 {/* 3. BUTTON: Next Level */}
-                <button 
-                  onClick={onNext} 
+                <button
+                  onClick={onNext}
                   className="bg-white text-[#313F3A] px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform border-b-6 border-slate-200"
                 >
-                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+                  {isLastLevel ? t('finish_game') + " 🏆" : t('next_game') + " ➡"}
                 </button>
               </div>
             ) : (
@@ -125,10 +129,10 @@ export default function QuizMultipleChoice({ fruit, allFruits, categoryId, onBac
                   <span>{t('oops')}</span>
                   <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
                 </h3>
-                <p className="font-medium mb-4">{t('the_correct_answer')} <br/> {currentQuestion.correctAnswer}</p>
+                <p className="font-medium mb-4">{t('the_correct_answer')} <br /> {currentQuestion.correctAnswer}</p>
                 {/* 4. BUTTON: Try Again (New Question) */}
-                <button 
-                  onClick={handleRetry} 
+                <button
+                  onClick={handleRetry}
                   className="bg-white text-[#313F3A] px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform border-b-6 border-slate-200"
                 >
                   {t('try_again')} ↺

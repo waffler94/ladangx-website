@@ -3,11 +3,13 @@ import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import CloseButton from '@/components/close-button'
+import { useGetQuizAnswerStatus } from '@/lib/hooks/useGetQuizAnswerStatus'
 
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
 export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
-  const t = useTranslations(); 
+  const t = useTranslations();
+  const { data: quizAnswerStatusData, isLoading: quizAnswerStatusLoading, refresh: quizAnswerStatusRefresh } = useGetQuizAnswerStatus({ user_quiz_id: userQuizId });
   // 1. Setup Data
   const generateData = useCallback(() => {
     const items = fruit.product_uses.map((m, i) => {
@@ -18,8 +20,8 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
 
       return {
         id: i,
-        apiId, 
-        apiLabelId, 
+        apiId,
+        apiLabelId,
         text,
         image: (typeof image === 'object' && image.url) ? image.url : image
       };
@@ -28,7 +30,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
     // Shuffle the text labels for the pool
     const shuffledLabels = shuffle([...items]);
 
-     return { items, shuffledLabels };
+    return { items, shuffledLabels };
   }, [fruit]);
 
   const [gameData, setGameData] = useState(generateData());
@@ -70,8 +72,9 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
         },
         body: JSON.stringify(payload)
       });
-      
+
       console.log("✅ ImageLabel Answer submitted:", payload);
+      await quizAnswerStatusRefresh();
     } catch (error) {
       console.error("❌ Failed to submit ImageLabel answer:", error);
     }
@@ -91,7 +94,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
       newSlots[currentSlotIndex] = null;
       setSlots(newSlots);
     }
-    
+
     // Toggle selection
     setSelectedLabelId(id === selectedLabelId ? null : id);
   };
@@ -149,19 +152,19 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
         <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit uppercase">{t('name_it')}</h1>
       </div>
       <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6 px-4 leading-[1.2]'>{t("tap_name")} </h2>
-      
+
 
       {/* 🖼️ IMAGE GRID (Questions) */}
       <div className='w-full max-w-md px-4'>
         <div className=" grid grid-cols-2 gap-4 mb-8">
           {gameData.items.map((item, index) => {
             const placedLabelId = slots[index];
-            const placedLabelText = placedLabelId !== null 
-              ? gameData.items.find(i => i.id === placedLabelId)?.text 
+            const placedLabelText = placedLabelId !== null
+              ? gameData.items.find(i => i.id === placedLabelId)?.text
               : null;
 
             let slotStyle = "bg-white border-slate-200";
-            
+
             if (isSubmitted) {
               if (placedLabelId === item.id) slotStyle = "bg-[#E0FFC2] border-[#79A74E] text-[#79A74E]";
               else slotStyle = "bg-red-100 border-red-400 text-red-700";
@@ -192,7 +195,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
           })}
         </div>
 
-        
+
         <div className="w-full max-w-md bg-white/50 rounded-3xl p-4 border-2 border-slate-200">
           <div className="flex flex-wrap justify-center gap-3">
             {gameData.shuffledLabels.map((label) => {
@@ -222,7 +225,7 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
       {/* FOOTER */}
       <div className="w-full max-w-md mt-6 px-4 pb-12">
         {!isSubmitted ? (
-          <button 
+          <button
             onClick={handleSubmit}
             disabled={slots.includes(null)}
             className="w-full bg-[#60BBEC] text-white py-4 rounded-full font-medium text-xl hover:bg-[#60BBEC] disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_0_#559FC7] active:shadow-none active:translate-y-1 transition-all"
@@ -231,29 +234,29 @@ export default function QuizImageLabel({ fruit, onBack, onNext, isLastLevel, use
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {isPerfect ? (
-               <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
-                  🎉 {t('perfect_score')}
-               </div>
-             ) : (
-               <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
-                  {t('you_got', {
-                    score: getScore(),
-                    length: gameData.items.length
-                  })}
-                  <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
-               </div>
-             )}
+            {isPerfect ? (
+              <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
+                🎉 {t('perfect_score')}
+              </div>
+            ) : (
+              <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
+                {t('you_got', {
+                  score: getScore(),
+                  length: gameData.items.length
+                })}
+                <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
+              </div>
+            )}
 
-             {isPerfect ? (
-               <button onClick={onNext} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all">
-                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
-               </button>
-             ) : (
-               <button onClick={handleRetry} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all">
-                 {t('try_again')} ↺
-               </button>
-             )}
+            {isPerfect ? (
+              <button onClick={onNext} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all">
+                {isLastLevel ? t('finish_game') + " 🏆" : t('next_game') + " ➡"}
+              </button>
+            ) : (
+              <button onClick={handleRetry} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all">
+                {t('try_again')} ↺
+              </button>
+            )}
           </div>
         )}
       </div>

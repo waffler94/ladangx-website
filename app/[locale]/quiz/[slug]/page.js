@@ -8,15 +8,14 @@ async function checkAuth(id) {
   const cookieStore = await cookies();
 
   // 🟢 HARDCODED TOKEN (As requested)
-  const token = "4|3tNUf4GvnzFHJfgwUAvI48FnqfI4L5umXd7faJFn";
-
+  const token = cookieStore.get("access_token");
   if (!token) return false;
 
   try {
     const res = await fetch(process.env.API_URL + '/user-quizzes/start', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${token?.value}`,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },

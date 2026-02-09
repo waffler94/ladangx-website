@@ -3,12 +3,14 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import CloseButton from '@/components/close-button'
+import { useGetQuizAnswerStatus } from '@/lib/hooks/useGetQuizAnswerStatus'
 
 // Helper to shuffle array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
 export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations();
+  const { data: quizAnswerStatusData, isLoading: quizAnswerStatusLoading, refresh: quizAnswerStatusRefresh } = useGetQuizAnswerStatus({ user_quiz_id: userQuizId });
   // 1. Setup Data
   const generateData = useCallback(() => {
     // A. Get Correct Answers
@@ -19,7 +21,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
     // ID = 0, 1, 2...
     const targets = rawParts.map((name, i) => ({
       id: i,
-      labelNumber: i + 1, 
+      labelNumber: i + 1,
       correctName: name
     }));
 
@@ -33,7 +35,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
     // C. Create Distractors (Wrong Answers)
     // 1. Collect all parts from OTHER fruits
     let potentialDistractors = [];
-    
+
     if (allFruits && allFruits.length > 0) {
       potentialDistractors = allFruits
         .filter(f => f.slug !== fruit.slug) // Exclude current fruit
@@ -98,8 +100,9 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
         },
         body: JSON.stringify(payload)
       });
-      
+
       console.log("✅ Parts Answer submitted:", payload);
+      await quizAnswerStatusRefresh();
     } catch (error) {
       console.error("❌ Failed to submit parts answer:", error);
     }
@@ -109,7 +112,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
 
   const handleOptionClick = (optId) => {
     if (isSubmitted) return;
-    
+
     // If clicking an option that is already placed, remove it
     const placedTargetId = Object.keys(matches).find(key => matches[key] === optId);
     if (placedTargetId) {
@@ -175,11 +178,11 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
       {/* 🖼️ DIAGRAM IMAGE */}
       <div className='px-4'>
         <div className="w-full max-w-md h-64 bg-white rounded-3xl border-b-4 border-[#DAE2DA] shadow-sm mb-6 flex items-center justify-center p-4 relative overflow-hidden">
-          <Image 
-            src={gameData.diagramImage} 
-            alt="Diagram" 
-            fill 
-            className="object-contain" 
+          <Image
+            src={gameData.diagramImage}
+            alt="Diagram"
+            fill
+            className="object-contain"
           />
         </div>
 
@@ -187,13 +190,13 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
         <div className="w-full max-w-md space-y-3 mb-8">
           {gameData.targets.map((target) => {
             const placedOptionId = matches[target.id];
-            
-            const placedText = placedOptionId !== undefined 
-              ? gameData.options.find(o => o.id === placedOptionId)?.name 
+
+            const placedText = placedOptionId !== undefined
+              ? gameData.options.find(o => o.id === placedOptionId)?.name
               : null;
 
             let slotStyle = "bg-white border-slate-300 text-slate-400"; // Empty
-            
+
             if (placedOptionId !== undefined) {
               slotStyle = "bg-[#E0FFC2] border-[#79A74E] text-[#688F44]"; // Filled
             }
@@ -222,7 +225,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
                   `}
                 >
                   {placedText || <span className="opacity-30 text-sm italic">{t('tap_to_place')}</span>}
-                    {isSubmitted && (
+                  {isSubmitted && (
                     <div className="text-[14px] text-center absolute right-3">
                       {placedOptionId === target.id ? <div className='w-[25px] h-[25px] rounded-full flex items-center justify-center bg-[#688F44] text-[#E0FFC2]'><i className="icon-check_thick"></i></div> : <div className='w-[25px] h-[25px] rounded-full flex items-center justify-center bg-[#F00606] text-[#FFB2B2]'><i className="icon-close_thick"></i></div>}
                     </div>
@@ -240,7 +243,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
               const isUsed = Object.values(matches).includes(opt.id);
               const isSelected = selectedOptionId === opt.id;
 
-              if (isUsed && !isSubmitted) return null; 
+              if (isUsed && !isSubmitted) return null;
 
               return (
                 <button
@@ -249,8 +252,8 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
                   disabled={isSubmitted}
                   className={`
                     px-4 py-2 rounded-xl font-medium border-b-4 border-2 transition-all text-sm
-                    ${isSelected 
-                      ? 'bg-emerald-500 border-emerald-700 text-white scale-110 shadow-lg' 
+                    ${isSelected
+                      ? 'bg-emerald-500 border-emerald-700 text-white scale-110 shadow-lg'
                       : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}
                     ${isUsed && isSubmitted ? 'opacity-50 grayscale' : ''}
                   `}
@@ -265,7 +268,7 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
         {/* FOOTER */}
         <div className="w-full max-w-md mt-8 pb-12">
           {!isSubmitted ? (
-            <button 
+            <button
               onClick={handleSubmit}
               disabled={Object.keys(matches).length < gameData.targets.length}
               className="w-full bg-[#FFE064] text-white py-4 rounded-full font-semibold hover:bg-[#FFE064] disabled:opacity-50 shadow-[0_4px_0_#E7C230] active:translate-y-1 active:shadow-none transition-all"
@@ -276,21 +279,21 @@ export default function QuizParts({ fruit, allFruits, onBack, onNext, isLastLeve
             <div className="text-center animate-bounce">
               {isPerfect ? (
                 <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
-                    {t('you_got_all')} 🎉
+                  {t('you_got_all')} 🎉
                 </div>
               ) : (
                 <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
-                    {t('you_got', {
-                      score: getScore(),
-                      length: gameData.targets.length
-                    })}
-                    <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
+                  {t('you_got', {
+                    score: getScore(),
+                    length: gameData.targets.length
+                  })}
+                  <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
                 </div>
               )}
 
               {isPerfect ? (
                 <button onClick={onNext} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all">
-                  {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
+                  {isLastLevel ? t('finish_game') + " 🏆" : t('next_game') + " ➡"}
                 </button>
               ) : (
                 <button onClick={handleRetry} className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all">

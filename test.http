@@ -76,9 +76,6 @@ Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
 
-{
-  "locale":"en"
-}
 
 
 ###
@@ -93,7 +90,7 @@ Authorization: Bearer {{token}}
 POST {{baseUrl}}/api/v1/user-quizzes/start
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer {{token2}}
+Authorization: Bearer {{token}}
 
 {
   "field_item_id":2
@@ -103,10 +100,10 @@ Authorization: Bearer {{token2}}
 GET {{baseUrl}}/api/v1/user-quizzes/answers-by-type
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer {{token2}}
+Authorization: Bearer {{token}}
 
 {
-  "user_quiz_id":2
+  "user_quiz_id":4
 }
 
 ###

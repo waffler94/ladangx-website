@@ -1,19 +1,21 @@
 'use client';
-import { useState, useRef, useEffect, useCallback  } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import CloseButton from '@/components/close-button'
+import { useGetQuizAnswerStatus } from '@/lib/hooks/useGetQuizAnswerStatus'
 
 // Helper to shuffle an array
 const shuffle = (array) => [...array].sort(() => 0.5 - Math.random());
 
 export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQuizId, token, apiUrl, locale }) {
   const t = useTranslations();
+  const { data: quizAnswerStatusData, isLoading: quizAnswerStatusLoading, refresh: quizAnswerStatusRefresh } = useGetQuizAnswerStatus({ user_quiz_id: userQuizId });
   // 1. Initialize Game Data
   const generateData = useCallback(() => {
     // Note: Ensure fruit.health_benefits exists in your JSON
-    const rawData = fruit.health_benefits || []; 
-    
+    const rawData = fruit.health_benefits || [];
+
     // const allPairs = benefits.map((item, i) => ({
     //   id: i, 
     //   text: item.text, 
@@ -29,23 +31,23 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
       return {
         id: i, // Local ID used for React keys and matching logic
         apiId, // DB ID for API submission
-        apiImageId, 
-        text, 
-        image 
+        apiImageId,
+        text,
+        image
       };
     });
 
     const selectedPairs = shuffle(allPairs).slice(0, 12);
 
-    return { 
-      left: shuffle(selectedPairs), 
+    return {
+      left: shuffle(selectedPairs),
       right: shuffle(selectedPairs),
       originalLength: selectedPairs.length
     };
   }, [fruit]);
 
   const [data, setData] = useState(generateData());
-  const [connections, setConnections] = useState({}); 
+  const [connections, setConnections] = useState({});
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -57,7 +59,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
   const rightDotRefs = useRef([]);
 
   // --- Line Drawing Logic ---
-   const handleRetry = () => {
+  const handleRetry = () => {
     setConnections({});
     setSelectedLeft(null);
     setIsSubmitted(false);
@@ -102,8 +104,9 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
         },
         body: JSON.stringify(payload)
       });
-      
+
       console.log("✅ Matching Answer submitted:", payload);
+      await quizAnswerStatusRefresh();
     } catch (error) {
       console.error("❌ Failed to submit matching answer:", error);
     }
@@ -150,9 +153,9 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
 
   const handleRightClick = (rightId) => {
     if (isSubmitted) return;
-    if (selectedLeft === null) return; 
+    if (selectedLeft === null) return;
     setConnections(prev => ({ ...prev, [selectedLeft]: rightId }));
-    setSelectedLeft(null); 
+    setSelectedLeft(null);
   };
 
   const handleSubmit = () => {
@@ -179,14 +182,14 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
       <h2 className='text-[#313F3A] text-[19px] text-center gap-2 py-6 px-4 leading-[1.2]'>{t("matching_it_desc")} </h2>
       {/* GAME BOARD */}
       <div ref={containerRef} className="relative w-full max-w-md flex justify-between gap-8 mb-12 px-4">
-        
+
         {/* SVG Overlay (Lines) */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-50 overflow-visible">
           {lines.map((line) => {
             // Line Logic: Orange (Active) -> Green (Correct) -> Red (Wrong)
-            let strokeColor = "#FFB323"; 
-            if (isSubmitted) strokeColor = line.isCorrect ? "#79A74E" : "#FE3939"; 
-            
+            let strokeColor = "#FFB323";
+            if (isSubmitted) strokeColor = line.isCorrect ? "#79A74E" : "#FE3939";
+
             return (
               <line
                 key={line.key}
@@ -206,7 +209,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
           {data.left.map((item) => {
             const isSelected = selectedLeft === item.id;
             const isConnected = connections[item.id] !== undefined;
-            
+
             // Result Logic
             const isCorrect = isSubmitted && connections[item.id] === item.id;
             const isWrong = isSubmitted && isConnected && !isCorrect;
@@ -291,7 +294,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
                   ${borderClass} ${bgClass}
                 `}
               >
-                 <div ref={el => rightDotRefs.current[item.id] = el} className={`absolute -left-2 w-4 h-4 rounded-full ${dotColor}`}></div>
+                <div ref={el => rightDotRefs.current[item.id] = el} className={`absolute -left-2 w-4 h-4 rounded-full ${dotColor}`}></div>
                 <span className="font-medium text-[14px] text-[#313F3A] leading-tight">{item.text}</span>
               </button>
             );
@@ -301,7 +304,7 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
 
       <div className="w-full max-w-md px-4">
         {!isSubmitted ? (
-          <button 
+          <button
             onClick={handleSubmit}
             disabled={Object.keys(connections).length < data.originalLength}
             className="w-full bg-[#FFBB68] text-white py-4 rounded-full font-medium text-xl hover:bg-[#FFBB68] disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_0_#FFA536] active:shadow-none active:translate-y-1 transition-all"
@@ -310,35 +313,35 @@ export default function QuizMatching({ fruit, onBack, onNext, isLastLevel, userQ
           </button>
         ) : (
           <div className="text-center animate-bounce">
-             {isPerfect ? (
-               <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
-                 {t('you_got_all')} 🎉 
-               </div>
-             ) : (
-               <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
-                  {t('you_got', {
-                    score: score,
-                    length: data.originalLength
-                  })}
-                  <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
-               </div>
-             )}
+            {isPerfect ? (
+              <div className="bg-[#79A74E] text-white p-4 rounded-2xl font-medium border-b-8 border-[#688F44] mb-4">
+                {t('you_got_all')} 🎉
+              </div>
+            ) : (
+              <div className="bg-[#FE3939] text-white p-4 rounded-2xl font-medium border-b-8 border-[#F20D0D] mb-4 flex items-center gap-x-2 justify-center">
+                {t('you_got', {
+                  score: score,
+                  length: data.originalLength
+                })}
+                <Image src={'/images/oops.png'} className="" alt={fruit.name} width={30} height={30} />
+              </div>
+            )}
 
-             {isPerfect ? (
-               <button 
-                 onClick={onNext} // Proceed to Next Level (or Finish if last)
-                 className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all"
-               >
-                 {isLastLevel ? t('finish_game')+" 🏆" : t('next_game')+" ➡"}
-               </button>
-             ) : (
-               <button 
-                 onClick={handleRetry} // Reset Game
-                 className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all"
-               >
-                 {t('try_again')} ↺
-               </button>
-             )}
+            {isPerfect ? (
+              <button
+                onClick={onNext} // Proceed to Next Level (or Finish if last)
+                className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all active:translate-y-1 transition-all"
+              >
+                {isLastLevel ? t('finish_game') + " 🏆" : t('next_game') + " ➡"}
+              </button>
+            ) : (
+              <button
+                onClick={handleRetry} // Reset Game
+                className="w-full text-[#313F3A] font-medium underline active:translate-y-1 transition-all"
+              >
+                {t('try_again')} ↺
+              </button>
+            )}
           </div>
         )}
       </div>

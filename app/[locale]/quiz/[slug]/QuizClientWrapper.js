@@ -50,7 +50,7 @@ export default function QuizClientWrapper({ fruit, allFruits, locale, userQuizId
       locale={locale}
       isLastLevel={!nextCategoryId}
       userQuizId={userQuizId}
-      token={token}
+      token={token.value}
       apiUrl={apiUrl}
     />
   );
