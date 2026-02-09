@@ -84,7 +84,7 @@ export default function page() {
                                 },
                                 {
                                     label: t("StampQues"),
-                                    href: "",
+                                    href: "/stamp-ques",
                                     image: "/images/image18-stampques.png"
                                 }, {
                                     label: t("Activity"),

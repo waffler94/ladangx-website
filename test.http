@@ -1,5 +1,5 @@
 @baseUrl= https://ladangxadmin.upplex.com.my
-@token= 38|Uzpgz3xGhsLkCrfzGMQlsLFgrwDGHggQ5bTuTzaG
+@token= 115|AZ1q3EtwRD4YThjqYh1NmHz5XVweUy9laIacMQpi
 
 
 ###
@@ -67,3 +67,14 @@ Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
 
+
+###
+
+GET {{baseUrl}}/api/v1/user-quizzes
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "locale":"en"
+}

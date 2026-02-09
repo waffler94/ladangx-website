@@ -206,3 +206,18 @@ export interface getUserResponse {
         nationality_info: any;
     };
 }
+
+export interface getUserQuizStatusResponse {
+    status: string;
+    data: {
+        field_item_id: number;
+        name: string;
+        slug: string;
+        type: string;
+        image: string;
+        theme: string;
+        scientific_name: string;
+        is_completed: boolean;
+        completion_status: string;
+    }[];
+}
