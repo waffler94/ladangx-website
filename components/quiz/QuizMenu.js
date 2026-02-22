@@ -46,13 +46,7 @@ export default function QuizMenu({ fruit, onSelectCategory, userQuizId }) {
                   </div>
                 )
               }
-              {
-                isWrong && !quizAnswerStatusLoading && (
-                  <div className="absolute top-3 right-3 bg-red-500 text-white  rounded-full text-xs z-10 flex items-center gap-1">
-                    <X className="text-white  size-[24px]" />
-                  </div>
-                )
-              }
+              
               <Image src={`/images/${cat.background}.png`} alt={cat.label} className="w-full" width={800} height={200} />
             </button>
           )
