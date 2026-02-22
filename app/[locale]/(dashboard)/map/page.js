@@ -122,7 +122,7 @@ export default function AdventureMap() {
       </div>
 
       {/* --- 3. CATEGORIZED LIST --- */}
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 pb-12">
         <div className="bg-[#fdfbe7] rounded-3xl p-6 border-4 border-[#5c4a35] shadow-lg relative">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {farmData.map((category) => (
