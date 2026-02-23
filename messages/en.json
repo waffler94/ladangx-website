@@ -190,5 +190,16 @@
     "no_ticket_description": "You have not purchased any tickets yet.",
     "purchase_tickets": "Purchase Tickets",
     "tap_a_fruit": "Tap a fruit to play!",
-    "search_ticket_placeholder": "Search ..."
+    "search_ticket_placeholder": "Search ...",
+    "Total": "Total",
+    "ticket_info": {
+        "0": {
+            "0": "Free entry for children below under <b>3 years old</b>, inclusive of a complimentary ice cream voucher",
+            "1": "Includes complimentary pastry and ice cream vouchers",
+            "2": "Includes complimentary pastry and ice cream vouchers"
+        },
+        "1": {
+            "0": "RM5 for 1 bag, RM8 for 2 bags, RM15 for 5 bags"
+        }
+    }
 }

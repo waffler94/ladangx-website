@@ -31,7 +31,7 @@ export default function page() {
 
         const localDate = formatToLocalDate(e)
         const res = await getTicketDateAvailability({ target_date: localDate })
-        console.log(res)
+        // console.log(res)
 
         if (res.data.is_closed) {
             openFailModal({

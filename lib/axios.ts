@@ -53,10 +53,10 @@ Instance.interceptors.request.use(async (config) => {
     const accessToken = await getAccessToken();
     if (accessToken) config.headers["Authorization"] = `Bearer ${accessToken}`;
 
-    // if (!config.headers["X-localization"]) {
-    //     const locale = await getLocale();
-    //     config.headers["X-localization"] = locale;
-    // }
+    if (!config.headers["X-localization"]) {
+        const locale = await getLocale();
+        config.headers["X-localization"] = locale;
+    }
     // if (!config.headers["X-currency"]) {
     //     const currency = await getCurrency();
     //     config.headers["X-currency"] = currency;
