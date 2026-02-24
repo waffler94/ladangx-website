@@ -1,17 +1,21 @@
 'use client'
-import React from "react";
+import React, { useContext } from "react";
 import VoucherCard from "../_components/voucher-card";
 import { useGetVouchers } from "@/lib/hooks/useGetVouchers";
 import { useTranslations } from "use-intl";
 import { getLeftTitle } from "@/lib/helper";
+import { modalList, PopupContext } from "@/components/context/PopupProvider";
 
 export default function page() {
     const t = useTranslations();
     const { data, isLoading, isError } = useGetVouchers({ per_page: 10, page: 1, user_voucher: 2 });
+    const { openModal } = useContext(PopupContext);
 
     if (isLoading) return <div className="flex justify-center p-8">Loading...</div>;
     if (isError) return <div className="flex justify-center p-8">Failed to load vouchers.</div>;
-
+    const handleClick = (id) => {
+        openModal(modalList.voucherDetail.key, { data: { ...(data.data.find(v => v.id === id)), not_redeem: true } });
+    }
     const vouchers = data?.data ?? [];
 
     return (
@@ -34,6 +38,8 @@ export default function page() {
                             icon="icon-voucher"
                             points={null}
                             description={voucher.voucher_type_label}
+                            notRedeem={true}
+                            onClick={handleClick}
                         />
                     ))
                 )}

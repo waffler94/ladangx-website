@@ -17,9 +17,10 @@ export default function page({ children }) {
     const t = useTranslations();
     const router = useRouter();
     const { data: cartData, isLoading: cartLoading, refresh: refreshCart } = useGetCart();
+
     const { openFailModal, closeAllModal } = useContext(PopupContext);
     const [isLoadingVoucher, setIsLoadingVoucher] = React.useState(null);
-    const { data, isLoading, isError } = useGetVouchers({ per_page: 10, page: 1, user_voucher: 2 });
+    const { data, isLoading, isError } = useGetVouchers({ per_page: 10, page: 1, user_voucher: 1 });
 
     const vouchers = data?.data ?? [];
 
@@ -42,7 +43,6 @@ export default function page({ children }) {
         if (voucher) {
 
             const res = await useVoucher({ voucher_code: voucher.promo_code });
-            console.log(res);
             // Refresh cart data after applying voucher
             await refreshCart();
             // Navigate back to checkout
@@ -56,6 +56,8 @@ export default function page({ children }) {
                         closeAllModal();
                     }
                 })
+            } if (res.res_status == 200) {
+                router.push('/ticket/checkout');
             }
         }
         setIsLoadingVoucher(null);
@@ -68,9 +70,10 @@ export default function page({ children }) {
         <>
             <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom   pt-safe pb-[12px] px-4">
                 <div className="flex flex-row items-center justify-center">
-                    <Link className="absolute left-4" href="/ticket/checkout">
+                    <button onClick={() => router.back()} className="absolute left-4 top-4">
                         <BackButton />
-                    </Link>
+
+                    </button>
                     <h1 className="text-[22px] font-semibold">{t('vouchers')}</h1>
                     <div />
                 </div>

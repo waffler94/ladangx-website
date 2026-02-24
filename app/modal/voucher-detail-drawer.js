@@ -114,11 +114,14 @@ export default function VoucherDetailDrawer({ open, data }) {
                             </div>
 
                             {/* Redeem Button */}
-                            <div className="py-2 pl-1 pr-2 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
-                                <form onSubmit={handleClick}>
-                                    <SubmitButton isDisabled={isDisableSubmit}>{t("redeem")}</SubmitButton>
-                                </form>
-                            </div>
+                            {
+                                data.data.not_redeem & <div className="py-2 pl-1 pr-2 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
+                                    <form onSubmit={handleClick}>
+                                        <SubmitButton isDisabled={isDisableSubmit}>{t("redeem")}</SubmitButton>
+                                    </form>
+                                </div>
+                            }
+
                         </div>
                     )}
                 </div>

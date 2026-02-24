@@ -12,7 +12,9 @@ export default function VoucherCard({
     description,
     id,
     isSelected = false,
+    notRedeem = false,
     isLoading = false,
+    is_used = false,
     onClick
 }) {
     const t = useTranslations()
@@ -52,7 +54,7 @@ export default function VoucherCard({
                 <div className="py-[20px] px-[11px] flex flex-col justify-between h-full">
                     <div className="flex flex-row justify-between items-start">
                         <h1 className="font-semibold text-black">{voucherTitle}</h1>
-                        {onClick && (
+                        {onClick && !notRedeem && (
                             <button
                                 onClick={handleClick}
                                 className="w-[63px] text-[13px] hover:scale-105 group-hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-2 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A]"
@@ -61,7 +63,7 @@ export default function VoucherCard({
                             </button>
                         )}
                     </div>
-                    <p className="font-semibold text-[13px] text-[#446A2A]">{points || "0 pts"}</p>
+                    <p className="font-semibold text-[13px] text-[#446A2A]">{points || "FREE"}</p>
                     <p className="text-[13px] text-[#60756E]">{description}</p>
                 </div>
             </div>
