@@ -29,7 +29,7 @@ export default async function page() {
                     <Suspense fallback={<div className="bg-gray-300 rounded-[16px] h-[100px] w-full animate-pulse"></div>}>
 
                         <div className="bg-[url('/images/image15-frame_profile.png')] bg-cover bg-center relative text-white rounded-[16px] items-center  w-full px-[20px] py-[15px] flex flex-row gap-x-[16px]">
-                           <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
+                            <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
                                 <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-cover " />
                             </div>
                             <div className="relative z-10 ">
@@ -40,7 +40,7 @@ export default async function page() {
                                     <div className="rounded-full size-[22px] bg-white border-white border-[1px]">
                                         <Image src="/images/image16-stamp.png" alt="points icon" className="size-full" width={22} height={22} />
                                     </div>
-                                    <p className="font-semibold text-[19px]">0 pts</p>
+                                    <p className="font-semibold text-[19px]">{user.data.points_balance || 0} pts</p>
                                 </div>
                             </div>
                             <Link href="/profile/edit" className="absolute top-[20px] right-[15px]">

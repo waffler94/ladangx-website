@@ -16,7 +16,7 @@ export default function page({ children }) {
                     <Link className="absolute left-4" href="/profile">
                         <BackButton />
                     </Link>
-                    <h1 className="text-[22px] font-semibold">{t('edit_profile')}</h1>
+                    <h1 className="text-[22px] font-semibold">{t('vouchers')}</h1>
                     <div />
                 </div>
 

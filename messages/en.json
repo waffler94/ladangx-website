@@ -191,6 +191,21 @@
     "purchase_tickets": "Purchase Tickets",
     "tap_a_fruit": "Tap a fruit to play!",
     "search_ticket_placeholder": "Search ...",
+    "no_vouchers_title": "No vouchers yet",
+    "no_vouchers_desc": "You don't have any vouchers at the moment.",
+    "no_available_vouchers_title": "No vouchers available",
+    "no_available_vouchers_desc": "There are no vouchers available right now.",
+    "no_used_vouchers_title": "No used vouchers",
+    "no_used_vouchers_desc": "You haven't used any vouchers yet.",
+    "voucher_details_title": "Voucher Details",
+    "date_redeemable": "Date Redeemable",
+    "terms_and_conditions": "Terms & Conditions",
+    "voucher_terms_1": "1. This is a cash voucher that can be used to offset purchases of participating merchants or platforms.",
+    "voucher_terms_2": "2. Only registered users who have accumulated enough points may redeem this voucher.",
+    "voucher_terms_3": "3. Each voucher is valid for a single transaction and cannot be reused.",
+    "voucher_terms_4": "4. Cash vouchers cannot be refunded, exchanged for real cash, or transferred to other users.",
+    "voucher_terms_5": "5. Please use the voucher before the stated expiry date. Expired vouchers will not be reissued or extended.",
+    "voucher_terms_6": "6. This voucher may be subject to a minimum spend or specific merchant usage. Check the details before redemption.",
     "Total": "Total",
     "ticket_info": {
         "0": {
@@ -201,5 +216,7 @@
         "1": {
             "0": "RM5 for 1 bag, RM8 for 2 bags, RM15 for 5 bags"
         }
-    }
+    },
+    "no_voucher_applied": "Select Vouchers",
+    "failed_to_apply_voucher": "Failed to Apply Voucher"
 }

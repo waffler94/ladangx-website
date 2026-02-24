@@ -240,3 +240,57 @@ export interface getQuizAnswerStatusResponse {
         };
     };
 }
+
+export interface VoucherItem {
+    id: number;
+    promo_code: string;
+    title: string;
+    description: string;
+    image: string;
+    start_date: string;
+    expired_date: string;
+    discount_type: 1 | 2 | 3;
+    usable_amount: number;
+    points_required: number;
+    total_claimable: number;
+    validity_days: number;
+    claim_per_user: number;
+    claimed: string;
+    used: string;
+    claimed_count: number;
+    used_count: number;
+    redeemable: boolean;
+    decoded_adjustment: {
+        buy_quantity?: string;
+        discount_quantity?: string;
+        get_quantity?: string;
+        get_ticket_type?: string;
+        buy_ticket_types?: string[];
+        discount_type: string;
+        buy_ticket_types_info?: { id: number; name: string }[];
+        get_ticket_type_info?: { id: number; name: string };
+    };
+    image_path: string;
+    voucher_type: 1 | 2 | 3;
+    voucher_type_label: string;
+}
+
+export interface getVouchersRawResponse {
+    current_page: number;
+    data: VoucherItem[];
+    first_page_url: string;
+    from: number | null;
+    last_page: number;
+    last_page_url: string;
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    next_page_url: string | null;
+    path: string;
+    per_page: string | number;
+    prev_page_url: string | null;
+    to: number | null;
+    total: number;
+}

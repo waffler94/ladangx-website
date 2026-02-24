@@ -5,6 +5,8 @@ export const formatSlugToTitle = (slug: string) => {
         .join(' ');
 };
 
+import { VoucherItem } from './declaration';
+
 export const formatTitleToSlug = (title: string) => {
     return title
         .toLowerCase()
@@ -78,4 +80,19 @@ export const calculatePromoPrice = (
     }
 
     return totalPrice;
+};
+
+export const getLeftTitle = (voucher: VoucherItem): string => {
+    const adj = voucher.decoded_adjustment;
+    if (!adj) return voucher.title;
+    switch (adj.discount_type) {
+        case 'Fixed Amount':
+            return `RM${adj.discount_quantity} OFF`;
+        case 'Buy X get Y':
+            return `Buy ${adj.buy_quantity} Get ${adj.get_quantity}`;
+        case 'Percentage':
+            return `${adj.discount_quantity}% OFF`;
+        default:
+            return adj.discount_type;
+    }
 };

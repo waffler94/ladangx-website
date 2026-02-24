@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse } from "./declaration";
+import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse, getVouchersRawResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -316,6 +316,53 @@ export const getQuizAnswerStatus = async ({ user_quiz_id }: { user_quiz_id: numb
     })
     return { res_status: res.status, ...res.data }
 }
+
+export const getVouchersRaw = async ({ per_page, page, promo_code, user_voucher, voucher_type, discount_type, expired_only, used_only }: {
+    per_page: number;
+    page: number;
+    promo_code?: string;
+    user_voucher?: 1 | 2;
+    voucher_type?: 1 | 2 | 3;
+    discount_type?: 1 | 2 | 3;
+    expired_only?: 1 | 2;
+    used_only?: 1 | null;
+}): Promise<{ res_status: number } & getVouchersRawResponse> => {
+    const res = await axios.get<getVouchersRawResponse>("/vouchers", {
+        params: { per_page, page, promo_code, user_voucher, voucher_type, discount_type, expired_only, used_only }
+    })
+    return { res_status: res.status, ...res.data }
+
+}
+
+export const getAllVouchers = async ({ per_page, page }) => {
+    const res = await getVouchersRaw({
+        per_page,
+        page,
+    })
+    return res;
+}
+
+export const claimVoucher = async ({ voucher_id }: { voucher_id: number }) => {
+    const res = await axios.post('/vouchers/claim-voucher', {
+        voucher_id
+    })
+    return { res_status: res.status, ...res.data }
+}
+
+export const useVoucher = async ({ voucher_code }: { voucher_code: string }) => {
+    const cartRes = await getCart({ visit_date: null })
+    if (cartRes.res_status !== 200) {
+        return { error_on: "cart_res", res_status: cartRes.res_status, ...cartRes }
+    }
+    console.log(cartRes);
+    const res = await axios.put('/visits/cart/voucher', {
+        cart_id: cartRes.data.cart_id,
+        voucher_code
+    })
+    return { res_status: res.status, ...res.data }
+}
+
+export const validateVoucher = async ({ }) => { }
 
 // export const getProjectDetails = async ({
 //     id

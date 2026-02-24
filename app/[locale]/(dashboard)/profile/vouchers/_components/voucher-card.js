@@ -1,4 +1,5 @@
 'use client'
+import Spinner from '@/components/spinner'
 import Image from 'next/image'
 import React from 'react'
 import { useTranslations } from 'use-intl'
@@ -10,6 +11,8 @@ export default function VoucherCard({
     points,
     description,
     id,
+    isSelected = false,
+    isLoading = false,
     onClick
 }) {
     const t = useTranslations()
@@ -22,8 +25,18 @@ export default function VoucherCard({
 
     return (
         <div onClick={onClick ? handleClick : undefined} className={`relative w-full aspect-[800/241] ${onClick ? 'cursor-pointer' : ''}`}>
+            {isSelected && !isLoading && (
+                <div className="absolute top-[20px] right-[20px] size-[20px] bg-[#446A2A] rounded-full flex items-center justify-center">
+                    <i className="icon-check text-white text-[16px]" />
+                </div>
+            )}
+            {isLoading && (
+                <div className="absolute top-[20px] right-[20px] size-[20px] bg-[#446A2A] rounded-full flex items-center justify-center">
+                    <Spinner size={12} color="white" />
+                </div>
+            )}
             <Image
-                src="/images/image14-voucher.png"
+                src={isSelected ? "/images/image13-voucher_selected.png" : "/images/image14-voucher.png"}
                 width={800}
                 height={241}
                 alt="voucher bg"
@@ -42,13 +55,13 @@ export default function VoucherCard({
                         {onClick && (
                             <button
                                 onClick={handleClick}
-                                className="w-[63px] text-[13px] group-hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-2 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A]"
+                                className="w-[63px] text-[13px] hover:scale-105 group-hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-2 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A]"
                             >
                                 {t("redeem")}
                             </button>
                         )}
                     </div>
-                    <p className="font-semibold text-[13px] text-[#446A2A]">{points}</p>
+                    <p className="font-semibold text-[13px] text-[#446A2A]">{points || "0 pts"}</p>
                     <p className="text-[13px] text-[#60756E]">{description}</p>
                 </div>
             </div>
