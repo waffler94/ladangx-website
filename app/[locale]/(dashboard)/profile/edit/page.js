@@ -10,6 +10,7 @@ import React, { useContext, useState } from 'react'
 import { useGetUser } from '@/lib/hooks/useGetUser';
 import { PopupContext } from '@/components/context/PopupProvider';
 import Image from 'next/image';
+import DateInput from '@/components/auth/date-input';
 
 export default function Page() {
     const t = useTranslations();
@@ -109,7 +110,11 @@ export default function Page() {
                         <AuthInput inputName="fullname" label={t("full_name")} initialValue={user.fullname} error={errors.fullname} />
                         <AuthInput inputName="email" label={t("email")} initialValue={user.email} error={errors.email} />
                         <PhoneInput inputName="phone_number" label={t("phone_number")} initialValue={user.phone_number} disabled={true} />
-                        <AuthInput inputName="birth_date" label={t("birth_date")} type="email" initialValue={user.date_of_birth} disabled={true} />
+                        {
+                            user.date_of_birth ? (<AuthInput inputName="birth_date" label={t("birth_date")} type="email" initialValue={user.date_of_birth} disabled={true} />
+                            ) : (<DateInput label={t("date_of_birth")} placeholder={t("select_date")} inputName="date_of_birth" />
+                            )
+                        }
 
                         <div className="pb-2 py-1 pl-1 pr-3 w-full group bg-white mt-[24px] rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
                             <SubmitButton isDisabled={isSubmitDisabled}>

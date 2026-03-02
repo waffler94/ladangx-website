@@ -5,16 +5,17 @@ import { Button } from '../ui/button'
 import { CalendarSearch, ChevronDownIcon } from 'lucide-react'
 import { Calendar } from '../ui/calendar'
 
-export default function DateInput({ label, placeholder, required = false, inputName }) {
+export default function DateInput({ label, placeholder, required = false, inputName, isDisabled = false }) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState()
     return (
         <div className="relative">
             <label className="block  font-semibold text-[#313F3A] mb-[8px]">{label}</label>
-            <input type="text" className="size-[1px] absolute bottom-0 left-1/2" required={required} onChange={() => { }} name={inputName} value={date ? date.toLocaleDateString('en-GB') : ''} />
+            <input type="text" disabled={isDisabled} className="size-[1px] absolute bottom-0 left-1/2" required={required} onChange={() => { }} name={inputName} value={date ? date.toLocaleDateString('en-GB') : ''} />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
+                        disabled={isDisabled}
                         variant="outline"
                         id="date"
                         className="w-full text-base !h-[48px] !px-[16px] justify-between font-normal"

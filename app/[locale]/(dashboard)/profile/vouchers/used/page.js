@@ -33,6 +33,7 @@ export default function page() {
                             icon="icon-voucher"
                             points={voucher.points_required || 0}
                             description={voucher.voucher_type_label}
+                            is_used={true}
                         />
                     ))
                 )}

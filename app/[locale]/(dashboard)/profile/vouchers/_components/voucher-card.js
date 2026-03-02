@@ -38,7 +38,7 @@ export default function VoucherCard({
                 </div>
             )}
             <Image
-                src={isSelected ? "/images/image13-voucher_selected.png" : "/images/image14-voucher.png"}
+                src={is_used ? "/images/image24-voucher_disabled.png" : (isSelected ? "/images/image13-voucher_selected.png" : "/images/image14-voucher.png")}
                 width={800}
                 height={241}
                 alt="voucher bg"
