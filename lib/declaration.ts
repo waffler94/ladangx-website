@@ -202,6 +202,7 @@ export interface getUserResponse {
         referral_structure: string;
         nationality: string | null;
         profile_picture_path: string;
+        points_expiring_30_days: string;
         iso_code: string;
         nationality_info: any;
     };

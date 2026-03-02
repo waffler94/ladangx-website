@@ -218,5 +218,6 @@
         }
     },
     "no_voucher_applied": "Select Vouchers",
-    "failed_to_apply_voucher": "Failed to Apply Voucher"
+    "failed_to_apply_voucher": "Failed to Apply Voucher",
+    "point_expired_text": "{points} points will expired by {date}"
 }
