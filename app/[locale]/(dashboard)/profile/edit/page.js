@@ -16,6 +16,7 @@ export default function Page() {
     const t = useTranslations();
     const { data: userData, isLoading } = useGetUser();
     const user = userData?.data;
+    const user_dob = user?.date_of_birth ? new Date(user.date_of_birth) : null;
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     const [errors, setErrors] = useState({});
     const [profilePicture, setProfilePicture] = useState(null);
