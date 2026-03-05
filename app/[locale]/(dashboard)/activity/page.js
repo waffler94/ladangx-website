@@ -86,7 +86,8 @@ export default function page() {
                                     </div>
                                     <div className="pb-[14px]">
                                         <button
-                                            onClick={() => handleDownload(item.image, item.name, item.id)}
+                                            // onClick={() => handleDownload(item.image, item.name, item.id)}
+                                            onClick={() => { }}
                                             disabled={downloadingId === item.id}
                                             className="text-[13px] hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-4 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A] disabled:opacity-60 disabled:cursor-not-allowed"
                                         >
