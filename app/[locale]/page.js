@@ -100,7 +100,7 @@ export default function page() {
                                     image: "/images/image21-map.png"
                                 }, {
                                     label: t("Ask Chatbot"),
-                                    href: "",
+                                    href: "/chatbot",
                                     image: "/images/image22-adk_chatbot.png"
                                 }
                             ].map(

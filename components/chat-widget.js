@@ -8,14 +8,15 @@ export default function ChatWidget() {
         createChat({
             webhookUrl:
                 "https://ai.viralgen.app/webhook/231e7f75-1c87-47fb-b9e0-c179fa89614e/chat",
-            mode: "window",
+            mode: "fullscreen",
             showWelcomeScreen: false,
+            target: "#chat-widget-container",
             loadPreviousSession: true,
             initialMessages: ["Hi there! 👋", "How can I assist you today?"],
             i18n: {
                 en: {
-                    title: "LadangX Assistant",
-                    subtitle: "We're here to help you 24/7.",
+                    title: "",
+                    subtitle: "",
                     footer: "",
                     getStarted: "New Conversation",
                     inputPlaceholder: "Type your question...",
@@ -27,6 +28,8 @@ export default function ChatWidget() {
 
     return (
         <>
+            <div id="chat-widget-container" />
+
             <style>{`
       :root {
         --chat--color--primary: #446A2A;
@@ -61,16 +64,25 @@ export default function ChatWidget() {
         --chat--input--line-height: 1.5;
       }
 
+     
+
       .chat-input {
         align-items: center !important;
       }
 
       .chat-inputs {
                 align-items: center !important;
+                padding: 0 20px !important
+      }
+
+      .chat-messages-list {
+                min-height: calc(100vh - 200px) !important;
+                padding: 20px;
       }
 
       .chat-layout .chat-header {
-      gap:0.5em !important;
+      
+      display:none !important;
       }
     `}</style>
         </>
