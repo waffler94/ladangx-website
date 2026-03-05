@@ -41,6 +41,6 @@ export const config = {
     // - … the ones containing a dot (e.g. `favicon.ico`)
     matcher: [
         // Match all pages except specific system paths
-        "/((?!api|_next|_vercel|.*\\..*).*)",
+        "/((?!api|_next|_vercel|download-redirect|.*\\..*).*)",
     ],
 };

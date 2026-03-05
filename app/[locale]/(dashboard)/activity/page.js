@@ -6,7 +6,7 @@ import { useGetFieldActivities } from "@/lib/hooks/useGetFieldActivities";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 export default function page() {
     const t = useTranslations();
@@ -17,32 +17,11 @@ export default function page() {
     const items = activitiesData?.data || [];
     const totalPages = activitiesData?.pagination?.last_page || 0;
 
-    const [downloadingId, setDownloadingId] = useState(null);
+    const APP_DEEP_LINK = "ladangx://";
 
-    const handleDownload = async (url, name, id) => {
-        try {
-            setDownloadingId(id);
-
-            const res = await fetch(url, { mode: "cors" });
-            if (!res.ok) throw new Error("Fetch failed");
-
-            const blob = await res.blob();
-            const blobUrl = URL.createObjectURL(blob);
-
-            const a = document.createElement("a");
-            a.href = blobUrl;
-            a.download = name || "artwork";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-
-            URL.revokeObjectURL(blobUrl);
-        } catch (err) {
-            window.open(url, "_blank", "noopener,noreferrer");
-            console.log("Download fallback:", err);
-        } finally {
-            setDownloadingId(null);
-        }
+    const handleDownload = (url, name) => {
+        const redirectUrl = `/download-redirect?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name || "artwork")}`;
+        window.open(redirectUrl, "_blank", "noopener,noreferrer");
     };
 
     return (
@@ -82,11 +61,10 @@ export default function page() {
                                     </div>
                                     <div className="pb-[14px]">
                                         <button
-                                            onClick={() => handleDownload(item.image, item.name, item.id)}
-                                            disabled={downloadingId === item.id}
-                                            className="text-[13px] hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-4 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A] disabled:opacity-60 disabled:cursor-not-allowed"
+                                            onClick={() => handleDownload(item.image, item.name)}
+                                            className="text-[13px] hover:scale-105 transition-all flex justify-center items-center gap-2 font-bold py-1 px-4 rounded-[18px] shadow-[0px_4px_0px_0px_rgba(255,178,95,1)] text-white bg-[#FFDB0A]"
                                         >
-                                            {downloadingId === item.id ? t("Preparing...") : t("Download")}
+                                            {t("Download")}
                                         </button>
                                     </div>
                                 </div>
