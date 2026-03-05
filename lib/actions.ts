@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getCartResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse, getVouchersRawResponse } from "./declaration";
+import { getCartResponse, getFieldActivitiesResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse, getVouchersRawResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -363,6 +363,16 @@ export const useVoucher = async ({ voucher_code }: { voucher_code: string }) => 
 }
 
 export const validateVoucher = async ({ }) => { }
+
+export const getFieldActivities = async ({ page, per_page }: {
+    page?: number;
+    per_page?: number;
+}): Promise<{ status: number } & getFieldActivitiesResponse> => {
+    const res = await axios.get<getFieldActivitiesResponse>('/field-activities', {
+        params: { page, per_page }
+    });
+    return { status: res.status, ...res.data };
+}
 
 // export const getProjectDetails = async ({
 //     id

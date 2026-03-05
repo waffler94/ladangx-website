@@ -276,6 +276,27 @@ export interface VoucherItem {
     voucher_type_label: string;
 }
 
+export interface FieldActivity {
+    id: number;
+    encrypted_id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    image: string;
+    thumbnail: string | null;
+    active: boolean;
+    status: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface getFieldActivitiesResponse {
+    success: boolean;
+    message: string;
+    data: FieldActivity[];
+    pagination: Pagination;
+}
+
 export interface getVouchersRawResponse {
     current_page: number;
     data: VoucherItem[];

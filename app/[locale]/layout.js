@@ -5,6 +5,8 @@ import { Fredoka, Montserrat } from "next/font/google";
 import "./globals.css";
 import "@/lib/icon.css";
 import "./custom-class.css";
+import '@n8n/chat/dist/style.css';
+
 import {
   getMessages,
   getTranslations,
@@ -12,6 +14,7 @@ import {
 } from "next-intl/server";
 import IntlProvider from "./intl-provider";
 import { PopUpProvider } from "@/components/context/PopupProvider";
+import ChatWidget from "@/components/chat-widget";
 
 
 const fredoka = Fredoka({
@@ -110,6 +113,7 @@ export default async function RootLayout({ children, params }) {
             {/* <Footer /> */}
           </PopUpProvider>
         </IntlProvider>
+        <ChatWidget />
 
 
       </body>

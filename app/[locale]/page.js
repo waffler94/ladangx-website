@@ -88,7 +88,7 @@ export default function page() {
                                     image: "/images/image18-stampques.png"
                                 }, {
                                     label: t("Activity"),
-                                    href: "",
+                                    href: "/activity",
                                     image: "/images/image19-activity.png"
                                 }, {
                                     label: t("Ticket"),
