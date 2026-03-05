@@ -22,8 +22,10 @@ export default function page() {
     const handleDownload = async (url, name, id) => {
         try {
             setDownloadingId(id);
-
-            const res = await fetch(url, { mode: "cors" });
+            // get own domain url
+            const webUrl = window.location.origin;
+            console.log(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name))
+            const res = await fetch(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name), { mode: "cors" });
             if (!res.ok) throw new Error("Fetch failed");
 
             const blob = await res.blob();
