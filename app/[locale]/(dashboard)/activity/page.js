@@ -25,8 +25,10 @@ export default function page() {
             // get own domain url
             const webUrl = window.location.origin;
             console.log(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name))
-            const res = await fetch(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name), { mode: "cors" });
-            if (!res.ok) throw new Error("Fetch failed");
+            // const res = await fetch(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name), { mode: "cors" });
+            window.open(webUrl + "/download-redirect?url=" + encodeURIComponent(url) + "&name=" + encodeURIComponent(name), "_blank", "noopener,noreferrer");
+
+            // if (!res.ok) throw new Error("Fetch failed");
 
             const blob = await res.blob();
             const blobUrl = URL.createObjectURL(blob);
