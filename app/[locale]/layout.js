@@ -14,6 +14,7 @@ import {
 } from "next-intl/server";
 import IntlProvider from "./intl-provider";
 import { PopUpProvider } from "@/components/context/PopupProvider";
+import { headers } from "next/headers";
 
 
 const fredoka = Fredoka({
@@ -91,7 +92,7 @@ export default async function RootLayout({ children, params }) {
   }
   const messages = await getMessages();
   setRequestLocale(locale);
-
+  const headersList = headers();
   return (
     <html lang={locale} >
       <head>
@@ -108,6 +109,7 @@ export default async function RootLayout({ children, params }) {
         <IntlProvider messages={messages} locale={locale}>
           <PopUpProvider>
             {/* <Navbar /> */}
+            {/* <pre>{JSON.stringify(Object.fromEntries(headersList), null, 2)}</pre> */}
             {children}
             {/* <Footer /> */}
           </PopUpProvider>
