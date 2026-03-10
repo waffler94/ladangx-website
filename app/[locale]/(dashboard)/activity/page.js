@@ -50,7 +50,7 @@ export default function page() {
     };
 
     return (
-        <div className="bg-[url('/images/bg15-activity.png')] bg-cover bg-[50%_-40px] bg-[#B3CF61] bg-no-repeat  min-h-screen relative pb-[120px] pt-safe">
+        <div className="bg-[url('/images/bg15-activity.png')] bg-contain  bg-[#B3CF61] bg-no-repeat  min-h-screen relative pb-[120px] pt-safe">
             <div className="flex flex-row items-center justify-between relative w-full pt-[17px] px-[20px]">
                 <Link href="/" className="">
                     <BackButton />
@@ -61,7 +61,7 @@ export default function page() {
 
 
             </div>
-            <div className="mt-[300px] w-full px-[20px]">
+            <div className="mt-[45vw] min-[400px]:mt-[55vw] w-full px-[20px]">
                 <div className="flex flex-col w-full">
                     <div className="flex flex-row gap-x-4 items-center mx-auto">
                         <h1 className="text-[#313F3A] text-center text-[22px] font-bold">{t("Get the Artwork")}!</h1>
