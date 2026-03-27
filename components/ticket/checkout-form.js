@@ -29,6 +29,9 @@ export default function CheckoutForm() {
 
 
             if (result.res_status === 200 || result.res_status === 201) {
+                // open a new page of result.data.payment_url
+                window.open(result.data.payment_url, '_blank')
+
                 openModal(modalList.successPay.key, { orderId: result.data.id })
             } else {
                 throw new Error('Failed to create visit')
