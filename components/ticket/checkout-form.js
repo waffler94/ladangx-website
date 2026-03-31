@@ -6,6 +6,7 @@ import { modalList, PopupContext } from '@/components/context/PopupProvider'
 import { useTranslations } from 'next-intl'
 import { useGetCart } from '@/lib/hooks/useGetCart'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 
 export default function CheckoutForm() {
     const t = useTranslations()
@@ -13,6 +14,7 @@ export default function CheckoutForm() {
     const [isSubmitDisable, setIsSubmitDisable] = React.useState(false)
     const { data: cartData } = useGetCart({ visit_date: date });
     const { openModal } = useContext(PopupContext)
+    const router = useRouter()
 
     const submitHandler = async (e) => {
         e.preventDefault()
@@ -29,10 +31,7 @@ export default function CheckoutForm() {
 
 
             if (result.res_status === 200 || result.res_status === 201) {
-                // open a new page of result.data.payment_url
-                window.open(result.data.payment_url, '_blank')
-
-                openModal(modalList.successPay.key, { orderId: result.data.id })
+                router.push('/payment?url=' + encodeURIComponent(result.data.payment_url))
             } else {
                 throw new Error('Failed to create visit')
             }

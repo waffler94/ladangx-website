@@ -1,0 +1,14 @@
+services:
+  app:
+    image: node:lts
+    init: true
+    working_dir: /workspace
+    command: sleep infinity
+    stdin_open: true
+    tty: true
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace

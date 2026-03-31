@@ -119,6 +119,8 @@
     "no_ticket_desc": "Please select at least one ticket to proceed.",
     "review_order": "Review Order",
     "pay_now": "Pay Now",
+    "payment_title": "Payment",
+    "redirecting_to_payment": "Redirecting to payment...",
     "your_cart": "Your Cart",
     "time_left": "Time Left",
     "malaysian_one_day_pass": "Malaysian One Day Pass",
@@ -184,6 +186,9 @@
     "notification": "Notification",
     "no_notification_title": "No messages yet!",
     "no_notification_description": "Come back later to check!",
+    "notification_all": "All",
+    "notification_unread": "Unread",
+    "notification_read": "Read",
     "redeem": "Redeem",
     "my_bookings": "My Bookings",
     "no_ticket_yet": "You have no tickets yet",
@@ -219,5 +224,6 @@
     },
     "no_voucher_applied": "Select Vouchers",
     "failed_to_apply_voucher": "Failed to Apply Voucher",
-    "point_expired_text": "{points} points will expired by {date}"
+    "point_expired_text": "{points} points will expired by {date}",
+    "click_here_if_not_redirected": "Click here if not redirected"
 }

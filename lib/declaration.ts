@@ -316,3 +316,36 @@ export interface getVouchersRawResponse {
     to: number | null;
     total: number;
 }
+
+export interface NotificationItem {
+    id: number;
+    user_id: number | null;
+    title: Record<string, string>;
+    content: Record<string, string>;
+    system_title: string | null;
+    system_content: string | null;
+    meta_data: any | null;
+    url_slug: string | null;
+    image: string | null;
+    type: number;
+    status: number;
+    is_broadcast: number;
+    key: string;
+    created_at: string;
+    updated_at: string;
+    is_read: number;
+    path: string | null;
+    encrypted_id: string;
+}
+
+export interface getNotificationsResponse {
+    current_page: number;
+    data: NotificationItem[];
+    first_page_url: string;
+    from: number | null;
+    next_page_url: string | null;
+    path: string;
+    per_page: string | number;
+    prev_page_url: string | null;
+    to: number | null;
+}

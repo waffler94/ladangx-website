@@ -1,7 +1,7 @@
 'use server';
 import { cache } from "react";
 import axios from "./axios";
-import { getCartResponse, getFieldActivitiesResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse, getVouchersRawResponse } from "./declaration";
+import { getCartResponse, getFieldActivitiesResponse, getTicketResponse, getUserResponse, loginResponse, ticketDateAvailabilityResponse, visitDetailsResponse, getVisitsResponse, getUserQuizStatusResponse, getQuizAnswerStatusResponse, getVouchersRawResponse, getNotificationsResponse } from "./declaration";
 
 export const login = async ({
     phone_number, calling_code, password
@@ -363,6 +363,22 @@ export const useVoucher = async ({ voucher_code }: { voucher_code: string }) => 
 }
 
 export const validateVoucher = async ({ }) => { }
+
+export const getNotifications = async ({ is_read, per_page, page }: {
+    is_read?: 0 | 1;
+    per_page?: number;
+    page?: number;
+}): Promise<{ status: number } & getNotificationsResponse> => {
+    const res = await axios.get<getNotificationsResponse>('/users/notifications', {
+        params: { is_read, per_page, page }
+    });
+    return { status: res.status, ...res.data };
+};
+
+export const markNotificationRead = async ({ notification }: { notification: number }) => {
+    const res = await axios.post('/users/notification', { notification });
+    return { status: res.status, ...res.data };
+};
 
 export const getFieldActivities = async ({ page, per_page }: {
     page?: number;
