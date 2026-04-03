@@ -3,17 +3,23 @@ import React, { useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import Spinner from '@/components/spinner'
+import { useRouter } from '@/i18n/navigation'
 
 export default function Page() {
     const t = useTranslations()
     const searchParams = useSearchParams()
     const rawUrl = searchParams.get('url')
     const paymentUrl = rawUrl ? decodeURIComponent(rawUrl) : null
-
+    const router = useRouter()
     useEffect(() => {
         if (paymentUrl) {
             window.open(paymentUrl, '_blank')
+        } else {
+            router.push('/')
         }
+
+
+
     }, [paymentUrl])
 
     return (
@@ -27,7 +33,7 @@ export default function Page() {
                     </a>
                 </>
             ) : (
-                <p className="text-[#60756E]">No payment URL provided.</p>
+                <Spinner size={40} color="#446A2A" />
             )}
         </div>
     )
