@@ -7,7 +7,7 @@ export default function ChatWidget() {
 
         createChat({
             webhookUrl:
-                "https://ai.viralgen.app/webhook/231e7f75-1c87-47fb-b9e0-c179fa89614e/chat",
+                "https://ladangxai.upplex.com.my/webhook/3e13b3f7-f1c3-455b-adad-a24813685cd2/chat",
             mode: "fullscreen",
             showWelcomeScreen: false,
             target: "#chat-widget-container",
