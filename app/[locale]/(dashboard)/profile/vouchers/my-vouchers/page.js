@@ -1,50 +1,48 @@
 'use client'
-import React from "react";
+import React, { useContext } from "react";
 import VoucherCard from "../_components/voucher-card";
+import { useGetVouchers } from "@/lib/hooks/useGetVouchers";
+import { useTranslations } from "use-intl";
+import { getLeftTitle } from "@/lib/helper";
+import { modalList, PopupContext } from "@/components/context/PopupProvider";
 
 export default function page() {
+    const t = useTranslations();
+    const { data, isLoading, isError } = useGetVouchers({ per_page: 10, page: 1, user_voucher: 2 });
+    const { openModal } = useContext(PopupContext);
 
-    const vouchers = [
-        {
-            id: 1,
-            leftTitle: 'RM10 OFF',
-            voucherTitle: 'Family Ticket Saver',
-            icon: 'icon-voucher',
-            points: '1,000 pts',
-            description: 'Cash Voucher'
-        },
-        {
-            id: 2,
-            leftTitle: 'FREE TICKET',
-            voucherTitle: 'Birthday Special',
-            icon: 'icon-birthday_cake',
-            points: '100 pts',
-            description: 'Free 1 ticket'
-        },
-        {
-            id: 3,
-            leftTitle: 'RM10 OFF',
-            voucherTitle: 'Family Ticket Saver',
-            icon: 'icon-voucher',
-            points: '1,000 pts',
-            description: 'Cash Voucher'
-        }
-    ]
+    if (isLoading) return <div className="flex justify-center p-8">Loading...</div>;
+    if (isError) return <div className="flex justify-center p-8">Failed to load vouchers.</div>;
+    const handleClick = (id) => {
+        openModal(modalList.voucherDetail.key, { data: { ...(data.data.find(v => v.id === id)), not_redeem: true } });
+    }
+    const vouchers = data?.data ?? [];
 
     return (
-        <div className="pt-safe">
+        <div className="">
             <div className="flex flex-col w-full gap-[16px]">
-                {vouchers.map((voucher) => (
-                    <VoucherCard
-                        key={voucher.id}
-                        id={voucher.id}
-                        leftTitle={voucher.leftTitle}
-                        voucherTitle={voucher.voucherTitle}
-                        icon={voucher.icon}
-                        points={voucher.points}
-                        description={voucher.description}
-                    />
-                ))}
+
+                {vouchers.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
+                        <i className="icon-voucher text-5xl mb-4" />
+                        <p className="text-lg font-semibold">{t("no_vouchers_title")}</p>
+                        <p className="text-sm">{t("no_vouchers_desc")}</p>
+                    </div>
+                ) : (
+                    vouchers.map((voucher) => (
+                        <VoucherCard
+                            key={voucher.id}
+                            id={voucher.id}
+                            leftTitle={getLeftTitle(voucher)}
+                            voucherTitle={voucher.title}
+                            icon="icon-voucher"
+                            points={null}
+                            description={voucher.voucher_type_label}
+                            notRedeem={true}
+                            onClick={handleClick}
+                        />
+                    ))
+                )}
             </div>
         </div>
     );

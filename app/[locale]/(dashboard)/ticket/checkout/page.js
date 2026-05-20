@@ -97,16 +97,18 @@ export default async function page({ searchParams }) {
                     <div className="border-t border-gray-200"></div>
 
                     {/* Vouchers Section */}
-                    <div className="p-[20px]">
-                        <h2 className="text-[18px] font-semibold mb-[12px]">{t("vouchers")}</h2>
-                        <button className="w-full border border-[#CFDDCF] rounded-[12px] p-[16px] flex items-center justify-between">
-                            <div className="flex items-center gap-[12px]">
-                                <Ticket size={24} />
-                                <span className="text-[14px] text-gray-700">{t("voucher_applied")}</span>
-                            </div>
-                            <ChevronRight size={20} className="text-gray-600" />
-                        </button>
-                    </div>
+                    <Link href={`/ticket/apply-voucher`}>
+                        <div className="p-[20px]">
+                            <h2 className="text-[18px] font-semibold mb-[12px]">{t("vouchers")}</h2>
+                            <button className="w-full border border-[#CFDDCF] rounded-[12px] p-[16px] flex items-center justify-between">
+                                <div className="flex items-center gap-[12px]">
+                                    <Ticket size={24} />
+                                    <span className="text-[14px] text-gray-700">{cartData?.data?.cart?.voucher_code || t("no_voucher_applied")}</span>
+                                </div>
+                                <ChevronRight size={20} className="text-gray-600" />
+                            </button>
+                        </div>
+                    </Link>
 
                     {/* Divider */}
                     <div className="border-t border-gray-200"></div>

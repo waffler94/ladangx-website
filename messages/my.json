@@ -179,6 +179,41 @@
     "please_select_at_least_one_item": "Sila pilih sekurang-kurangnya satu item untuk meneruskan.",
     "notification": "Pemberitahuan",
     "no_notification_title": "Tiada mesej lagi!",
-    "no_notification_description": "Kembali semula nanti untuk semak!",
-    "redeem": "Tebus"
+    "redeem": "Tebus",
+    "my_bookings": "Tempahan Saya",
+    "no_ticket_yet": "Anda belum ada tiket lagi",
+    "no_ticket_description": "Anda belum membeli sebarang tiket lagi.",
+    "purchase_tickets": "Beli Tiket",
+    "tap_a_fruit": "Tekan buah untuk bermain!",
+    "search_ticket_placeholder": "Cari ...",
+    "no_vouchers_title": "Tiada baucar lagi",
+    "no_vouchers_desc": "Anda tiada sebarang baucar pada masa ini.",
+    "no_available_vouchers_title": "Tiada baucar tersedia",
+    "no_available_vouchers_desc": "Tiada baucar tersedia buat masa ini.",
+    "no_used_vouchers_title": "Tiada baucar digunakan",
+    "no_used_vouchers_desc": "Anda belum menggunakan sebarang baucar.",
+    "voucher_details_title": "Butiran Baucar",
+    "date_redeemable": "Tarikh Boleh Ditebus",
+    "terms_and_conditions": "Terma & Syarat",
+    "voucher_terms_1": "1. Ini adalah baucar tunai yang boleh digunakan untuk menolak pembelian pedagang atau platform yang mengambil bahagian.",
+    "voucher_terms_2": "2. Hanya pengguna berdaftar yang telah mengumpul mata yang cukup boleh menebus baucar ini.",
+    "voucher_terms_3": "3. Setiap baucar sah untuk satu transaksi sahaja dan tidak boleh digunakan semula.",
+    "voucher_terms_4": "4. Baucar tunai tidak boleh dikembalikan, ditukar dengan tunai sebenar, atau dipindahkan kepada pengguna lain.",
+    "voucher_terms_5": "5. Sila gunakan baucar sebelum tarikh luput yang dinyatakan. Baucar yang luput tidak akan dikeluarkan semula atau dilanjutkan.",
+    "voucher_terms_6": "6. Baucar ini mungkin tertakluk kepada perbelanjaan minimum atau penggunaan pedagang tertentu. Semak butiran sebelum penebusan.",
+    "Total": "Jumlah",
+    "you_picked_it_right": "Anda memilihnya dengan betul!",
+    "matching_it_desc": "Tekan ikon kiri, kemudian tekan teks yang sepadan",
+    "you_got_all": "Anda mendapat semua jawapan yang betul!",
+    "tap_me": "Tekan Saya!",
+    "ticket_info": {
+        "0": {
+            "0": "Kemasukan percuma untuk kanak-kanak di bawah <b>3 tahun</b>, termasuk baucar ais krim percuma",
+            "1": "Termasuk baucar pastri dan ais krim percuma",
+            "2": "Termasuk baucar pastri dan ais krim percuma"
+        },
+        "1": {
+            "0": "RM5 untuk 1 beg, RM8 untuk 2 beg, RM15 untuk 5 beg"
+        }
+    }
 }

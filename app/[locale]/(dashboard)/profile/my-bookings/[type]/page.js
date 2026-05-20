@@ -50,7 +50,7 @@ export default function page() {
                                 <div className="mx-[57px] flex-col  min-h-[70vh] flex flex-1 items-center justify-center ">
                                     <Image src="/images/image23-no_booking.png" width={800} height={714} alt="Notification" className="mb-[16px] w-fit h-[187px]" />
                                     <h1 className="font-semibold text-[#313F3A] text-[19px]">{t("no_ticket_yet")}</h1>
-                                    <p className="text-[#60756E] mt-2">{t("no_ticket_description")}</p>
+                                    <p className="text-[#60756E] mt-2 text-center">{t("no_ticket_description")}</p>
                                     <Link href="/ticket/date" className="mt-[17px] w-full">
                                         <div className="py-2 pl-1 pr-2 w-full group  rounded-full shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
 

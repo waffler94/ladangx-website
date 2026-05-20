@@ -5,6 +5,8 @@ import { Fredoka, Montserrat } from "next/font/google";
 import "./globals.css";
 import "@/lib/icon.css";
 import "./custom-class.css";
+import '@n8n/chat/dist/style.css';
+
 import {
   getMessages,
   getTranslations,

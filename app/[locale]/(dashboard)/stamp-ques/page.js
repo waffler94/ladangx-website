@@ -13,8 +13,12 @@ export default function page() {
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || 1;
     const itemsPerPage = 20;
+    const [searchQuery, setSearchQuery] = React.useState("");
     const { data: quizData, isLoading: isLoadingQuiz } = useGetUserQuizStatus();
-    const totalPages = quizData ? Math.ceil(quizData.data.length / itemsPerPage) : 0;
+    const filteredData = quizData?.data?.filter((quiz) =>
+        quiz.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const totalPages = filteredData ? Math.ceil(filteredData.length / itemsPerPage) : 0;
 
     return (
         <div className="bg-[url('/images/bg7-stampques.png')] bg-cover bg-[50%_0px]  min-h-screen relative pb-[120px] pt-safe">
@@ -33,6 +37,8 @@ export default function page() {
                         type="text"
                         placeholder={t("search_ticket_placeholder")}
                         className=" w-full h-[44px] rounded-full px-[45px] outline-none bg-white/90 placeholder:text-gray-400 focus:outline-none "
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
                 <div className="grid grid-cols-5 w-full gap-x-[14px] gap-y-[16px] mt-[16px]">
@@ -45,10 +51,10 @@ export default function page() {
                             </div>
                         ))
                     ) : (
-                        quizData?.data?.map((quiz) => (
+                        filteredData?.map((quiz) => (
                             <Link
                                 key={quiz.field_item_id}
-                                href={`/fruit/${quiz.slug}`}
+                                href={`/quiz/${quiz.slug}`}
                                 className="flex flex-col items-center"
                             >
                                 <div>

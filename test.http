@@ -1,5 +1,6 @@
 @baseUrl= https://ladangxadmin.upplex.com.my
-@token= 115|AZ1q3EtwRD4YThjqYh1NmHz5XVweUy9laIacMQpi
+# @token= 115|AZ1q3EtwRD4YThjqYh1NmHz5XVweUy9laIacMQpi
+@token = 130|JZUvY23I70u0aUccHB6cQh2EZwAFkBU98cPEabTN
 @token2= 4|3tNUf4GvnzFHJfgwUAvI48FnqfI4L5umXd7faJFn
 
 
@@ -25,13 +26,6 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 
-###
-
-GET {{baseUrl}}/api/v1/visits/cart?ticket_date=2026-01-22
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{token}}
-
 
 ###
 
@@ -41,7 +35,7 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-  "visit_date":"2026-01-22",
+  "visit_date":"2026-02-25",
   "details":[]
 }
 
@@ -112,3 +106,54 @@ GET {{baseUrl}}/api/v1/users
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token2}}
+
+###
+
+GET {{baseUrl}}/api/v1/vouchers
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token2}}
+
+{
+  "per_page":10,
+  "page":1
+}
+
+###
+
+GET {{baseUrl}}/api/v1/visits/cart
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+POST {{baseUrl}}/api/v1/vouchers/validate
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "cart":"xQg",
+  "promo_code":"B2F1AD"
+}
+
+### 
+GET {{baseUrl}}/api/v1/field-activities
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status:":10,
+  "page":1,
+  "per_page":10
+}
+
+###
+POST https://ai.viralgen.app/webhook/231e7f75-1c87-47fb-b9e0-c179fa89614e/chat
+Content-Type: application/json
+Accept: application/json
+
+{
+  "chatInput": "hi",
+  "sessionId": "123123123"
+}
