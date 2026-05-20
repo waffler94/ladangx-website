@@ -20,7 +20,7 @@ const ITEMS = [
 
 // card dimensions: 130 × 182 → aspect ratio kept for zoom
 const ZOOM_W = 240;
-const ZOOM_H = Math.round(ZOOM_W * 182 / 110);
+const ZOOM_H = Math.round(ZOOM_W * 182 / 102);
 
 export default function CarbonFootprints() {
   const [selectedId, setSelectedId] = useState(null);
