@@ -22,7 +22,7 @@ export default function QuizMenu({ fruit, onSelectCategory, userQuizId }) {
         </div>
       </div>
       <h1 className='text-[#313F3A] text-[22px] text-center flex items-center justify-center gap-2 font-semibold py-4'>{t("pick_challenge")} <Image src={'/images/lightning.png'} alt="lightning" width={30} height={30} /> </h1>
-      <div className="grid grid-cols-1 w-full max-w-md gap-4 px-4 pb-12">
+      <div className="grid grid-cols-1 w-full max-w-md gap-4 px-4 pb-12 mx-auto">
         {categories.map((cat) => {
 
           const key = cat.id === 'benefits' ? 'health_benefits' : (cat.id === 'makes' ? 'product_uses' : (cat.id === "funfact" ? "interesting_facts" : cat.id));

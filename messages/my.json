@@ -106,6 +106,7 @@
         "Kanak-kanak mesti sentiasa ditemani oleh orang dewasa.",
         "Pengesahan MyKad / Pasport diperlukan di kaunter pengambilan tiket. Kegagalan menunjukkan pengenalan yang sah akan mengakibatkan caj tambahan RM20 (dewasa) / RM15 (kanak-kanak) semasa penebusan tiket."
     ],
+    "select_a_quiz": "Pilih Satu Kuiz",
     "select_visit_date": "Pilih Tarikh Lawatan",
     "date_unavailable_title": "Tarikh Tidak Tersedia!",
     "no_date_selected": "Tiada Tarikh Dipilih!",
@@ -194,7 +195,6 @@
     "no_used_vouchers_desc": "Anda belum menggunakan sebarang baucar.",
     "voucher_details_title": "Butiran Baucar",
     "date_redeemable": "Tarikh Boleh Ditebus",
-    "terms_and_conditions": "Terma & Syarat",
     "voucher_terms_1": "1. Ini adalah baucar tunai yang boleh digunakan untuk menolak pembelian pedagang atau platform yang mengambil bahagian.",
     "voucher_terms_2": "2. Hanya pengguna berdaftar yang telah mengumpul mata yang cukup boleh menebus baucar ini.",
     "voucher_terms_3": "3. Setiap baucar sah untuk satu transaksi sahaja dan tidak boleh digunakan semula.",

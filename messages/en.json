@@ -110,6 +110,7 @@
         "Children must always be accompanied by an adult.",
         "MyKad / Passport verification is required at the ticket collection counter. Failure to present valid identification will result in a surcharge of RM20 (adult) / RM15 (child) during ticket redemption."
     ],
+    "select_a_quiz": "Select A Quiz",
     "select_visit_date": "Select Visit Date",
     "date_unavailable_title": "Date Unavailable!",
     "no_date_selected": "No Date Selected!",
@@ -199,7 +200,6 @@
     "no_used_vouchers_desc": "You haven't used any vouchers yet.",
     "voucher_details_title": "Voucher Details",
     "date_redeemable": "Date Redeemable",
-    "terms_and_conditions": "Terms & Conditions",
     "voucher_terms_1": "1. This is a cash voucher that can be used to offset purchases of participating merchants or platforms.",
     "voucher_terms_2": "2. Only registered users who have accumulated enough points may redeem this voucher.",
     "voucher_terms_3": "3. Each voucher is valid for a single transaction and cannot be reused.",

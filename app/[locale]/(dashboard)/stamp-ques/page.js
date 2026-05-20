@@ -1,6 +1,8 @@
 'use client'
 import BackButton from "@/components/back-button";
 import Pagination from "@/components/pagination";
+import QuizCropDoctor from "@/components/quiz/QuizCropDoctor";
+import QuizCarbonFootprint from "@/components/quiz/QuizCarbonFootprint";
 import { Link } from "@/i18n/navigation";
 import { useGetUserQuizStatus } from "@/lib/hooks/useGetUserQuizStatus";
 import { useTranslations } from "next-intl";
@@ -8,17 +10,32 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
+const CROP_DOCTOR_NAME = "Crop Doctor";
+const CARBON_FOOTPRINT_NAME = "Carbon Footprint";
+
 export default function page() {
     const t = useTranslations();
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || 1;
     const itemsPerPage = 20;
     const [searchQuery, setSearchQuery] = React.useState("");
+    const [showCropDoctor, setShowCropDoctor] = React.useState(false);
+    const [showCarbonFootprint, setShowCarbonFootprint] = React.useState(false);
     const { data: quizData, isLoading: isLoadingQuiz } = useGetUserQuizStatus();
     const filteredData = quizData?.data?.filter((quiz) =>
         quiz.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     const totalPages = filteredData ? Math.ceil(filteredData.length / itemsPerPage) : 0;
+    const showCropDoctorCard = CROP_DOCTOR_NAME.toLowerCase().includes(searchQuery.toLowerCase());
+    const showCarbonFootprintCard = CARBON_FOOTPRINT_NAME.toLowerCase().includes(searchQuery.toLowerCase());
+
+    if (showCropDoctor) {
+        return <QuizCropDoctor onBack={() => setShowCropDoctor(false)} />;
+    }
+
+    if (showCarbonFootprint) {
+        return <QuizCarbonFootprint onBack={() => setShowCarbonFootprint(false)} />;
+    }
 
     return (
         <div className="bg-[url('/images/bg7-stampques.png')] bg-cover bg-[50%_0px]  min-h-screen relative pb-[120px] pt-safe">
@@ -27,7 +44,7 @@ export default function page() {
                     <BackButton />
                 </Link>
                 <h1 className="font-semibold text-[22px] absolute left-1/2 -translate-x-1/2">
-                    {t("select_ticket")}
+                    {t("select_a_quiz")}
                 </h1>
             </div>
             <div className="mt-[210px] w-full px-[20px]    ">
@@ -42,8 +59,37 @@ export default function page() {
                     />
                 </div>
                 <div className="grid grid-cols-5 w-full gap-x-[14px] gap-y-[16px] mt-[16px]">
+                    {/* Crop Doctor — first */}
+                    {showCropDoctorCard && (
+                        <button
+                            onClick={() => setShowCropDoctor(true)}
+                            className="flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                        >
+                            <div className="size-[55px] rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-md border-2 border-white">
+                                <span className="text-2xl">🐞</span>
+                            </div>
+                            <p className="text-center text-xs font-semibold text-emerald-800">
+                                {CROP_DOCTOR_NAME}
+                            </p>
+                        </button>
+                    )}
+
+                    {/* Carbon Footprint — second */}
+                    {showCarbonFootprintCard && (
+                        <button
+                            onClick={() => setShowCarbonFootprint(true)}
+                            className="flex flex-col items-center gap-1 active:scale-95 transition-transform"
+                        >
+                            <div className="size-[55px] rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-md border-2 border-white">
+                                <span className="text-2xl">🌍</span>
+                            </div>
+                            <p className="text-center text-xs font-semibold text-blue-800">
+                                {CARBON_FOOTPRINT_NAME}
+                            </p>
+                        </button>
+                    )}
+
                     {isLoadingQuiz ? (
-                        // Skeleton loading state
                         Array.from({ length: 15 }).map((_, index) => (
                             <div key={index} className="flex flex-col items-center">
                                 <div className="size-[55px] bg-gray-300 rounded-full animate-pulse" />
