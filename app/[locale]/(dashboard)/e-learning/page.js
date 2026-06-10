@@ -1,82 +1,69 @@
-import { getFruits, themeColors } from '@/utils/api';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import LanguageToggle from '@/components/LanguageToggle';
 import { Link } from '@/i18n/navigation';
-import BackButton from '@/components/back-button'
+import BackButton from '@/components/back-button';
+import { getTranslations } from 'next-intl/server';
 
-export default async function Home({ params }) {
-  const { locale } = await params;
+const SECTIONS = [
+  {
+    slug: 'fruits-friends',
+    title: 'Fruits Friends',
+    description: 'Discover tropical fruits, their origins and amazing facts.',
+    emoji: '🍎',
+    gradient: 'from-yellow-400 to-orange-400',
+    shadowColor: '#f97316',
+  },
+  {
+    slug: 'crop-doctors',
+    title: 'Crop Doctors',
+    description: 'Learn to identify 10 common plant pests and their symptoms.',
+    emoji: '🐞',
+    gradient: 'from-emerald-400 to-teal-500',
+    shadowColor: '#14b8a6',
+  },
+  {
+    slug: 'carbon-footprints',
+    title: 'Carbon Footprints',
+    description: 'Understand the CO₂ impact of everyday items around us.',
+    emoji: '🌍',
+    gradient: 'from-sky-400 to-blue-600',
+    shadowColor: '#3b82f6',
+  },
+];
+
+export default async function ELearningHub() {
   const t = await getTranslations();
-  const fruits = await getFruits(locale);
 
   return (
-    <div className="bg-[url('/images/bg5-fruit_friends1.png')] bg-cover bg-top min-h-screen relative pt-safe">
-      <div className="flex flex-row items-center justify-between w-full pt-[17px] px-[20px] flex-shrink-0 relative">
-        <Link href="/" className="">
-            <BackButton />
+    <div className="bg-[url('/images/bg8-e_learning.png')] bg-cover bg-top min-h-screen pt-safe pb-10">
+
+      <div className="flex flex-row items-center justify-between relative w-full pt-[17px] px-[20px]">
+        <Link href="/">
+          <BackButton />
         </Link>
-        <h1 className="font-semibold text-[22px] absolute mx-auto left-0 right-0 w-fit">{t("E-learning")}</h1>
+        <h1 className="font-semibold text-[22px] absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+          E-Learning
+        </h1>
       </div>
-      {/* <LanguageToggle /> */}
-      <div className='h-[55vw] md:h-[55vh]'></div>
-      <h2 className='text-[#313F3A] text-[19px] text-center flex items-center justify-center gap-4 font-semibold py-4'>{t("tap_a_fruit")} <Image src={'/images/pointing.png'} alt="" width={40} height={40} /> </h2>
-      {/* 📱 Mobile Grid: 2 Columns */}
-      <div className="px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        {fruits.map((fruit, index) => {
-          const data = fruit[locale] || fruit['en'];
-          const rawTheme = themeColors[fruit.theme] || themeColors.yellow;
-          const bgClass = rawTheme.split(' ').find(c => c.startsWith('bg-'));
 
-          // Random-ish rotation for sticker effect
-          const rotateClass = index % 2 === 0 ? '-rotate-1 hover:rotate-1' : 'rotate-1 hover:-rotate-1';
-
-          return (
-            <Link
-              href={`/fruit/${fruit.slug}`}
-              key={fruit.slug}
-              className={`
-                group relative block bg-white 
-                rounded-3xl 
-                transition-all duration-200 
-                hover:scale-105 active:scale-95
-                shadow-[0px_4px_0px_0px_#DAE2DA]
-                active:shadow-none
-                ${rotateClass}
-                overflow-hidden
-              `}
-            >
-              <div className="p-3   flex flex-col items-center">
-
-                {/* 🎨 Image Bubble */}
-                <div className={`
-                  w-20 h-20 rounded-full flex items-center justify-center mb-3
-                  ${bgClass} border-2 border-slate-100 group-hover:scale-110 transition-transform duration-300
-                `}>
-                  {/* Replaced Text Emoji with Image Tag */}
-                  <Image
-                    src={fruit.image}
-                    alt={fruit.name}
-                    className="w-12 h-12 object-contain drop-shadow-md group-hover:animate-bounce"
-                    width={50}
-                    height={50}
-                  />
-                </div>
-
-                {/* 📝 Text Info */}
-                <div className="text-center w-full z-10 relative">
-                  <h2 className="text-[16px] font-semibold text-[#313F3A] leading-tight">
-                    {fruit.name}
-                  </h2>
-                  <div className="mt-2 inline-block bg-[#F1F5F9] text-[#A0AFC4] text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-[#E2E8F0]">
-                    {fruit.origin}
-                  </div>
-                </div>
-
-              </div>
-            </Link>
-          );
-        })}
+      <div className="px-5 mt-10 flex flex-col gap-5 max-w-md mx-auto">
+        {SECTIONS.map((section) => (
+          <Link
+            key={section.slug}
+            href={`/e-learning/${section.slug}`}
+            className="group relative flex items-center gap-4 bg-white rounded-3xl px-5 py-5 active:scale-95 transition-all duration-150 active:translate-y-1"
+            style={{
+              boxShadow: `0 5px 0 ${section.shadowColor}`,
+            }}
+          >
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shrink-0 shadow-md`}>
+              <span className="text-3xl">{section.emoji}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-[17px] font-black text-[#313F3A] leading-tight">{section.title}</h2>
+              <p className="text-xs text-slate-500 mt-1 leading-snug">{section.description}</p>
+            </div>
+            <span className="text-slate-300 text-2xl shrink-0 font-light">›</span>
+          </Link>
+        ))}
       </div>
     </div>
   );
