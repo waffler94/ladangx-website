@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import CloseButton from '@/components/close-button';
 
@@ -33,9 +33,12 @@ export default function QuizCarbonFootprint({ onBack }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [draggedId, setDraggedId] = useState(null);
   const [justAddedId, setJustAddedId] = useState(null);
-  // List reorder
   const [dragListId, setDragListId] = useState(null);
   const [dragOverListIdx, setDragOverListIdx] = useState(null);
+
+  // Refs for touch drag
+  const dropZoneRef = useRef(null);
+  const touchRef = useRef({ type: null, id: null });
 
   const allPlaced = pool.length === 0;
 
@@ -47,7 +50,16 @@ export default function QuizCarbonFootprint({ onBack }) {
     setTimeout(() => setJustAddedId(null), 450);
   };
 
-  // ── pool → stack drag ─────────────────────────────────────────────────────
+  const reorderList = (fromId, toListIdx) => {
+    const reversed = [...stack].reverse();
+    const fromListIdx = reversed.findIndex(c => c.id === fromId);
+    if (fromListIdx === -1 || fromListIdx === toListIdx) return;
+    const [item] = reversed.splice(fromListIdx, 1);
+    reversed.splice(toListIdx, 0, item);
+    setStack(reversed.reverse());
+  };
+
+  // ── Mouse drag: pool → stack ──────────────────────────────────────────────
   const handleDragStart = (e, card) => {
     setDraggedId(card.id);
     e.dataTransfer.effectAllowed = 'move';
@@ -55,7 +67,7 @@ export default function QuizCarbonFootprint({ onBack }) {
   const handleDragEnd = () => setDraggedId(null);
 
   const handleDragOver = (e) => {
-    if (!draggedId) return; // ignore list reorder drags
+    if (!draggedId) return;
     e.preventDefault();
     setIsDragOver(true);
   };
@@ -70,8 +82,39 @@ export default function QuizCarbonFootprint({ onBack }) {
     }
   };
 
-  // ── list reorder drag ─────────────────────────────────────────────────────
-  // List shows stack in reverse: listIdx 0 = top of stack, listIdx N-1 = bottom
+  // ── Touch drag: pool → stack ──────────────────────────────────────────────
+  const handlePoolTouchStart = (_e, card) => {
+    touchRef.current = { type: 'pool', id: card.id };
+    setDraggedId(card.id);
+  };
+  const handlePoolTouchMove = (e) => {
+    if (touchRef.current.type !== 'pool') return;
+    const touch = e.touches[0];
+    const zone = dropZoneRef.current?.getBoundingClientRect();
+    if (zone) {
+      const over = touch.clientX >= zone.left && touch.clientX <= zone.right &&
+                   touch.clientY >= zone.top  && touch.clientY <= zone.bottom;
+      setIsDragOver(over);
+    }
+  };
+  const handlePoolTouchEnd = (e) => {
+    if (touchRef.current.type !== 'pool') return;
+    const touch = e.changedTouches[0];
+    const zone = dropZoneRef.current?.getBoundingClientRect();
+    if (zone) {
+      const over = touch.clientX >= zone.left && touch.clientX <= zone.right &&
+                   touch.clientY >= zone.top  && touch.clientY <= zone.bottom;
+      if (over) {
+        const card = pool.find(c => c.id === touchRef.current.id);
+        if (card) addCard(card);
+      }
+    }
+    setIsDragOver(false);
+    setDraggedId(null);
+    touchRef.current = { type: null, id: null };
+  };
+
+  // ── Mouse drag: list reorder ──────────────────────────────────────────────
   const handleListDragStart = (e, card) => {
     setDragListId(card.id);
     e.dataTransfer.effectAllowed = 'move';
@@ -85,14 +128,7 @@ export default function QuizCarbonFootprint({ onBack }) {
   const handleListDrop = (e, toListIdx) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!dragListId) return;
-    const reversed = [...stack].reverse();
-    const fromListIdx = reversed.findIndex(c => c.id === dragListId);
-    if (fromListIdx !== -1 && fromListIdx !== toListIdx) {
-      const [item] = reversed.splice(fromListIdx, 1);
-      reversed.splice(toListIdx, 0, item);
-      setStack(reversed.reverse());
-    }
+    if (dragListId) reorderList(dragListId, toListIdx);
     setDragListId(null);
     setDragOverListIdx(null);
   };
@@ -101,7 +137,37 @@ export default function QuizCarbonFootprint({ onBack }) {
     setDragOverListIdx(null);
   };
 
-  // ── game actions ───────────────────────────────────────────────────────────
+  // ── Touch drag: list reorder ──────────────────────────────────────────────
+  const handleListTouchStart = (_e, card) => {
+    touchRef.current = { type: 'list', id: card.id };
+    setDragListId(card.id);
+  };
+  const handleListTouchMove = (e) => {
+    if (touchRef.current.type !== 'list') return;
+    const touch = e.touches[0];
+    // Temporarily hide dragged element so elementFromPoint finds the target beneath
+    const draggingEl = document.querySelector(`[data-card-id="${touchRef.current.id}"]`);
+    if (draggingEl) draggingEl.style.pointerEvents = 'none';
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (draggingEl) draggingEl.style.pointerEvents = '';
+    const listItem = el?.closest('[data-list-idx]');
+    if (listItem) setDragOverListIdx(parseInt(listItem.dataset.listIdx));
+  };
+  const handleListTouchEnd = (e) => {
+    if (touchRef.current.type !== 'list') return;
+    const touch = e.changedTouches[0];
+    const draggingEl = document.querySelector(`[data-card-id="${touchRef.current.id}"]`);
+    if (draggingEl) draggingEl.style.pointerEvents = 'none';
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (draggingEl) draggingEl.style.pointerEvents = '';
+    const listItem = el?.closest('[data-list-idx]');
+    if (listItem) reorderList(touchRef.current.id, parseInt(listItem.dataset.listIdx));
+    setDragListId(null);
+    setDragOverListIdx(null);
+    touchRef.current = { type: null, id: null };
+  };
+
+  // ── Game actions ───────────────────────────────────────────────────────────
   const handleCheck = () => {
     const correct = stack.every((card, i) => card.id === CORRECT_IDS[i]);
     setIsCorrect(correct);
@@ -115,6 +181,7 @@ export default function QuizCarbonFootprint({ onBack }) {
     setIsCorrect(false);
     setDragListId(null);
     setDragOverListIdx(null);
+    touchRef.current = { type: null, id: null };
   };
 
   const stackContainerH = stack.length === 0
@@ -158,6 +225,7 @@ export default function QuizCarbonFootprint({ onBack }) {
 
         {/* LEFT: Drop zone */}
         <div
+          ref={dropZoneRef}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -225,7 +293,6 @@ export default function QuizCarbonFootprint({ onBack }) {
               })
             )}
           </div>
-
         </div>
 
         {/* RIGHT: Reorderable stacked list */}
@@ -243,45 +310,49 @@ export default function QuizCarbonFootprint({ onBack }) {
               Tap a card below<br />to start stacking
             </p>
           ) : (
-            <>
-              <div className="flex flex-col">
-                {[...stack].reverse().map((card, revIdx) => {
-                  const stackIdx = stack.length - 1 - revIdx;
-                  const pos = stack.length - revIdx;
-                  const isDragging = dragListId === card.id;
-                  const isOver = dragOverListIdx === revIdx && dragListId !== card.id;
-                  const cardCorrect = isSubmitted && card.id === CORRECT_IDS[stackIdx];
-                  const cardWrong = isSubmitted && card.id !== CORRECT_IDS[stackIdx];
+            <div className="flex flex-col">
+              {[...stack].reverse().map((card, revIdx) => {
+                const stackIdx = stack.length - 1 - revIdx;
+                const pos = stack.length - revIdx;
+                const isDragging = dragListId === card.id;
+                const isOver = dragOverListIdx === revIdx && dragListId !== card.id;
+                const cardCorrect = isSubmitted && card.id === CORRECT_IDS[stackIdx];
+                const cardWrong = isSubmitted && card.id !== CORRECT_IDS[stackIdx];
 
-                  return (
-                    <div
-                      key={card.id}
-                      draggable={!isSubmitted}
-                      onDragStart={(e) => handleListDragStart(e, card)}
-                      onDragOver={(e) => handleListDragOver(e, revIdx)}
-                      onDrop={(e) => handleListDrop(e, revIdx)}
-                      onDragEnd={handleListDragEnd}
-                      className={`flex items-center gap-1.5 rounded-xl px-2 py-1.5 mb-1 shadow-sm select-none transition-all duration-100
-                        ${!isSubmitted ? 'cursor-grab active:cursor-grabbing bg-white/80' : ''}
-                        ${cardCorrect ? 'bg-green-100 border border-green-300' : ''}
-                        ${cardWrong ? 'bg-red-50 border border-red-200' : ''}
-                        ${isDragging ? 'opacity-30 scale-95' : 'opacity-100'}
-                        ${isOver ? 'border-t-2 border-indigo-400 -mt-px' : ''}
-                      `}
-                    >
-                      {!isSubmitted && (
-                        <span className="text-slate-300 text-sm shrink-0 leading-none">⠿</span>
-                      )}
-                      {isSubmitted && (
-                        <span className="text-sm shrink-0 leading-none">{cardCorrect ? '✅' : '❌'}</span>
-                      )}
-                      <span className="text-[10px] font-black text-slate-400 shrink-0 w-4">#{pos}</span>
-                      <span className="text-[11px] font-semibold text-[#313F3A] truncate flex-1 leading-tight">{card.name}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
+                return (
+                  <div
+                    key={card.id}
+                    data-card-id={card.id}
+                    data-list-idx={revIdx}
+                    draggable={!isSubmitted}
+                    onDragStart={(e) => handleListDragStart(e, card)}
+                    onDragOver={(e) => handleListDragOver(e, revIdx)}
+                    onDrop={(e) => handleListDrop(e, revIdx)}
+                    onDragEnd={handleListDragEnd}
+                    onTouchStart={(e) => handleListTouchStart(e, card)}
+                    onTouchMove={handleListTouchMove}
+                    onTouchEnd={handleListTouchEnd}
+                    className={`flex items-center gap-1.5 rounded-xl px-2 py-1.5 mb-1 shadow-sm select-none transition-all duration-100
+                      ${!isSubmitted ? 'cursor-grab active:cursor-grabbing bg-white/80' : ''}
+                      ${cardCorrect ? 'bg-green-100 border border-green-300' : ''}
+                      ${cardWrong ? 'bg-red-50 border border-red-200' : ''}
+                      ${isDragging ? 'opacity-30 scale-95' : 'opacity-100'}
+                      ${isOver ? 'border-t-2 border-indigo-400 -mt-px' : ''}
+                    `}
+                    style={{ touchAction: 'none' }}
+                  >
+                    {!isSubmitted && (
+                      <span className="text-slate-300 text-sm shrink-0 leading-none">⠿</span>
+                    )}
+                    {isSubmitted && (
+                      <span className="text-sm shrink-0 leading-none">{cardCorrect ? '✅' : '❌'}</span>
+                    )}
+                    <span className="text-[10px] font-black text-slate-400 shrink-0 w-4">#{pos}</span>
+                    <span className="text-[11px] font-semibold text-[#313F3A] truncate flex-1 leading-tight">{card.name}</span>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
 
@@ -301,10 +372,14 @@ export default function QuizCarbonFootprint({ onBack }) {
                 onDragStart={(e) => handleDragStart(e, card)}
                 onDragEnd={handleDragEnd}
                 onClick={() => addCard(card)}
+                onTouchStart={(e) => handlePoolTouchStart(e, card)}
+                onTouchMove={handlePoolTouchMove}
+                onTouchEnd={handlePoolTouchEnd}
                 className={`rounded-2xl overflow-hidden border-2 bg-white shadow-sm
                   transition-all duration-150 active:scale-90 active:shadow-none
                   ${draggedId === card.id ? 'opacity-40 scale-95' : 'border-[#DAE2DA]'}
                 `}
+                style={{ touchAction: 'none' }}
               >
                 <Image
                   src={card.image}
@@ -321,7 +396,7 @@ export default function QuizCarbonFootprint({ onBack }) {
 
       {/* ── RESULT MESSAGE ── */}
       {isSubmitted && (
-        <div className={`mx-4 max-w-md mt-5 rounded-3xl mx-auto border-b-8 p-5 text-center shadow-lg
+        <div className={`mx-4 max-w-md mt-5 rounded-3xl border-b-8 p-5 text-center shadow-lg
           ${isCorrect
             ? 'bg-[#79A74E] border-[#4e7a2e] text-white'
             : 'bg-[#FFF3CD] border-[#e8a900] text-[#8a5c00]'
