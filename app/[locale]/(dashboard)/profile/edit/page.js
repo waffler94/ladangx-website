@@ -84,7 +84,7 @@ export default function Page() {
                             alt="Profile Picture"
                             width={80}
                             height={80}
-                            className="p-2 object-contain   "
+                            className="size-full object-cover"
                         />
 
                     </div>

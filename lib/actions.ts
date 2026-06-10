@@ -303,6 +303,14 @@ export const updateUserPassword = async ({
     });
     return { status: res.status, ...res.data };
 }
+
+export const deleteAccount = async ({ password }: { password: string }) => {
+    const res = await axios.post('/users/delete-confirm', {
+        password
+    });
+    return { status: res.status, ...res.data };
+}
+
 export const getUserQuizStatus = async (): Promise<getUserQuizStatusResponse> => {
     const res = await axios.get<getUserQuizStatusResponse>('/user-quizzes')
     return { status: res.status, ...res.data }

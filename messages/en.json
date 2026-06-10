@@ -225,5 +225,6 @@
     "no_voucher_applied": "Select Vouchers",
     "failed_to_apply_voucher": "Failed to Apply Voucher",
     "point_expired_text": "{points} points will expired by {date}",
-    "click_here_if_not_redirected": "Click here if not redirected"
+    "click_here_if_not_redirected": "Click here if not redirected",
+    "loading": "Loading..."
 }

@@ -222,5 +222,6 @@
             "0": "RM5 untuk 1 beg, RM8 untuk 2 beg, RM15 untuk 5 beg"
         }
     },
-    "click_here_if_not_redirected": "Klik di sini jika tidak dialihkan"
+    "click_here_if_not_redirected": "Klik di sini jika tidak dialihkan",
+    "loading": "Memuatkan..."
 }

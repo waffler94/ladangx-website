@@ -36,7 +36,7 @@ export default async function page() {
                             <div className="flex flex-row gap-x-[16px] items-center ">
 
                                 <div className="bg-white rounded-full overflow-hidden w-[80px] h-[80px] flex items-center justify-center relative z-10 ">
-                                    <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="p-2 object-cover " />
+                                    <Image src={user.data.profile_picture_path} alt="Profile Picture" width={80} height={80} className="size-full object-cover" />
                                 </div>
 
                                 <div className="relative z-10 ">

@@ -8,7 +8,7 @@ export default function layout({ children }) {
     const t = useTranslations();
     const pathname = usePathname();
     return (
-        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover min-h-screen pt-safe px-4 relative ">
+        <div className="bg-[url('/images/bg17-additional_pages.png')] bg-cover bg-fixed min-h-screen pt-safe px-4 relative ">
             <div className="flex flex-row items-center justify-center">
                 <button className="absolute left-4" onClick={() => window.history.back()}>
                     <BackButton />
