@@ -48,7 +48,7 @@ export default function page() {
                         data?.data?.length <= 0 ? (
                             <div className="w-full mt-[34px] min-h-[70vh] bg-white rounded-[16px]">
                                 <div className="mx-[57px] flex-col  min-h-[70vh] flex flex-1 items-center justify-center ">
-                                    <Image src="/images/image23-no_booking.png" width={800} height={714} alt="Notification" className="mb-[16px] w-fit h-[187px]" />
+                                    <Image src="/images/image23-no_booking.png" width={800} height={1825} alt="Notification" className="mb-[16px] h-[187px] w-auto object-contain" />
                                     <h1 className="font-semibold text-[#313F3A] text-[19px]">{t("no_ticket_yet")}</h1>
                                     <p className="text-[#60756E] mt-2 text-center">{t("no_ticket_description")}</p>
                                     <Link href="/ticket/date" className="mt-[17px] w-full">
