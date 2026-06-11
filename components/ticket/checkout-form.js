@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import SubmitButton from '@/components/auth/submit-btn'
 import { createUserVisit, createVisit } from '@/lib/actions'
 import { modalList, PopupContext } from '@/components/context/PopupProvider'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useGetCart } from '@/lib/hooks/useGetCart'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
@@ -15,6 +15,7 @@ export default function CheckoutForm() {
     const { data: cartData } = useGetCart({ visit_date: date });
     const { openModal } = useContext(PopupContext)
     const router = useRouter()
+    const locale = useLocale()
 
     const submitHandler = async (e) => {
         e.preventDefault()
@@ -31,7 +32,10 @@ export default function CheckoutForm() {
 
 
             if (result.res_status === 200 || result.res_status === 201) {
-                router.push('/payment?url=' + encodeURIComponent(result.data.payment_url))
+                const paymentUrl = new URL(result.data.payment_url)
+                paymentUrl.searchParams.set('locale', locale === 'my' ? 'ms' : locale)
+
+                router.push('/payment?url=' + encodeURIComponent(paymentUrl.toString()))
             } else {
                 throw new Error('Failed to create visit')
             }
