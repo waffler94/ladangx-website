@@ -110,9 +110,7 @@ export default async function RootLayout({ children, params }) {
           <PopUpProvider>
             {/* <Navbar /> */}
             {/* <pre>{JSON.stringify(Object.fromEntries(headersList), null, 2)}</pre> */}
-             {
-                        headers().get("x-app-client")
-                    }
+            
             {children}
             {/* <Footer /> */}
           </PopUpProvider>
