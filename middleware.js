@@ -2,11 +2,14 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 const handleI18nRouting = createMiddleware(routing);
+const MOBILE_APP_CLIENT_COOKIE = "app_client";
 
 export function middleware(request) {
     const isDevEnv = process.env.DEV_ENV === "true";
-    const isMobileAppClient = request.headers.get("x-app-client") === "mobile";
-
+    const mobileHeader = request.headers.get("x-app-client")?.trim().toLowerCase();
+    const isMobileHeader = mobileHeader === "mobile";
+    const isMobileCookie = request.cookies.get(MOBILE_APP_CLIENT_COOKIE)?.value === "mobile";
+    const isMobileAppClient = isMobileHeader || isMobileCookie;
 
     if (!isDevEnv && !isMobileAppClient) {
         const downloadUrl = new URL("/download-redirect", request.url);
@@ -26,6 +29,14 @@ export function middleware(request) {
         locale = localeFromPath;
     }
     response.headers.set("x-locale", locale);
+    if (isMobileHeader) {
+        response.cookies.set(MOBILE_APP_CLIENT_COOKIE, "mobile", {
+            httpOnly: true,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 60 * 60 * 24 * 30,
+        });
+    }
     // if (request.nextUrl.pathname.includes("/auth")) {
     //   // if user already have access_token cookie
     //   const accessToken = request.cookies.get("access_token");
