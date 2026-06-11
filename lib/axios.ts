@@ -38,6 +38,21 @@ const links: Record<string, string> = {
     baseUrl: process.env.API_URL,
 };
 
+const isDevEnv = process.env.DEV_ENV === "true";
+
+const getRequestUrl = (config): string => {
+    const baseURL = config.baseURL || "";
+    const url = config.url || "";
+    return `${baseURL}${url}`;
+};
+
+const getSafeHeaders = (headers) => {
+    const safeHeaders = { ...headers };
+    if (safeHeaders.Authorization) safeHeaders.Authorization = "Bearer ***";
+    if (safeHeaders.authorization) safeHeaders.authorization = "Bearer ***";
+    return safeHeaders;
+};
+
 export const Instance = axios.create({
     baseURL: links.baseUrl,
     headers: {
@@ -57,6 +72,15 @@ Instance.interceptors.request.use(async (config) => {
         const locale = await getLocale();
         config.headers["X-localization"] = locale;
     }
+    if (isDevEnv) {
+        console.log("[axios:request]", {
+            method: config.method?.toUpperCase(),
+            url: getRequestUrl(config),
+            params: config.params,
+            data: config.data,
+            headers: getSafeHeaders(config.headers),
+        });
+    }
     // if (!config.headers["X-currency"]) {
     //     const currency = await getCurrency();
     //     config.headers["X-currency"] = currency;
@@ -66,7 +90,17 @@ Instance.interceptors.request.use(async (config) => {
 
 
 Instance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        if (isDevEnv) {
+            console.log("[axios:response]", {
+                method: response.config.method?.toUpperCase(),
+                url: getRequestUrl(response.config),
+                status: response.status,
+                data: response.data,
+            });
+        }
+        return response;
+    },
     // async (error) => {
     // 	// Check if the error is due to authentication issues (401 Unauthorized)
     // 	const status = error?.response?.status;
@@ -79,8 +113,15 @@ Instance.interceptors.response.use(
     // 	return error.response;
     // }
     (error) => {
-
-
+        if (isDevEnv) {
+            console.log("[axios:error]", {
+                method: error.config?.method?.toUpperCase(),
+                url: error.config ? getRequestUrl(error.config) : undefined,
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
+        }
         return error.response
     }
 );

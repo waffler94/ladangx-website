@@ -1,11 +1,17 @@
 import createMiddleware from "next-intl/middleware";
-import { NextResponse, userAgent } from "next/server";
-import { redirect } from "./i18n/navigation";
+import { NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 const handleI18nRouting = createMiddleware(routing);
 
 export function middleware(request) {
+    const isDevEnv = process.env.DEV_ENV === "true";
+    const isMobileAppClient = request.headers.get("x-app-client") === "mobile";
 
+    if (!isDevEnv && !isMobileAppClient) {
+        const downloadUrl = new URL("/download-redirect", request.url);
+        downloadUrl.searchParams.set("reason", "browser");
+        return NextResponse.redirect(downloadUrl);
+    }
 
     const response = handleI18nRouting(request);
     response.headers.set("x-pathname", request.nextUrl.pathname);

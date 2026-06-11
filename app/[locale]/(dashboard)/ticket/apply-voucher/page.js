@@ -63,19 +63,19 @@ export default function page({ children }) {
         setIsLoadingVoucher(null);
     };
 
-    if (isLoading) return <div className="flex justify-center p-8">Loading...</div>;
-    if (isError) return <div className="flex justify-center p-8">Failed to load vouchers.</div>;
+    if (isLoading) return <div className="flex justify-center p-8 pt-safe">Loading...</div>;
+    if (isError) return <div className="flex justify-center p-8 pt-safe">Failed to load vouchers.</div>;
 
     return (
         <>
-            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom   pt-safe pb-[12px] px-4">
-                <div className="flex flex-row items-center justify-center">
-                    <button onClick={() => router.back()} className="absolute left-4 top-4">
+            <div className="min-h-screen  bg-[url('/images/bg4-home.png')] bg-cover bg-bottom relative pt-safe pb-[12px] px-4">
+                <div className="flex flex-row items-center justify-between pt-[17px]">
+                    <button onClick={() => router.back()} className="">
                         <BackButton />
 
                     </button>
                     <h1 className="text-[22px] font-semibold">{t('vouchers')}</h1>
-                    <div />
+                    <div className="w-[44px]" />
                 </div>
 
                 <div className="mt-[36px] flex flex-col ">

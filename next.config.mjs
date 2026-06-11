@@ -2,6 +2,9 @@
 import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
+    env: {
+        DEV_ENV: process.env.DEV_ENV,
+    },
     experimental: {
         serverActions: {
             allowedOrigins: ["localhost:3000", "dvssdxvt-3000.asse.devtunnels.ms"],
