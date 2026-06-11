@@ -7,11 +7,12 @@ export function middleware(request) {
     const isDevEnv = process.env.DEV_ENV === "true";
     const isMobileAppClient = request.headers.get("x-app-client") === "mobile";
 
-    if (!isDevEnv && !isMobileAppClient) {
-        const downloadUrl = new URL("/download-redirect", request.url);
-        downloadUrl.searchParams.set("reason", "browser");
-        return NextResponse.redirect(downloadUrl);
-    }
+
+    // if (!isDevEnv && !isMobileAppClient) {
+    //     const downloadUrl = new URL("/download-redirect", request.url);
+    //     downloadUrl.searchParams.set("reason", "browser");
+    //     return NextResponse.redirect(downloadUrl);
+    // }
 
     const response = handleI18nRouting(request);
     response.headers.set("x-pathname", request.nextUrl.pathname);
