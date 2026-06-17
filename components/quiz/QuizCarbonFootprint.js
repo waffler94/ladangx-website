@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import CloseButton from '@/components/close-button';
 
@@ -19,14 +19,20 @@ const ALL_CARDS = [
   { id: 'smartphone',  name: 'Smartphone (2yr use)',    co2: 80,     co2Label: '~80 kg CO₂',    image: '/carbon/smartphone.png',  answerImage: '/carbon/smartphone_answer.png' },
 ];
 
-const CORRECT_IDS = [...ALL_CARDS].sort((a, b) => a.co2 - b.co2).map(c => c.id);
+const NUM_CARDS = 6;
+const pickGameCards = () => shuffle(ALL_CARDS).slice(0, NUM_CARDS);
 const ROTATIONS = [1.2, -1.5, 0.8, -1.0, 1.8, -0.6, 1.3, -1.7, 0.5, -1.2, 1.0];
 const CARD_W = 130;
 const CARD_H = 182;
 const PEEK = 18;
 
 export default function QuizCarbonFootprint({ onBack }) {
-  const [pool, setPool] = useState(() => shuffle([...ALL_CARDS]));
+  const [gameCards, setGameCards] = useState(pickGameCards);
+  const correctIds = useMemo(
+    () => [...gameCards].sort((a, b) => a.co2 - b.co2).map(c => c.id),
+    [gameCards]
+  );
+  const [pool, setPool] = useState(() => shuffle(gameCards));
   const [stack, setStack] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -169,13 +175,15 @@ export default function QuizCarbonFootprint({ onBack }) {
 
   // ── Game actions ───────────────────────────────────────────────────────────
   const handleCheck = () => {
-    const correct = stack.every((card, i) => card.id === CORRECT_IDS[i]);
+    const correct = stack.every((card, i) => card.id === correctIds[i]);
     setIsCorrect(correct);
     setIsSubmitted(true);
   };
 
   const handleReset = () => {
-    setPool(shuffle([...ALL_CARDS]));
+    const fresh = pickGameCards();
+    setGameCards(fresh);
+    setPool(shuffle(fresh));
     setStack([]);
     setIsSubmitted(false);
     setIsCorrect(false);
@@ -253,7 +261,7 @@ export default function QuizCarbonFootprint({ onBack }) {
 
                 let borderCol = '#DAE2DA';
                 if (isSubmitted) {
-                  borderCol = card.id === CORRECT_IDS[i] ? '#4ade80' : '#f87171';
+                  borderCol = card.id === correctIds[i] ? '#4ade80' : '#f87171';
                 } else if (isTop && isDragOver) {
                   borderCol = '#818cf8';
                 }
@@ -285,7 +293,7 @@ export default function QuizCarbonFootprint({ onBack }) {
                     />
                     {isSubmitted && isTop && (
                       <div className="absolute top-1 right-1 text-lg leading-none">
-                        {card.id === CORRECT_IDS[i] ? '✅' : '❌'}
+                        {card.id === correctIds[i] ? '✅' : '❌'}
                       </div>
                     )}
                   </div>
@@ -302,7 +310,7 @@ export default function QuizCarbonFootprint({ onBack }) {
               {isSubmitted ? 'Your order' : 'Drag to reorder ↕'}
             </p>
             <span className="text-xs font-bold bg-white/70 px-2 py-1 rounded-full text-[#313F3A]">
-              {stack.length}/{ALL_CARDS.length}
+              {stack.length}/{gameCards.length}
             </span>
           </div>
           {stack.length === 0 ? (
@@ -316,8 +324,8 @@ export default function QuizCarbonFootprint({ onBack }) {
                 const pos = stack.length - revIdx;
                 const isDragging = dragListId === card.id;
                 const isOver = dragOverListIdx === revIdx && dragListId !== card.id;
-                const cardCorrect = isSubmitted && card.id === CORRECT_IDS[stackIdx];
-                const cardWrong = isSubmitted && card.id !== CORRECT_IDS[stackIdx];
+                const cardCorrect = isSubmitted && card.id === correctIds[stackIdx];
+                const cardWrong = isSubmitted && card.id !== correctIds[stackIdx];
 
                 return (
                   <div
@@ -405,7 +413,7 @@ export default function QuizCarbonFootprint({ onBack }) {
           {isCorrect ? (
             <>
               <p className="text-2xl font-black mb-1">🎉 Perfect Stack!</p>
-              <p className="text-sm font-medium">You ranked all 11 items correctly!</p>
+              <p className="text-sm font-medium">You ranked all {gameCards.length} items correctly!</p>
             </>
           ) : (
             <>
