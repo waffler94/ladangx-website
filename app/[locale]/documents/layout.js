@@ -7,6 +7,11 @@ import React from 'react'
 export default function layout({ children }) {
     const t = useTranslations();
     const pathname = usePathname();
+    const getTitle = () => {
+        if (pathname.includes('account-deletion')) return t('account_deletion');
+        if (pathname.includes('terms')) return t('terms_and_conditions');
+        return t('privacy_policy');
+    };
     return (
         <div className="relative min-h-screen overflow-hidden">
             <div className="fixed inset-0 z-0 bg-[url('/images/bg17-additional_pages.png')] bg-cover bg-bottom" />
@@ -16,7 +21,7 @@ export default function layout({ children }) {
                         <BackButton />
 
                     </button>
-                    <h1 className="text-[22px] font-semibold">{pathname.includes('terms') ? t('terms_and_conditions') : t('privacy_policy')}</h1>
+                    <h1 className="text-[22px] font-semibold">{getTitle()}</h1>
                     <div />
                 </div>
 

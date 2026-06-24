@@ -86,7 +86,7 @@ export default async function page() {
                                     image: "/icons/colour/redeem_voucher.svg",
                                     label: t("redeem_voucher"),
                                     href: "/profile/vouchers/available"
-                                }, {
+                                },                                 {
                                     image: "/icons/colour/privacy_policy.svg",
                                     label: t("privacy_policy"),
                                     href: "/documents/privacy-policy"
@@ -94,6 +94,10 @@ export default async function page() {
                                     image: "/icons/colour/terms_conditions.svg",
                                     label: t("terms_and_conditions"),
                                     href: "/documents/terms"
+                                }, {
+                                    image: "/icons/colour/delete.svg",
+                                    label: t("delete_account_info"),
+                                    href: "/documents/account-deletion"
                                 },
                             ].map((item, index) => {
                                 return (

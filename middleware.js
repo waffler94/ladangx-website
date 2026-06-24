@@ -12,9 +12,13 @@ export function middleware(request) {
     const isMobileAppClient = isMobileHeader || isMobileCookie;
 
     if (!isDevEnv && !isMobileAppClient) {
-        const downloadUrl = new URL("/download-redirect", request.url);
-        downloadUrl.searchParams.set("reason", "browser");
-        return NextResponse.redirect(downloadUrl);
+        const pathname = request.nextUrl.pathname;
+        const isPublicDocument = pathname.includes("/documents/account-deletion");
+        if (!isPublicDocument) {
+            const downloadUrl = new URL("/download-redirect", request.url);
+            downloadUrl.searchParams.set("reason", "browser");
+            return NextResponse.redirect(downloadUrl);
+        }
     }
 
     const response = handleI18nRouting(request);
