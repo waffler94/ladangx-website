@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import BackButton from '@/components/back-button'
+import { getServerSideToken } from '@/lib/getServerSideToken';
 
 export async function generateStaticParams() {
   const fruits = await getFruits('en');
@@ -23,6 +24,8 @@ export default async function FruitPage({ params }) {
   const { slug, locale } = await params;
 
   const t = await getTranslations();
+  const token = await getServerSideToken();
+  const isGuest = !token;
   const fruits = await getFruits(locale);
   const fruit = fruits.find((f) => f.slug === slug);
 
@@ -90,14 +93,16 @@ export default async function FruitPage({ params }) {
           <div className="mt-2 inline-block bg-[#F1F5F9] text-[#A0AFC4] text-[16px] font-semibold px-3 py-2 rounded-full border border-[#E2E8F0]">
             {fruit.origin}
           </div>
-          <div className="mt-6 relative z-10">
-            <Link
-              href={`/quiz/${fruit.slug}`}
-              className="inline-block bg-white text-slate-800 font-black text-xl px-8 py-3 rounded-2xl shadow-lg border-b-4 border-slate-200 active:border-b-0 active:translate-y-1 transition-all"
-            >
-              🎮 {t('play')}
-            </Link>
-          </div>
+          {!isGuest && (
+            <div className="mt-6 relative z-10">
+              <Link
+                href={`/quiz/${fruit.slug}`}
+                className="inline-block bg-white text-slate-800 font-black text-xl px-8 py-3 rounded-2xl shadow-lg border-b-4 border-slate-200 active:border-b-0 active:translate-y-1 transition-all"
+              >
+                🎮 {t('play')}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 px-4">
