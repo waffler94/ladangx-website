@@ -6,7 +6,7 @@ import { Link, redirect, useRouter } from '@/i18n/navigation'
 import { getAccessToken } from '@/lib/axios'
 import { useTranslations } from 'next-intl'
 import { getLocale, getTranslations } from 'next-intl/server'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useGetUser } from '@/lib/hooks/useGetUser'
 import Image from 'next/image'
@@ -17,8 +17,10 @@ export default function page() {
     const t = useTranslations()
     const router = useRouter()
     const { data: userData, isLoading: isLoadingUser } = useGetUser()
+    const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
         const token = Cookies.get('access_token');
+        setIsLogin(!!token);
         const isWelcome = sessionStorage.getItem('is_welcome');
         if (!token && !isWelcome) {
             sessionStorage.setItem('is_welcome', 'true');
@@ -34,42 +36,48 @@ export default function page() {
 
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center justify-center gap-x-[10px]">
-                            {isLoadingUser ? (
-                                <>
-                                    <div className="rounded-full size-[46px] bg-gray-300 animate-pulse"></div>
-                                    <div>
-                                        <div className="h-4 w-12 bg-gray-300 rounded animate-pulse mb-1"></div>
-                                        <div className="h-5 w-24 bg-gray-300 rounded animate-pulse"></div>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="rounded-full size-[46px] bg-white flex items-center justify-center overflow-hidden">
-                                        {userData?.data?.profile_picture_path ? (
-                                            <Image
-                                                src={userData.data.profile_picture_path}
-                                                alt="Profile Picture"
-                                                width={46}
-                                                height={46}
-                                                className="object-cover w-full h-full"
-                                            />
-                                        ) : (
-                                            <div className="rounded-full size-[46px] bg-gray-400">
+                            {isLogin ? (
+                                isLoadingUser ? (
+                                    <>
+                                        <div className="rounded-full size-[46px] bg-gray-300 animate-pulse"></div>
+                                        <div>
+                                            <div className="h-4 w-12 bg-gray-300 rounded animate-pulse mb-1"></div>
+                                            <div className="h-5 w-24 bg-gray-300 rounded animate-pulse"></div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="rounded-full size-[46px] bg-white flex items-center justify-center overflow-hidden">
+                                            {userData?.data?.profile_picture_path ? (
                                                 <Image
-                                                    src={"/images/image16-stamp.png"}
+                                                    src={userData.data.profile_picture_path}
                                                     alt="Profile Picture"
                                                     width={46}
                                                     height={46}
                                                     className="object-cover w-full h-full"
                                                 />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <p>{t("hello")}!</p>
-                                        <p className="font-semibold">{userData?.data?.fullname || t("default_user_name")}</p>
-                                    </div>
-                                </>
+                                            ) : (
+                                                <div className="rounded-full size-[46px] bg-gray-400">
+                                                    <Image
+                                                        src={"/images/image16-stamp.png"}
+                                                        alt="Profile Picture"
+                                                        width={46}
+                                                        height={46}
+                                                        className="object-cover w-full h-full"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <p>{t("hello")}!</p>
+                                            <p className="font-semibold">{userData?.data?.fullname || t("default_user_name")}</p>
+                                        </div>
+                                    </>
+                                )
+                            ) : (
+                                <Link href="/login" className="bg-[#FFDB0A] text-white font-bold py-2 px-4 rounded-[12px] text-[13px]">
+                                    {t("login_now")}
+                                </Link>
                             )}
                         </div>
                         <LanguageGlobe />
@@ -82,28 +90,34 @@ export default function page() {
                                 {
                                     label: t("E-learning"),
                                     href: "/e-learning",
-                                    image: "/images/image17-e-learning.png"
+                                    image: "/images/image17-e-learning.png",
+                                    guestAllowed: true
                                 },
                                 {
                                     label: t("StampQues"),
                                     href: "/stamp-ques",
-                                    image: "/images/image18-stampques.png"
+                                    image: "/images/image18-stampques.png",
+                                    guestAllowed: false
                                 }, {
                                     label: t("Activity"),
                                     href: "/activity",
-                                    image: "/images/image19-activity.png"
+                                    image: "/images/image19-activity.png",
+                                    guestAllowed: true
                                 }, {
                                     label: t("Ticket"),
                                     href: "/ticket/date",
-                                    image: "/images/image20-tickets.png"
+                                    image: "/images/image20-tickets.png",
+                                    guestAllowed: true
                                 }, {
                                     label: t("Map"),
                                     href: "/map",
-                                    image: "/images/image21-map.png"
+                                    image: "/images/image21-map.png",
+                                    guestAllowed: true
                                 }, {
                                     label: t("Ask Chatbot"),
                                     href: "/chatbot",
-                                    image: "/images/image22-adk_chatbot.png"
+                                    image: "/images/image22-adk_chatbot.png",
+                                    guestAllowed: false
                                 }
                             ].map(
                                 (item, index) => {
@@ -115,7 +129,7 @@ export default function page() {
                                             <Image src={item.image} alt={item.label} width={180} height={130} className="rounded-[32px] w-full object-cover" />
                                         </div>
                                         <div className="pb-2 py-1 pl-1 pr-2 w-[85px] group bg-white bottom-[-30px] left-1/2 -translate-x-1/2 absolute  rounded-[22px] shadow-[0px_2px_0px_rgba(0,0,0,0.15)]">
-                                            <PlayButton href={item.href} label={t("play_btn")} />
+                                            <PlayButton href={item.href} label={t("play_btn")} guestAllowed={item.guestAllowed} />
                                         </div>
                                     </div>)
                                 }

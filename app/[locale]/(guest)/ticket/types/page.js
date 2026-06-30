@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import React, { useContext, useEffect, useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import SubmitButton from "@/components/auth/submit-btn";
-import { PopupContext } from "@/components/context/PopupProvider";
+import { PopupContext, modalList } from "@/components/context/PopupProvider";
 import { addToCart, getTicketList, updateCart } from "@/lib/actions";
 import { useGetTicketList } from "@/lib/hooks/useGetTicketTypes";
 import { formatToLocalDate, calculatePromoPrice } from "@/lib/helper";
@@ -13,6 +13,7 @@ import { useGetCart } from "@/lib/hooks/useGetCart";
 import { useSearchParams } from "next/navigation";
 import InfoButton from "@/components/info/info-button";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 
 
@@ -22,7 +23,7 @@ export default function page() {
     const t = useTranslations();
     const router = useRouter();
     const [isSubmitDisable, setIsSubmitDisable] = useState(false);
-    const { openFailModal, closeAllModal } = useContext(PopupContext);
+    const { openModal, openFailModal, closeAllModal } = useContext(PopupContext);
     const { data: ticketList, isLoading: ticketListLoading } = useGetTicketList({
         nationality: "",
     });
@@ -67,6 +68,13 @@ export default function page() {
     const submitHandler = async (e) => {
         e.preventDefault();
         setIsSubmitDisable(true);
+
+        const token = Cookies.get("access_token");
+        if (!token) {
+            openModal(modalList.loginWarn.key);
+            setIsSubmitDisable(false);
+            return;
+        }
 
         // Check if all quantities are 0
         const hasTickets = Object.values(ticketQuantities).some(
