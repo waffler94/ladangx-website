@@ -51,6 +51,7 @@ const EnglishTerms = () => {
                 <li>Email address</li>
                 <li>NRIC / Passport (where required for safety, insurance, or bookings)</li>
                 <li>Age / Date of birth (especially for children's activities)</li>
+                <li>Profile photo / account avatar, if you choose to upload or take a photo for your user profile</li>
             </ul>
 
             <p className="font-bold mb-2">b) App & Experience Data</p>
@@ -67,6 +68,8 @@ const EnglishTerms = () => {
                 <li>IP address</li>
                 <li>Location data (if enabled)</li>
                 <li>App analytics and crash reports</li>
+                <li>Camera access, only when you choose to take a photo for your profile picture</li>
+                <li>Photo library access, only when you choose to upload an existing photo as your profile picture</li>
             </ul>
 
             <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
@@ -86,6 +89,7 @@ const EnglishTerms = () => {
                 <li>Promotions, events, and announcements (opt-out available)</li>
                 <li>Operational analytics and service improvement</li>
                 <li>Legal, regulatory, and insurance requirements</li>
+                <li>To allow users to create or update their profile picture, such as taking a photo using the camera or selecting an image from the photo library to display as their account avatar</li>
             </ul>
 
             <h4 className="text-lg font-bold mb-3">3. CONSENT</h4>
@@ -133,6 +137,7 @@ const EnglishTerms = () => {
                 <li>Reasonable administrative, technical, and physical safeguards are in place</li>
                 <li>Data is retained only as long as necessary</li>
                 <li>Data is securely deleted or anonymised when no longer required</li>
+                <li>Profile photos are retained only while the user account remains active or until the user updates or removes the photo, subject to legal, operational, and backup retention requirements</li>
             </ul>
 
             <h4 className="text-lg font-bold mb-3">7. USER RIGHTS (PDPA)</h4>
@@ -317,6 +322,7 @@ const MalayTerms = () => {
                 <li>Alamat e-mel</li>
                 <li>NRIC / Pasport (di mana diperlukan untuk keselamatan, insurans, atau tempahan)</li>
                 <li>Umur / Tarikh lahir (terutamanya untuk aktiviti kanak-kanak)</li>
+                <li>Gambar profil / avatar akaun, jika anda memilih untuk memuat naik atau mengambil gambar untuk profil pengguna anda</li>
             </ul>
 
             <p className="font-bold mb-2">b) Data Aplikasi & Pengalaman</p>
@@ -333,6 +339,8 @@ const MalayTerms = () => {
                 <li>Alamat IP</li>
                 <li>Data lokasi (jika diaktifkan)</li>
                 <li>Analitik aplikasi dan laporan kerosakan</li>
+                <li>Akses kamera, hanya apabila anda memilih untuk mengambil gambar untuk gambar profil anda</li>
+                <li>Akses pustaka foto, hanya apabila anda memilih untuk memuat naik gambar sedia ada sebagai gambar profil anda</li>
             </ul>
 
             <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
@@ -352,6 +360,7 @@ const MalayTerms = () => {
                 <li>Promosi, acara, dan pengumuman (pilihan keluar tersedia)</li>
                 <li>Analitik operasi dan penambahbaikan perkhidmatan</li>
                 <li>Keperluan undang-undang, peraturan, dan insurans</li>
+                <li>Untuk membenarkan pengguna membuat atau mengemas kini gambar profil mereka, seperti mengambil gambar menggunakan kamera atau memilih imej dari pustaka foto untuk dipaparkan sebagai avatar akaun mereka</li>
             </ul>
 
             <h4 className="text-lg font-bold mb-3">3. PERSETUJUAN</h4>
@@ -399,6 +408,7 @@ const MalayTerms = () => {
                 <li>Perlindungan pentadbiran, teknikal, dan fizikal yang munasabah telah disediakan</li>
                 <li>Data hanya disimpan selagi diperlukan</li>
                 <li>Data dipadamkan atau dianonimkan dengan selamat apabila tidak diperlukan lagi</li>
+                <li>Gambar profil disimpan hanya selagi akaun pengguna kekal aktif atau sehingga pengguna mengemas kini atau membuang gambar tersebut, tertakluk kepada keperluan pengekalan undang-undang, operasi, dan sandaran</li>
             </ul>
 
             <h4 className="text-lg font-bold mb-3">7. HAK PENGGUNA (PDPA)</h4>
